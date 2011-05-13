@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: contact-form-7-datepicker\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-13 23:10+0200\n"
-"PO-Revision-Date: 2011-05-13 23:10+0200\n"
+"POT-Creation-Date: 2011-05-14 00:11+0200\n"
+"PO-Revision-Date: 2011-05-14 00:11+0200\n"
 "Last-Translator: Aurel Canciu <aurelcanciu@gmail.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -14,6 +14,7 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-Language: English\n"
+"X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker\n"
 
 #: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:45
@@ -46,12 +47,26 @@ msgstr ""
 msgid "Use Mode"
 msgstr ""
 
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:144
+msgid ""
+"<p>1 – The calendar's HTML will be directly appended to the field supplied by target<br />\n"
+"\t\t\t\t\t\t\t2 – The calendar will appear as a popup when the field with the id supplied in target is clicked.</p>"
+msgstr ""
+
 #: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:151
 msgid "Sripped"
 msgstr ""
 
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:166
+msgid "<p>When set to true the calendar appears without the visual design - usually used with 'Use Mod' 1.</p>"
+msgstr ""
+
 #: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:172
 msgid "Limit To Today"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:187
+msgid "<p>Enables you to limit the possible picking days to today's date.</p>"
 msgstr ""
 
 #: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:193
@@ -66,7 +81,23 @@ msgstr ""
 msgid "Date Format"
 msgstr ""
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:264
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:245
+msgid ""
+"<p>Possible values to use in the date format:<br />\n"
+"<br />\n"
+"%d - Day of the month, 2 digits with leading zeros<br />\n"
+"%j - Day of the month without leading zeros<br />\n"
+"%m - Numeric representation of a month, with leading zeros<br />\n"
+"%M - A short textual representation of a month, three letters<br />\n"
+"%n - Numeric representation of a month, without leading zeros<br />\n"
+"%F - A full textual representation of a month, such as January or March<br />\n"
+"%Y - A full numeric representation of a year, 4 digits<br />\n"
+"%y - A two digit representation of a year<br />\n"
+"<br />\n"
+"You can of course put whatever divider you want between them.<br /></p>"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:263
 msgid "Save Setting"
 msgstr ""
 
