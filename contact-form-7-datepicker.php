@@ -10,6 +10,12 @@ Author URI:
 
 define('CF7_DATE_PICKER_VERSION', '0.1');
 
+/**
+* deactivate_cf7datepicker()
+* 
+* Action triggered when plugin is activated
+* It inserts some default values as options
+*/	
 function activate_cf7datepicker(){
 	global $wpdb, $blog_id;
 	$table = $wpdb->prefix."options";
@@ -17,8 +23,14 @@ function activate_cf7datepicker(){
 				VALUES (".$blog_id.",'cf7datepicker','1;true;false;beige;%m-%d-%Y;1;ltr') ";
 	$result = $wpdb->query( $query );
 }
-	
-function deactivate_cf7datepicker(){
+
+/**
+* deactivate_cf7datepicker()
+* 
+* Action triggered when plugin is deactivated
+* It deletes the settings stored in the database
+*/	
+function deactivate_cf7datepicker() {
 	global $wpdb, $blog_id;
 	$table = $wpdb->prefix."options";
 		
@@ -27,19 +39,35 @@ function deactivate_cf7datepicker(){
 		
 }
 
-function load_settings_cf7datepicker(){
+/**
+* load_settings_cf7datepicker()
+* 
+* Loads plugin's settings from the database
+*/
+function load_settings_cf7datepicker() {
 	global $wpdb, $blog_id;
 	$table = $wpdb->prefix."options";
 	return $wpdb->get_row( "SELECT * FROM $table WHERE blog_id=".$blog_id." AND option_name='cf7datepicker' ");
 }
-	
-function update_settings_cf7datepicker($dataupdate){
+
+/**
+* update_settings_cf7datepicker($dataupdate)
+* 
+* Updates plugin's settings into the database
+* @param Array $dateupdate, contains the updated settings
+*/
+function update_settings_cf7datepicker($dataupdate) {
 	global $wpdb, $blog_id;
 	$table = $wpdb->prefix."options";
 	$query = " UPDATE $table SET option_value = '".$dataupdate[0].";".$dataupdate[1].";".$dataupdate[2].";".$dataupdate[3].";".$dataupdate[4].";".$dataupdate[5].";".$dataupdate[6]."'  WHERE blog_id=".$blog_id." AND option_name='cf7datepicker' ";
 	$result = $wpdb->query( $query );
 }
-	
+
+/**
+* register_admin_settings_cf7datepicker()
+*
+* Registers the Admin panel so that it will show up as a submenu page in Contact Form 7's menu
+*/
 function register_admin_settings_cf7datepicker() {
 	if (function_exists('add_submenu_page')) {
 		add_submenu_page('wpcf7',__('Datepicker Settings', 'contact-form-7-datepicker'),__('Datepicker Settings', 'contact-form-7-datepicker'),
@@ -48,7 +76,13 @@ function register_admin_settings_cf7datepicker() {
                          'admin_settings_html_cf7datepicker');
 	}	
 }
-	
+
+/**
+* read_schemes_cf7datepicker()
+*
+* Gets the names of the schemes available from the img/ directory
+* @return Array $themes, the names of the schemes found
+*/
 function read_schemes_cf7datepicker() {
 	$path = ABSPATH.'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/';
 	if ($handle = opendir($path)) {
@@ -62,7 +96,14 @@ function read_schemes_cf7datepicker() {
 	closedir($handle);
 	return $themes;
 }
-	
+
+/**
+* get_scheme_images_cf7datepicker()
+*
+* Gets the images of a scheme
+* @param String $scheme, the name of the scheme to get images for
+* @return Array $schemeimg, the paths to the scheme images
+*/
 function get_scheme_images_cf7datepicker($scheme) {
 	$path = ABSPATH.'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/'.$scheme.'/';
 	if ($handle = opendir($path)) {
@@ -76,7 +117,12 @@ function get_scheme_images_cf7datepicker($scheme) {
 	closedir($handle);
 	return $schemeimg;
 }
-	
+
+/**
+* admin_settings_html_cf7datepicker()
+*
+* Generates the admin panel HTML
+*/
 function admin_settings_html_cf7datepicker() {
 	if(isset($_POST['datepickersave'])) {
 		$dataupdate = array($_POST['useMode'], $_POST['isStripped'], $_POST['limitToToday'], $_POST['cellColorScheme'], $_POST['dateFormat'], $_POST['weekStartDay'], $_POST['directionality']);
@@ -86,59 +132,57 @@ function admin_settings_html_cf7datepicker() {
 	$loadsetting = load_settings_cf7datepicker();
 	$setting = explode(";",$loadsetting->option_value);
 	$useMode = array(1,2);
-	$limitToToday = $isStripped = array('true','false');
+	$limitToToday = $isStripped = array(__('true', 'contact-form-7-datepicker'),__('false', 'contact-form-7-datepicker'));
 	$cellColorScheme = read_schemes_cf7datepicker();
 	$weekStartDay = array(__('Sunday', 'contact-form-7-datepicker'),__('Monday', 'contact-form-7-datepicker'));
 	$directionality = array(__('Left to right', 'contact-form-7-datepicker'),__('Right to left', 'contact-form-7-datepicker'));
 	
 	?>
-        <div class="wrap"> 
-            <h2>Contact Form 7 Datepicker</h2>
-         
-        <form method="post"> 
-         
-            <table class="widefat"> 
-                <tbody> 
-                    <tr> 
+	<div class="wrap">
+		<h2>Contact Form 7 Datepicker</h2>
+		<form method="post">
+			<table class="widefat">
+				<tbody>
+					<tr>
 						<th style="width:20%">
 							<label><?php echo __('Color scheme', 'contact-form-7-datepicker'); ?></label>
 						</th>
-						<td colspan="2">
-						<?php
+						<td colspan="2"><?php
 						foreach($cellColorScheme as $scheme) {
-							if($scheme==$setting[3])
+							if($scheme == $setting[3])
 								$checked = "checked='checked'";
 							else
 								$checked = ""; ?>
-							<div style="float: left; display: block; width: 150px; margin: 0 50px 50px 0;">
-								<div style="float: left;"><?php
-								foreach(get_scheme_images_cf7datepicker($scheme) as $img) { ?>
-									<img src="<?php echo get_option('siteurl') . $img; ?>" style="padding: 2px; background: #fff; border: 1px solid #ccc; margin: 5px; " /><br />
-								<?php } ?>
-								</div>
-								<div style="float: right; vertical-align: middle;">
-									<input name="cellColorScheme" type="radio" value="<?php echo $scheme; ?>" <?php echo $checked; ?> /><label><?php echo $scheme; ?></label>
-								</div>
-							</div>
-						<?php } ?>
+								
+								<div style="float: left; display: block; width: 150px; margin: 0 50px 50px 0;">
+									<div style="float: left;"><?php
+									foreach(get_scheme_images_cf7datepicker($scheme) as $img) { ?>
+										<img src="<?php echo get_option('siteurl') . $img; ?>" style="padding: 2px; background: #fff; border: 1px solid #ccc; margin: 5px; " /><br /><?php 
+									} ?>
+									</div>
+									<div style="float: right; vertical-align: middle;">
+										<input name="cellColorScheme" type="radio" value="<?php echo $scheme; ?>" <?php echo $checked; ?> /><label><?php echo $scheme; ?></label>
+									</div>
+								</div><?php 
+							} ?>
 						</td>
 					</tr>
-                    
-					<tr> 
+					
+					<tr>
 						<th>
 							<label><?php echo __('Use Mode', 'contact-form-7-datepicker'); ?></label>
 						</th>
 						<td>
-						<select name="useMode">
-						<?php
-						foreach($useMode as $row) {
-							if($row==$setting[0])
-								$selected = "selected";
-							else
-								$selected = "";
-							echo "<option value='".$row."' ".$selected." >".$row."</option>";
-						} ?>
-						</select>
+							<select name="useMode"><?php
+							foreach($useMode as $row) {
+								if($row == $setting[0])
+									$selected = "selected";
+								else
+									$selected = "";
+								
+								echo "<option value='".$row."' ".$selected." >".$row."</option>";
+							} ?>
+							</select>
 						</td>
 						<td>
 							<?php echo __('<p>1 – The calendar\'s HTML will be directly appended to the field supplied by target<br />
@@ -146,95 +190,104 @@ function admin_settings_html_cf7datepicker() {
 						</td>
 					</tr>
 					
-					<tr> 
+					<tr>
 						<th>
 							<label><?php echo __('Sripped', 'contact-form-7-datepicker'); ?></label>
 						</th>
 						<td>
-						<select name="isStripped">
-						<?php
-						foreach($isStripped as $row) {
-							if($row==$setting[1])
-								$selected = "selected";
-							else
-								$selected = "";
-							echo "<option value='".$row."' ".$selected." >".$row."</option>";
-						} ?>
-						</select>
+							<select name="isStripped"><?php
+							foreach($isStripped as $row) {
+								if($row == $setting[1])
+									$selected = "selected";
+								else
+									$selected = "";
+								
+								echo "<option value='".$row."' ".$selected." >".$row."</option>";
+							} ?>
+							</select>
 						</td>
 						<td>
 							<?php echo __('<p>When set to true the calendar appears without the visual design - usually used with \'Use Mod\' 1.</p>','contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
 					
-					<tr> 
+					<tr>
 						<th>
 							<label><?php echo __('Limit To Today', 'contact-form-7-datepicker'); ?></label>
 						</th>
 						<td>
-						<select name="limitToToday">
-						<?php
-						foreach($limitToToday as $row) {
-							if($row==$setting[2])
-								$selected = "selected";
-							else
-								$selected = "";
-							echo "<option value='".$row."' ".$selected." >".__($row,'contact-form-7-datepicker')."</option>";
-						} ?>
-						</select>
+							<select name="limitToToday"><?php
+							foreach($limitToToday as $row) {
+								if($row == __('true', 'contact-form-7-datepicker'))
+									$val = true;
+								else
+									$val = false;
+								
+								if ($val == $setting[2])
+									$selected = "selected";
+								else
+									$selected = "";
+								
+								echo "<option value='".$val."' ".$selected." >".__($row,'contact-form-7-datepicker')."</option>";
+							} ?>
+							</select>
 						</td>
 						<td>
 							<?php echo __('<p>Enables you to limit the possible picking days to today\'s date.</p>','contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
-							
-					<tr> 
+					
+					<tr>
 						<th>
 							<label><?php echo __('Week Start Day', 'contact-form-7-datepicker'); ?></h2></label>
 						</th>
 						<td>
-						<select name="weekStartDay">
-						<?php
-						foreach($weekStartDay as $row) {
-							if ($row == __('Sunday','contact-form-7-datepicker'))
-								$val = 0;
-							else
-								$val = 1;
-							if($val == $setting[5])
-								$selected = "selected";
-							else
-								$selected = "";
-							echo "<option value='".$val."' ".$selected." >".__($row,'contact-form-7-datepicker')."</option>";
-						} ?>
-						</select>
+							<select name="weekStartDay"><?php
+							foreach($weekStartDay as $row) {
+								if ($row == __('Sunday','contact-form-7-datepicker'))
+									$val = 0;
+								else
+									$val = 1;
+								
+								if($val == $setting[5])
+									$selected = "selected";
+								else
+									$selected = "";
+								
+								echo "<option value='".$val."' ".$selected." >".__($row,'contact-form-7-datepicker')."</option>";
+							} ?>
+							</select>
 						</td>
-						<td></td>
+						<td>
+						</td>
 					</tr>
 					
-					<tr> 
+					<tr>
 						<th>
 							<label><?php echo __('Text Direction', 'contact-form-7-datepicker'); ?></h2></label>
 						</th>
 						<td>
-						<select name="directionality">
-						<?php
-						foreach($directionality as $row) {
-							if ($row == __('Left to right','contact-form-7-datepicker'))
-								$val = "ltr";
-							else
-								$val = "rtl";
-							if($val == $setting[6])
-								$selected = "selected";
-							else
-								$selected = "";
-							echo "<option value='".$val."' ".$selected." >".__($row,'contact-form-7-datepicker')."</option>";
-						} ?>
-						</select>
+							<select name="directionality"><?php
+							foreach($directionality as $row) {
+								if ($row == __('Left to right','contact-form-7-datepicker'))
+									$val = "ltr";
+								else
+									$val = "rtl";
+								
+								if($val == $setting[6])
+									$selected = "selected";
+								else
+									$selected = "";
+								
+								echo "<option value='".$val."' ".$selected." >".__($row,'contact-form-7-datepicker')."</option>";
+							} ?>
+							</select>
 						</td>
-						<td></td>
-					</tr>		
+						<td>
+						</td>
+					</tr>
 					
-					<tr> 
+					<tr>
 						<th>
 							<label><?php echo __('Date Format', 'contact-form-7-datepicker'); ?></label>
 						</th>
@@ -257,21 +310,25 @@ You can of course put whatever divider you want between them.<br /></p>',
 'contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
-					<tr> 
-						<td></td>
+					
+					<tr>
+						<td colspan="2">
+						</td>
 						<td>
 							<input name="datepickersave" id="datepickersave" type="submit" value="<?php echo __('Save Setting', 'contact-form-7-datepicker'); ?>" class="button" />
 						</td>
-						<td></td>
-                    </tr>
-                 </tbody>
-            </table>
-       </form>
-        
-    <?php
+					</tr>
+				</tbody>
+			</table>
+		</form><?php
 }
-	
-function enqueues_cf7datepicker(){
+
+/**
+* enqueues_cf7datepicker()
+*
+* Loads needed scripts and CSS
+*/
+function enqueues_cf7datepicker() {
 	$loadsetting = load_settings_cf7datepicker();
 	$setting = explode(";",$loadsetting->option_value);
 	
@@ -282,24 +339,24 @@ function enqueues_cf7datepicker(){
 	<script type="text/javascript"><?php echo "
 		g_l = [];
 		g_l[\"MONTHS\"] = [\"".__('Janaury', 'contact-form-7-datepicker').
-							"\",\"".__('February', 'contact-form-7-datepicker').
-							"\",\"".__('March', 'contact-form-7-datepicker').
-							"\",\"".__('April', 'contact-form-7-datepicker').
-							"\",\"".__('May', 'contact-form-7-datepicker').
-							"\",\"".__('June', 'contact-form-7-datepicker').
-							"\",\"".__('July', 'contact-form-7-datepicker').
-							"\",\"".__('August', 'contact-form-7-datepicker').
-							"\",\"".__('September', 'contact-form-7-datepicker').
-							"\",\"".__('October', 'contact-form-7-datepicker').
-							"\",\"".__('November', 'contact-form-7-datepicker').
-							"\",\"".__('December', 'contact-form-7-datepicker')."\"];
+			"\",\"".__('February', 'contact-form-7-datepicker').
+			"\",\"".__('March', 'contact-form-7-datepicker').
+			"\",\"".__('April', 'contact-form-7-datepicker').
+			"\",\"".__('May', 'contact-form-7-datepicker').
+			"\",\"".__('June', 'contact-form-7-datepicker').
+			"\",\"".__('July', 'contact-form-7-datepicker').
+			"\",\"".__('August', 'contact-form-7-datepicker').
+			"\",\"".__('September', 'contact-form-7-datepicker').
+			"\",\"".__('October', 'contact-form-7-datepicker').
+			"\",\"".__('November', 'contact-form-7-datepicker').
+			"\",\"".__('December', 'contact-form-7-datepicker')."\"];
 		g_l[\"DAYS_3\"] = [\"".__('Sun', 'contact-form-7-datepicker').
-							"\",\"".__('Mon', 'contact-form-7-datepicker').
-							"\",\"".__('Tue', 'contact-form-7-datepicker').
-							"\",\"".__('Wed', 'contact-form-7-datepicker').
-							"\",\"".__('Thu', 'contact-form-7-datepicker').
-							"\",\"".__('Fri', 'contact-form-7-datepicker').
-							"\",\"".__('Sat', 'contact-form-7-datepicker')."\"];
+			"\",\"".__('Mon', 'contact-form-7-datepicker').
+			"\",\"".__('Tue', 'contact-form-7-datepicker').
+			"\",\"".__('Wed', 'contact-form-7-datepicker').
+			"\",\"".__('Thu', 'contact-form-7-datepicker').
+			"\",\"".__('Fri', 'contact-form-7-datepicker').
+			"\",\"".__('Sat', 'contact-form-7-datepicker')."\"];
 		g_l[\"MONTH_FWD\"] = \"".__('Move a month forward', 'contact-form-7-datepicker')."\";
 		g_l[\"MONTH_BCK\"] = \"".__('Move a month backward', 'contact-form-7-datepicker')."\";
 		g_l[\"YEAR_FWD\"] = \"".__('Move a year forward', 'contact-form-7-datepicker')."\";
@@ -309,12 +366,26 @@ function enqueues_cf7datepicker(){
 		g_l[\"ERROR_4\"] = g_l[\"ERROR_3\"] = \"".__('Target invalid!', 'contact-form-7-datepicker')."\";"; ?>
 	</script><?php
 }
-	
+
+/**
+* page_text_filter($content)
+*
+* Searches for [datepicker ] tag inside page content
+* @param String $content, the page content which gets filtered
+* @return function preg_replace_callback, searches for the tag and calls page_text_filter_callback if found
+*/
 function page_text_filter($content) {
 	$regex = '/\[datepicker\s(.*?)\]/';
 	return preg_replace_callback($regex, 'page_text_filter_callback', $content);
 }
 
+/**
+* page_text_filter_callback($matches)
+*
+* If a match is found in the content of a form, this returns the HTML for the matched date input field
+* @param Array $matches, the name of the input date field that we generate code for
+* @return String $string, the HTML for our match
+*/
 function page_text_filter_callback($matches) {
 	$loadsetting = load_settings_cf7datepicker();
 	$setting = explode(";",$loadsetting->option_value);
@@ -335,10 +406,17 @@ function page_text_filter_callback($matches) {
 			});
 		});
 	</script>";
-	return($string);
+	return $string;
 }
 
-function wpcf7_shotcode_handler_cf7datepicker( $tag ) {
+/**
+* wpcf7_shotcode_handler_cf7datepicker($tag)
+*
+* Handler for wpcf7 shortcodes [date ] and [date* ]
+* @param Array $tag, this is the tag that will be handled (can be 'date' or 'date*')
+* @return String $html, the HTML that will be appended to the form
+*/
+function wpcf7_shotcode_handler_cf7datepicker($tag) {
 	global $wpcf7_contact_form;
 
 	if ( ! is_array( $tag ) )
@@ -383,12 +461,11 @@ function wpcf7_shotcode_handler_cf7datepicker( $tag ) {
 	if ( $size_att )
 		$atts .= ' size="' . $size_att . '"';
 	else
-		$atts .= ' size="40"'; // default size
+		$atts .= ' size="40"';
 
 	if ( $maxlength_att )
 		$atts .= ' maxlength="' . $maxlength_att . '"';
 
-	// Value
 	if ( is_a( $wpcf7_contact_form, 'WPCF7_ContactForm' ) && $wpcf7_contact_form->is_posted() ) {
 		if ( isset( $_POST['_wpcf7_mail_sent'] ) && $_POST['_wpcf7_mail_sent']['ok'] )
 			$value = '';
@@ -408,16 +485,15 @@ function wpcf7_shotcode_handler_cf7datepicker( $tag ) {
 	return $html;
 }
 
-if ( ! function_exists( 'wpcf7_add_shortcode' ) ) {
-	if( is_file( WP_PLUGIN_DIR."/contact-form-7/includes/shortcodes.php" ) ) {
-		include WP_PLUGIN_DIR."/contact-form-7/includes/shortcodes.php";
-		wpcf7_add_shortcode( 'date', 'wpcf7_shotcode_handler_cf7datepicker', true );
-		wpcf7_add_shortcode( 'date*', 'wpcf7_shotcode_handler_cf7datepicker', true );
-	}
-}
-
-/* Validation filter */
-
+/**
+* wpcf7_validation_filter_cf7datepicker($result, $tag)
+*
+* This is used to validate the Contact Form 7 'date' field
+* @param Array $result, 'valid' key has a boolean value (true if valid)
+* and 'reason' key with a message if not valid
+* @param Array $tag, contains the type and name of the field that is validated
+* @return Array $result
+*/
 function wpcf7_validation_filter_cf7datepicker( $result, $tag ) {
 	global $wpcf7_contact_form;
 
@@ -436,21 +512,33 @@ function wpcf7_validation_filter_cf7datepicker( $result, $tag ) {
 	return $result;
 }
 
+/* Add wpcf7 shortcodes [date ] and [date* ] */
+if ( ! function_exists( 'wpcf7_add_shortcode' ) ) {
+	if( is_file( WP_PLUGIN_DIR."/contact-form-7/includes/shortcodes.php" ) ) {
+		include WP_PLUGIN_DIR."/contact-form-7/includes/shortcodes.php";
+		wpcf7_add_shortcode( 'date', 'wpcf7_shotcode_handler_cf7datepicker', true );
+		wpcf7_add_shortcode( 'date*', 'wpcf7_shotcode_handler_cf7datepicker', true );
+	}
+}
+
+/**
+* load_plugin_text_domain_cf7datepicker()
+*
+* Function for loading the l10n files from /languages/ dir
+*/
+function load_plugin_text_domain_cf7datepicker() {
+	load_plugin_textdomain( 'contact-form-7-datepicker', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+}
+
+/* Register the plugin, actions and filters */
 register_activation_hook( __FILE__, 'activate_cf7datepicker' );
 register_deactivation_hook( __FILE__, 'deactivate_cf7datepicker' );
 
 add_action('admin_menu', 'register_admin_settings_cf7datepicker');
 add_action('wp_head', 'enqueues_cf7datepicker', 1002);
+add_action('init', 'load_plugin_text_domain_cf7datepicker');
 
 add_filter( 'wpcf7_validate_date', 'wpcf7_validation_filter_cf7datepicker', 10, 2 );
 add_filter( 'wpcf7_validate_date*', 'wpcf7_validation_filter_cf7datepicker', 10, 2 );
-
-/* L10N */
-
-function load_plugin_text_domain_cf7datepicker() {
-	load_plugin_textdomain( 'contact-form-7-datepicker', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-}
-
-add_action( 'init', 'load_plugin_text_domain_cf7datepicker' );
 
 ?>
