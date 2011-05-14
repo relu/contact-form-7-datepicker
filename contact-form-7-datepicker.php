@@ -396,25 +396,25 @@ function enqueues_cf7datepicker() {
 }
 
 /**
-* page_text_filter($content)
+* page_text_filter_cf7datepicker($content)
 *
 * Searches for [datepicker ] tag inside page content
 * @param String $content, the page content which gets filtered
-* @return function preg_replace_callback, searches for the tag and calls page_text_filter_callback if found
+* @return function preg_replace_callback, searches for the tag and calls page_text_filter_callback_cf7datepicker if found
 */
-function page_text_filter($content) {
+function page_text_filter_cf7datepicker($content) {
 	$regex = '/\[datepicker\s(.*?)\]/';
-	return preg_replace_callback($regex, 'page_text_filter_callback', $content);
+	return preg_replace_callback($regex, 'page_text_filter_callback_cf7datepicker', $content);
 }
 
 /**
-* page_text_filter_callback($matches)
+* page_text_filter_callback_cf7datepicker($matches)
 *
 * If a match is found in the content of a form, this returns the HTML for the matched date input field
 * @param Array $matches, the name of the input date field that we generate code for
 * @return String $string, the HTML for our match
 */
-function page_text_filter_callback($matches) {
+function page_text_filter_callback_cf7datepicker($matches) {
 	$loadsetting = load_settings_cf7datepicker();
 	$setting = explode(";",$loadsetting->option_value);
 			
@@ -503,7 +503,7 @@ function wpcf7_shotcode_handler_cf7datepicker($tag) {
 		$value = $values[0];
 	}
 
-	$html = page_text_filter_callback(array('',$name));
+	$html = page_text_filter_callback_cf7datepicker(array('',$name));
 	$validation_error = '';
 	if ( is_a( $wpcf7_contact_form, 'WPCF7_ContactForm' ) )
 		$validation_error = $wpcf7_contact_form->validation_error( $name );
