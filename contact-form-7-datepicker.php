@@ -10,7 +10,7 @@ Author URI:
 
 define('CF7_DATE_PICKER_VERSION', '0.1');
 
-function DatePickerPluginActivate(){
+function activate_cf7datepicker(){
 	global $wpdb, $blog_id;
 	$table = $wpdb->prefix."options";
 	$query = "INSERT INTO $table (blog_id, option_name, option_value)
@@ -18,7 +18,7 @@ function DatePickerPluginActivate(){
 	$result = $wpdb->query( $query );
 }
 	
-function DatePickerPluginDeactivate(){
+function deactivate_cf7datepicker(){
 	global $wpdb, $blog_id;
 	$table = $wpdb->prefix."options";
 		
@@ -27,29 +27,29 @@ function DatePickerPluginDeactivate(){
 		
 }
 
-function DatePickerLoadSettings(){
+function load_settings_cf7datepicker(){
 	global $wpdb, $blog_id;
 	$table = $wpdb->prefix."options";
 	return $wpdb->get_row( "SELECT * FROM $table WHERE blog_id=".$blog_id." AND option_name='cf7datepicker' ");
 }
 	
-function DatePickerUpdateSettings($dataupdate){
+function update_settings_cf7datepicker($dataupdate){
 	global $wpdb, $blog_id;
 	$table = $wpdb->prefix."options";
 	$query = " UPDATE $table SET option_value = '".$dataupdate[0].";".$dataupdate[1].";".$dataupdate[2].";".$dataupdate[3].";".$dataupdate[4].";".$dataupdate[5].";".$dataupdate[6]."'  WHERE blog_id=".$blog_id." AND option_name='cf7datepicker' ";
 	$result = $wpdb->query( $query );
 }
 	
-function DatePickerRegAdminSettings() {
+function register_admin_settings_cf7datepicker() {
 	if (function_exists('add_submenu_page')) {
 		add_submenu_page('wpcf7',__('Datepicker Settings', 'contact-form-7-datepicker'),__('Datepicker Settings', 'contact-form-7-datepicker'),
                          'edit_themes',
                          basename(__FILE__),
-                         'DatePickerAdminSettingsHTML');
+                         'admin_settings_html_cf7datepicker');
 	}	
 }
 	
-function DatePickerReadScheme() {
+function read_schemes_cf7datepicker() {
 	$path = ABSPATH.'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/';
 	if ($handle = opendir($path)) {
 		$themes = array() ;
@@ -63,7 +63,7 @@ function DatePickerReadScheme() {
 	return $themes;
 }
 	
-function DatePickerGetSchemeImages($scheme) {
+function get_scheme_images_cf7datepicker($scheme) {
 	$path = ABSPATH.'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/'.$scheme.'/';
 	if ($handle = opendir($path)) {
 		$schemeimg = array();
@@ -77,17 +77,17 @@ function DatePickerGetSchemeImages($scheme) {
 	return $schemeimg;
 }
 	
-function DatePickerAdminSettingsHTML() {
+function admin_settings_html_cf7datepicker() {
 	if(isset($_POST['datepickersave'])) {
 		$dataupdate = array($_POST['useMode'], $_POST['isStripped'], $_POST['limitToToday'], $_POST['cellColorScheme'], $_POST['dateFormat'], $_POST['weekStartDay'], $_POST['directionality']);
-		DatePickerUpdateSettings($dataupdate);
+		update_settings_cf7datepicker($dataupdate);
 	}
 		
-	$loadsetting = DatePickerLoadSettings();
+	$loadsetting = load_settings_cf7datepicker();
 	$setting = explode(";",$loadsetting->option_value);
 	$useMode = array(1,2);
 	$limitToToday = $isStripped = array('true','false');
-	$cellColorScheme = DatePickerReadScheme();
+	$cellColorScheme = read_schemes_cf7datepicker();
 	$weekStartDay = array(__('Sunday', 'contact-form-7-datepicker'),__('Monday', 'contact-form-7-datepicker'));
 	$directionality = array(__('Left to right', 'contact-form-7-datepicker'),__('Right to left', 'contact-form-7-datepicker'));
 	
@@ -112,7 +112,7 @@ function DatePickerAdminSettingsHTML() {
 								$checked = ""; ?>
 							<div style="float: left; display: block; width: 150px; margin: 0 50px 50px 0;">
 								<div style="float: left;"><?php
-								foreach(DatePickerGetSchemeImages($scheme) as $img) { ?>
+								foreach(get_scheme_images_cf7datepicker($scheme) as $img) { ?>
 									<img src="<?php echo get_option('siteurl') . $img; ?>" style="padding: 2px; background: #fff; border: 1px solid #ccc; margin: 5px; " /><br />
 								<?php } ?>
 								</div>
@@ -271,8 +271,8 @@ You can of course put whatever divider you want between them.<br /></p>',
     <?php
 }
 	
-function DatePickerLoads(){
-	$loadsetting = DatePickerLoadSettings();
+function enqueues_cf7datepicker(){
+	$loadsetting = load_settings_cf7datepicker();
 	$setting = explode(";",$loadsetting->option_value);
 	
 	if( is_admin() )
@@ -280,33 +280,33 @@ function DatePickerLoads(){
 	<link rel="stylesheet" type="text/css" href="<?php echo plugins_url( '/css/jsDatePick_'.(($setting[6] != "") ? $setting[6] : "ltr").'.min.css', __FILE__ ); ?>" />
 	<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.min.1.3.js', __FILE__ ); ?>"></script>
 	<script type="text/javascript"><?php echo "
-			g_l = [];
-			g_l[\"MONTHS\"] = [\"".__('Janaury', 'contact-form-7-datepicker').
-								"\",\"".__('February', 'contact-form-7-datepicker').
-								"\",\"".__('March', 'contact-form-7-datepicker').
-								"\",\"".__('April', 'contact-form-7-datepicker').
-								"\",\"".__('May', 'contact-form-7-datepicker').
-								"\",\"".__('June', 'contact-form-7-datepicker').
-								"\",\"".__('July', 'contact-form-7-datepicker').
-								"\",\"".__('August', 'contact-form-7-datepicker').
-								"\",\"".__('September', 'contact-form-7-datepicker').
-								"\",\"".__('October', 'contact-form-7-datepicker').
-								"\",\"".__('November', 'contact-form-7-datepicker').
-								"\",\"".__('December', 'contact-form-7-datepicker')."\"];
-			g_l[\"DAYS_3\"] = [\"".__('Sun', 'contact-form-7-datepicker').
-								"\",\"".__('Mon', 'contact-form-7-datepicker').
-								"\",\"".__('Tue', 'contact-form-7-datepicker').
-								"\",\"".__('Wed', 'contact-form-7-datepicker').
-								"\",\"".__('Thu', 'contact-form-7-datepicker').
-								"\",\"".__('Fri', 'contact-form-7-datepicker').
-								"\",\"".__('Sat', 'contact-form-7-datepicker')."\"];
-			g_l[\"MONTH_FWD\"] = \"".__('Move a month forward', 'contact-form-7-datepicker')."\";
-			g_l[\"MONTH_BCK\"] = \"".__('Move a month backward', 'contact-form-7-datepicker')."\";
-			g_l[\"YEAR_FWD\"] = \"".__('Move a year forward', 'contact-form-7-datepicker')."\";
-			g_l[\"YEAR_BCK\"] = \"".__('Move a year backward', 'contact-form-7-datepicker')."\";
-			g_l[\"CLOSE\"] = \"".__('Close the calendar', 'contact-form-7-datepicker')."\";
-			g_l[\"ERROR_2\"] = g_l[\"ERROR_1\"] = \"".__('Date object invalid!', 'contact-form-7-datepicker')."\";
-			g_l[\"ERROR_4\"] = g_l[\"ERROR_3\"] = \"".__('Target invalid!', 'contact-form-7-datepicker')."\";"; ?>
+		g_l = [];
+		g_l[\"MONTHS\"] = [\"".__('Janaury', 'contact-form-7-datepicker').
+							"\",\"".__('February', 'contact-form-7-datepicker').
+							"\",\"".__('March', 'contact-form-7-datepicker').
+							"\",\"".__('April', 'contact-form-7-datepicker').
+							"\",\"".__('May', 'contact-form-7-datepicker').
+							"\",\"".__('June', 'contact-form-7-datepicker').
+							"\",\"".__('July', 'contact-form-7-datepicker').
+							"\",\"".__('August', 'contact-form-7-datepicker').
+							"\",\"".__('September', 'contact-form-7-datepicker').
+							"\",\"".__('October', 'contact-form-7-datepicker').
+							"\",\"".__('November', 'contact-form-7-datepicker').
+							"\",\"".__('December', 'contact-form-7-datepicker')."\"];
+		g_l[\"DAYS_3\"] = [\"".__('Sun', 'contact-form-7-datepicker').
+							"\",\"".__('Mon', 'contact-form-7-datepicker').
+							"\",\"".__('Tue', 'contact-form-7-datepicker').
+							"\",\"".__('Wed', 'contact-form-7-datepicker').
+							"\",\"".__('Thu', 'contact-form-7-datepicker').
+							"\",\"".__('Fri', 'contact-form-7-datepicker').
+							"\",\"".__('Sat', 'contact-form-7-datepicker')."\"];
+		g_l[\"MONTH_FWD\"] = \"".__('Move a month forward', 'contact-form-7-datepicker')."\";
+		g_l[\"MONTH_BCK\"] = \"".__('Move a month backward', 'contact-form-7-datepicker')."\";
+		g_l[\"YEAR_FWD\"] = \"".__('Move a year forward', 'contact-form-7-datepicker')."\";
+		g_l[\"YEAR_BCK\"] = \"".__('Move a year backward', 'contact-form-7-datepicker')."\";
+		g_l[\"CLOSE\"] = \"".__('Close the calendar', 'contact-form-7-datepicker')."\";
+		g_l[\"ERROR_2\"] = g_l[\"ERROR_1\"] = \"".__('Date object invalid!', 'contact-form-7-datepicker')."\";
+		g_l[\"ERROR_4\"] = g_l[\"ERROR_3\"] = \"".__('Target invalid!', 'contact-form-7-datepicker')."\";"; ?>
 	</script><?php
 }
 	
@@ -316,7 +316,7 @@ function page_text_filter($content) {
 }
 
 function page_text_filter_callback($matches) {
-	$loadsetting = DatePickerLoadSettings();
+	$loadsetting = load_settings_cf7datepicker();
 	$setting = explode(";",$loadsetting->option_value);
 			
 	$string = "<input type=\"text\" name=\"".$matches[1]."\" id=\"".$matches[1]."\" />
@@ -338,7 +338,7 @@ function page_text_filter_callback($matches) {
 	return($string);
 }
 
-function wpfc7_DatePickerShortcodeHandler( $tag ) {
+function wpcf7_shotcode_handler_cf7datepicker( $tag ) {
 	global $wpcf7_contact_form;
 
 	if ( ! is_array( $tag ) )
@@ -411,14 +411,14 @@ function wpfc7_DatePickerShortcodeHandler( $tag ) {
 if ( ! function_exists( 'wpcf7_add_shortcode' ) ) {
 	if( is_file( WP_PLUGIN_DIR."/contact-form-7/includes/shortcodes.php" ) ) {
 		include WP_PLUGIN_DIR."/contact-form-7/includes/shortcodes.php";
-		wpcf7_add_shortcode( 'date', 'wpfc7_DatePickerShortcodeHandler', true );
-		wpcf7_add_shortcode( 'date*', 'wpfc7_DatePickerShortcodeHandler', true );
+		wpcf7_add_shortcode( 'date', 'wpcf7_shotcode_handler_cf7datepicker', true );
+		wpcf7_add_shortcode( 'date*', 'wpcf7_shotcode_handler_cf7datepicker', true );
 	}
 }
 
 /* Validation filter */
 
-function wpcf7_DatePickerValidationFilter( $result, $tag ) {
+function wpcf7_validation_filter_cf7datepicker( $result, $tag ) {
 	global $wpcf7_contact_form;
 
 	$type = $tag['type'];
@@ -436,21 +436,21 @@ function wpcf7_DatePickerValidationFilter( $result, $tag ) {
 	return $result;
 }
 
-register_activation_hook( __FILE__, 'DatePickerPluginActivate' );
-register_deactivation_hook( __FILE__, 'DatePickerPluginDeactivate' );
+register_activation_hook( __FILE__, 'activate_cf7datepicker' );
+register_deactivation_hook( __FILE__, 'deactivate_cf7datepicker' );
 
-add_action('admin_menu', 'DatePickerRegAdminSettings');
-add_action('wp_head', 'DatePickerLoads', 1002);
+add_action('admin_menu', 'register_admin_settings_cf7datepicker');
+add_action('wp_head', 'enqueues_cf7datepicker', 1002);
 
-add_filter( 'wpcf7_validate_date', 'wpcf7_DatePickerValidationFilter', 10, 2 );
-add_filter( 'wpcf7_validate_date*', 'wpcf7_DatePickerValidationFilter', 10, 2 );
+add_filter( 'wpcf7_validate_date', 'wpcf7_validation_filter_cf7datepicker', 10, 2 );
+add_filter( 'wpcf7_validate_date*', 'wpcf7_validation_filter_cf7datepicker', 10, 2 );
 
 /* L10N */
 
-add_action( 'init', 'DatePickerLoadPluginTextDomain' );
-
-function DatePickerLoadPluginTextDomain() {
+function load_plugin_text_domain_cf7datepicker() {
 	load_plugin_textdomain( 'contact-form-7-datepicker', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
+
+add_action( 'init', 'load_plugin_text_domain_cf7datepicker' );
 
 ?>
