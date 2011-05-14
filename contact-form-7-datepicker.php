@@ -1,12 +1,32 @@
 <?php
 /*
 Plugin Name: Contact Form 7 Datepicker
-Plugin URI: 
-Description: Javascript Calendar based on jsdatepick script
+Plugin URI: https://github.com/relu/contact-form-7-datepicker/
+Description: Implements a new [date] tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.
 Author: Aurel Canciu
 Version: 0.1
-Author URI: 
+Author URI: https://github.com/relu/
 */
+?>
+<?php
+/* Copyright 2011 Aurel Canciu <aurelcanciu@gmail.com>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+*/
+?>
+<?php
 
 define('CF7_DATE_PICKER_VERSION', '0.1');
 
@@ -139,7 +159,11 @@ function admin_settings_html_cf7datepicker() {
 	
 	?>
 	<div class="wrap">
-		<h2>Contact Form 7 Datepicker</h2>
+		<h2>Contact Form 7 Datepicker</h2><?php
+		echo __('<p>This plugin implements a new <strong>[date]</strong> tag in <a href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form 7</a> 
+		that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.<br />
+		To use it simply insert the <strong>[date your-field-name]</strong> or <strong>[date* your-requierd-field-name]</strong> if you want it to be mandatory,
+		in your Contact Form 7 edit section.</p>', 'contact-form-7-datepicker'); ?>
 		<form method="post">
 			<table class="widefat">
 				<tbody>
