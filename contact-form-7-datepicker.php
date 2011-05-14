@@ -278,7 +278,36 @@ function DatePickerLoads(){
 	if( is_admin() )
 		return; ?>
 	<link rel="stylesheet" type="text/css" href="<?php echo plugins_url( '/css/jsDatePick_'.(($setting[6] != "") ? $setting[6] : "ltr").'.min.css', __FILE__ ); ?>" />
-	<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.min.1.3.js', __FILE__ ); ?>"></script><?php
+	<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.min.1.3.js', __FILE__ ); ?>"></script>
+	<script type="text/javascript"><?php echo "
+			g_l = [];
+			g_l[\"MONTHS\"] = [\"".__('Janaury', 'contact-form-7-datepicker').
+								"\",\"".__('February', 'contact-form-7-datepicker').
+								"\",\"".__('March', 'contact-form-7-datepicker').
+								"\",\"".__('April', 'contact-form-7-datepicker').
+								"\",\"".__('May', 'contact-form-7-datepicker').
+								"\",\"".__('June', 'contact-form-7-datepicker').
+								"\",\"".__('July', 'contact-form-7-datepicker').
+								"\",\"".__('August', 'contact-form-7-datepicker').
+								"\",\"".__('September', 'contact-form-7-datepicker').
+								"\",\"".__('October', 'contact-form-7-datepicker').
+								"\",\"".__('November', 'contact-form-7-datepicker').
+								"\",\"".__('December', 'contact-form-7-datepicker')."\"];
+			g_l[\"DAYS_3\"] = [\"".__('Sun', 'contact-form-7-datepicker').
+								"\",\"".__('Mon', 'contact-form-7-datepicker').
+								"\",\"".__('Tue', 'contact-form-7-datepicker').
+								"\",\"".__('Wed', 'contact-form-7-datepicker').
+								"\",\"".__('Thu', 'contact-form-7-datepicker').
+								"\",\"".__('Fri', 'contact-form-7-datepicker').
+								"\",\"".__('Sat', 'contact-form-7-datepicker')."\"];
+			g_l[\"MONTH_FWD\"] = \"".__('Move a month forward', 'contact-form-7-datepicker')."\";
+			g_l[\"MONTH_BCK\"] = \"".__('Move a month backward', 'contact-form-7-datepicker')."\";
+			g_l[\"YEAR_FWD\"] = \"".__('Move a year forward', 'contact-form-7-datepicker')."\";
+			g_l[\"YEAR_BCK\"] = \"".__('Move a year backward', 'contact-form-7-datepicker')."\";
+			g_l[\"CLOSE\"] = \"".__('Close the calendar', 'contact-form-7-datepicker')."\";
+			g_l[\"ERROR_2\"] = g_l[\"ERROR_1\"] = \"".__('Date object invalid!', 'contact-form-7-datepicker')."\";
+			g_l[\"ERROR_4\"] = g_l[\"ERROR_3\"] = \"".__('Target invalid!', 'contact-form-7-datepicker')."\";"; ?>
+	</script><?php
 }
 	
 function page_text_filter($content) {

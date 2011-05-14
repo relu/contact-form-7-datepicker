@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: contact-form-7-datepicker\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-14 00:11+0200\n"
-"PO-Revision-Date: 2011-05-14 00:11+0200\n"
+"POT-Creation-Date: 2011-05-14 12:06+0200\n"
+"PO-Revision-Date: 2011-05-14 12:06+0200\n"
 "Last-Translator: Aurel Canciu <aurelcanciu@gmail.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -99,5 +99,109 @@ msgstr ""
 
 #: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:263
 msgid "Save Setting"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:308
+msgid "Janaury"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:309
+msgid "February"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:310
+msgid "March"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:311
+msgid "April"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:312
+msgid "May"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:313
+msgid "June"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:314
+msgid "July"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:315
+msgid "August"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:316
+msgid "September"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:317
+msgid "October"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:318
+msgid "November"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:319
+msgid "December"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:320
+msgid "Sun"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:321
+msgid "Mon"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:322
+msgid "Tue"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:323
+msgid "Wed"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:324
+msgid "Thu"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:325
+msgid "Fri"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:326
+msgid "Sat"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:327
+msgid "Move a month forward"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:328
+msgid "Move a month backward"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:329
+msgid "Move a year forward"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:330
+msgid "Move a year backward"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:331
+msgid "Close the calendar"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:332
+msgid "Date object invalid!"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:333
+msgid "Target invalid!"
 msgstr ""
 
