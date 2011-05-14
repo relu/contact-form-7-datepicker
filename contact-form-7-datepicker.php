@@ -89,7 +89,7 @@ function read_schemes_cf7datepicker() {
 		$themes = array() ;
 		while (false !== ($file = readdir($handle))) {
 			if (is_dir($path.$file) && $file != "." && $file != "..") {
-				array_push($themes, $file);
+				$themes[] = $file;
 			}
 		}
 	}
@@ -100,7 +100,7 @@ function read_schemes_cf7datepicker() {
 /**
 * get_scheme_images_cf7datepicker()
 *
-* Gets the images of a scheme
+* Gets the images of a scheme and natural sorts them
 * @param String $scheme, the name of the scheme to get images for
 * @return Array $schemeimg, the paths to the scheme images
 */
@@ -109,10 +109,10 @@ function get_scheme_images_cf7datepicker($scheme) {
 	if ($handle = opendir($path)) {
 		$schemeimg = array();
 		while (false !== ($file = readdir($handle))) {
-			if (is_file($path.$file) && preg_match('/\.gif$/i', $file)) {
-				array_push($schemeimg, '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/'.$scheme.'/'.$file);
-			}
+			if (is_file($path.$file) && preg_match('/\.gif$/i', $file))
+				$schemeimg[] = '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/'.$scheme.'/'.$file;
 		}
+		natsort($schemeimg);
 	}
 	closedir($handle);
 	return $schemeimg;
@@ -154,14 +154,13 @@ function admin_settings_html_cf7datepicker() {
 							else
 								$checked = ""; ?>
 								
-								<div style="float: left; display: block; width: 150px; margin: 0 50px 50px 0;">
-									<div style="float: left;"><?php
+								<div style="float: left; width: 100px; margin: 30px 30px 0 0; text-align: center;">
+									<div style="display: block; padding: 5px; background: #fff; border: 1px solid #ccc; border-radius: 4px 4px 4px 4px;">
+										<label><?php echo $scheme; ?></label><br /><?php
 									foreach(get_scheme_images_cf7datepicker($scheme) as $img) { ?>
-										<img src="<?php echo get_option('siteurl') . $img; ?>" style="padding: 2px; background: #fff; border: 1px solid #ccc; margin: 5px; " /><br /><?php 
-									} ?>
-									</div>
-									<div style="float: right; vertical-align: middle;">
-										<input name="cellColorScheme" type="radio" value="<?php echo $scheme; ?>" <?php echo $checked; ?> /><label><?php echo $scheme; ?></label>
+										<img src="<?php echo get_option('siteurl') . $img; ?>" style="margin: 5px;" /><?php 
+									} ?><br /><br />
+										<input name="cellColorScheme" type="radio" width="24" height="25" value="<?php echo $scheme; ?>" <?php echo $checked; ?> />
 									</div>
 								</div><?php 
 							} ?>
@@ -197,12 +196,17 @@ function admin_settings_html_cf7datepicker() {
 						<td>
 							<select name="isStripped"><?php
 							foreach($isStripped as $row) {
-								if($row == $setting[1])
+								if($row == __('true', 'contact-form-7-datepicker'))
+									$val = "true";
+								else
+									$val = "false";
+								
+								if ($val == $setting[1])
 									$selected = "selected";
 								else
 									$selected = "";
 								
-								echo "<option value='".$row."' ".$selected." >".$row."</option>";
+								echo "<option value='".$val."' ".$selected." >".__($row, 'contact-form-7-datepicker')."</option>";
 							} ?>
 							</select>
 						</td>
@@ -219,16 +223,16 @@ function admin_settings_html_cf7datepicker() {
 							<select name="limitToToday"><?php
 							foreach($limitToToday as $row) {
 								if($row == __('true', 'contact-form-7-datepicker'))
-									$val = true;
+									$val = "true";
 								else
-									$val = false;
+									$val = "false";
 								
 								if ($val == $setting[2])
 									$selected = "selected";
 								else
 									$selected = "";
 								
-								echo "<option value='".$val."' ".$selected." >".__($row,'contact-form-7-datepicker')."</option>";
+								echo "<option value='".$val."' ".$selected." >".__($row, 'contact-form-7-datepicker')."</option>";
 							} ?>
 							</select>
 						</td>
