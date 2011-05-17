@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 ?>
 <?php
 
-define('CF7_DATE_PICKER_VERSION', '0.1');
+define('CF7_DATE_PICKER_VERSION', '0.2');
 
 /**
 * deactivate_cf7datepicker()
@@ -40,7 +40,7 @@ function activate_cf7datepicker(){
 	global $wpdb, $blog_id;
 	$table = $wpdb->prefix."options";
 	$query = "INSERT INTO $table (blog_id, option_name, option_value)
-				VALUES (".$blog_id.",'cf7datepicker','1;true;false;beige;%m-%d-%Y;1;ltr') ";
+				VALUES (".$blog_id.",'cf7datepicker','2;false;false;beige;%d-%m-%Y;1;ltr') ";
 	$result = $wpdb->query( $query );
 }
 
