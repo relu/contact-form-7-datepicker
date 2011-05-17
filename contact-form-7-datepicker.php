@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 ?>
 <?php
 
-define('CF7_DATE_PICKER_VERSION', '0.1');
+define('CF7_DATE_PICKER_VERSION', '0.2');
 
 /**
 * deactivate_cf7datepicker()
