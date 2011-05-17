@@ -40,7 +40,7 @@ function activate_cf7datepicker(){
 	global $wpdb, $blog_id;
 	$table = $wpdb->prefix."options";
 	$query = "INSERT INTO $table (blog_id, option_name, option_value)
-				VALUES (".$blog_id.",'cf7datepicker','1;true;false;beige;%m-%d-%Y;1;ltr') ";
+				VALUES (".$blog_id.",'cf7datepicker','2;false;false;beige;%d-%m-%Y;1;ltr') ";
 	$result = $wpdb->query( $query );
 }
 

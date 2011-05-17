@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: contact-form-7-datepicker\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-05-14 20:28+0200\n"
-"PO-Revision-Date: 2011-05-14 20:33+0200\n"
+"PO-Revision-Date: 2011-05-17 23:26+0200\n"
 "Last-Translator: Aurel Canciu <aurelcanciu@gmail.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -90,7 +90,7 @@ msgstr "Limitează la ziua curentă"
 
 #: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:264
 msgid "<p>Enables you to limit the possible picking days to today's date.</p>"
-msgstr "<p>Oferă posibilitatea de a limita ziele disponbile la alegere la ziua curentă.</p>"
+msgstr "<p>Oferă posibilitatea de a limita zilele disponbile la alegere la ziua curentă.</p>"
 
 #: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:270
 msgid "Week Start Day"
