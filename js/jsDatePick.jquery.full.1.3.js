@@ -379,7 +379,12 @@ JsDatePick.prototype.makeCalendar = function(){
 				inputElement.setAttribute("globalNumber",this.globalNumber);
 				inputElement.onclick = function(){ JsDatePick.getCalInstanceById(this.getAttribute("globalNumber")).showCalendar(); };
 				inputElement.onfocus = function(){ JsDatePick.getCalInstanceById(this.getAttribute("globalNumber")).showCalendar(); };
-				inputElement.onblur = function(){ JsDatePick.getCalInstanceById(this.getAttribute("globalNumber")).closeCalendar();} ;
+				jQuery(inputElement).mouseout(function(){ 
+					document.onclick = function() {
+						JsDatePick.getCalInstanceById(inputElement.getAttribute("globalNumber")).closeCalendar(); 
+					};
+				});
+				
 				
 				aSpan.style.position = "relative";
 				this.initialZIndex++;
