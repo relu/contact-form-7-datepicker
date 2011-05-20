@@ -34,8 +34,8 @@ class CF7DatePicker {
 	
 	static $option_defaults = array(
 		"useMode" => 2, 
-		"isStripped" => false, 
-		"limitToToday" => false, 
+		"isStripped" => "false", 
+		"limitToToday" => "false", 
 		"cellColorScheme" => "beige", 
 		"dateFormat" => "%d-%m-%Y", 
 		"weekStartDay" => 1,
@@ -50,17 +50,8 @@ class CF7DatePicker {
 		add_action( 'wp_head', array( __CLASS__, 'plugin_enqueues' ), 1002 );
 		add_action( 'init', array( __CLASS__, 'load_plugin_text_domain') );
 
-		add_filter( 'wpcf7_validate_date', 'wpcf7_validation_filter_cf7datepicker', 10, 2 );
-		add_filter( 'wpcf7_validate_date*', 'wpcf7_validation_filter_cf7datepicker', 10, 2 );
-		
-		/* Add wpcf7 shortcodes [date ] and [date* ] */
-		if ( function_exists( 'wpcf7_add_shortcode' ) ) {
-			if( is_file( WP_PLUGIN_DIR."/contact-form-7/includes/shortcodes.php" ) ) {
-				include WP_PLUGIN_DIR."/contact-form-7/includes/shortcodes.php";
-				wpcf7_add_shortcode( 'date', array(__CLASS__, 'wpcf7_shotcode_handler'), true );
-				wpcf7_add_shortcode( 'date*', array(__CLASS__, 'wpcf7_shotcode_handler'), true );
-			}
-		}
+		add_filter( 'wpcf7_validate_date', 'wpcf7_validation_filter', 10, 2 );
+		add_filter( 'wpcf7_validate_date*', 'wpcf7_validation_filter', 10, 2 );
 	}
 
 	/**
@@ -70,8 +61,8 @@ class CF7DatePicker {
 	* It inserts some default values as options
 	*/	
 	public function activate() {
-		foreach (self::$option_defaults as $optname => $optvalue) {
-			add_option($optname, $optvalue);
+		foreach (self::$option_defaults as $option) {
+			add_option($option, $option->value);
 		}
 	}
 
@@ -82,8 +73,8 @@ class CF7DatePicker {
 	* It deletes the settings stored in the database
 	*/	
 	public function deactivate() {
-		foreach (self::$option_defaults as $optname) {
-			delete_option($optname);
+		foreach (self::$option_defaults as $option) {
+			delete_option($option);
 		}
 	}
 
@@ -94,9 +85,8 @@ class CF7DatePicker {
 	* @param Array $dateupdate, contains the updated settings
 	*/
 	public function update_settings($dataupdate) {
-		foreach ($dateupdate as $optname => $optvalue){
-			if (self::$option_defaults[$optname] != $optvalue)
-				update_option($optname, $optvalue);
+		foreach ($dataupdate as $option => $value){
+			update_option($option, $value);
 		}
 	}
 
@@ -105,12 +95,12 @@ class CF7DatePicker {
 	*
 	* Registers the Admin panel so that it will show up as a submenu page in Contact Form 7's menu
 	*/
-	private function register_admin_settings() {
+	public function register_admin_settings() {
 		if (function_exists('add_submenu_page')) {
 			add_submenu_page('wpcf7',__('Datepicker Settings', 'contact-form-7-datepicker'),__('Datepicker Settings', 'contact-form-7-datepicker'),
 							 'edit_themes',
 							 basename(__FILE__),
-							 'admin_settings_html');
+							 array(__CLASS__,'admin_settings_html'));
 		}	
 	}
 
@@ -135,13 +125,13 @@ class CF7DatePicker {
 }
 
 	/**
-	* get_scheme_images_cf7datepicker()
+	* get_scheme_images()
 	*
 	* Gets the images of a scheme and natural sorts them
 	* @param String $scheme, the name of the scheme to get images for
 	* @return Array $schemeimg, the paths to the scheme images
 	*/
-	function get_scheme_images_cf7datepicker($scheme) {
+	private function get_scheme_images($scheme) {
 		$path = ABSPATH.'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/'.$scheme.'/';
 		if ($handle = opendir($path)) {
 			$schemeimg = array();
@@ -153,21 +143,21 @@ class CF7DatePicker {
 		}
 		closedir($handle);
 		return $schemeimg;
-}
+	}
 
 	/**
 	* admin_settings_html()
 	*
 	* Generates the admin panel HTML
 	*/
-	private function admin_settings_html() {
+	public function admin_settings_html() {
 		if(isset($_POST['datepickersave'])) {
 				$dataupdate = array($_POST['useMode'], $_POST['isStripped'], $_POST['limitToToday'], $_POST['cellColorScheme'], $_POST['dateFormat'], $_POST['weekStartDay'], $_POST['directionality']);
-			self::update_settings($dataupdate);
+				self::update_settings($dataupdate);
 			}
 			$useMode = array(1,2);
 			$limitToToday = $isStripped = array(__('true', 'contact-form-7-datepicker'),__('false', 'contact-form-7-datepicker'));
-			$cellColorScheme = read_schemes_cf7datepicker();
+			$cellColorScheme = self::read_schemes();
 			$weekStartDay = array(__('Sunday', 'contact-form-7-datepicker'),__('Monday', 'contact-form-7-datepicker'));
 			$directionality = array(__('Left to right', 'contact-form-7-datepicker'),__('Right to left', 'contact-form-7-datepicker'));
 	
@@ -444,7 +434,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 	* @param Array $tag, this is the tag that will be handled (can be 'date' or 'date*')
 	* @return String $html, the HTML that will be appended to the form
 	*/
-	public function wpcf7_shotcode_handler($tag) {
+	private function wpcf7_shotcode_handler($tag) {
 		global $wpcf7_contact_form;
 
 		if ( ! is_array( $tag ) )
@@ -514,7 +504,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 	}
 
 	/**
-	* wpcf7_validation_filter_cf7datepicker($result, $tag)
+	* wpcf7_validation_filter($result, $tag)
 	*
 	* This is used to validate the Contact Form 7 'date' field
 	* @param Array $result, 'valid' key has a boolean value (true if valid)
@@ -522,7 +512,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 	* @param Array $tag, contains the type and name of the field that is validated
 	* @return Array $result
 	*/
-	public function wpcf7_validation_filter( $result, $tag ) {
+	private function wpcf7_validation_filter( $result, $tag ) {
 		global $wpcf7_contact_form;
 
 		$type = $tag['type'];
@@ -550,7 +540,14 @@ You can of course put whatever divider you want between them.<br /></p>',
 	}
 
 }
+if ( ! function_exists( 'wpcf7_add_shortcode' ) ) {
+	if( is_file( WP_PLUGIN_DIR."/contact-form-7/includes/shortcodes.php" ) ) {
+		include WP_PLUGIN_DIR."/contact-form-7/includes/shortcodes.php";
+	}
+}
+wpcf7_add_shortcode( 'date', array('CF7DatePicker', 'wpcf7_shotcode_handler'), true );
+wpcf7_add_shortcode( 'date*', array('CF7DatePicker', 'wpcf7_shotcode_handler'), true );
 
 CF7DatePicker::init();
-
+/* Add wpcf7 shortcodes [date ] and [date* ] */
 ?>
