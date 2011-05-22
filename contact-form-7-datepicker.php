@@ -5,19 +5,27 @@ Plugin URI: https://github.com/relu/contact-form-7-datepicker/
 Description: Implements a new [date] tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.
 Author: Aurel Canciu
 <<<<<<< HEAD
+<<<<<<< HEAD
 Version: 0.2.1
 =======
 Version: 0.3
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+Version: 0.3
+>>>>>>> github/master
 Author URI: https://github.com/relu/
 */
 ?>
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 /* Copyright 2011 Aurel Canciu <aurelcanciu@gmail.com>
 =======
 /* Copyright 2011 Aurel Canciu <aurelcanciu at gmail.com>
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+/* Copyright 2011 Aurel Canciu <aurelcanciu at gmail.com>
+>>>>>>> github/master
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,6 +44,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 ?>
 <?php
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 define('CF7_DATE_PICKER_VERSION', '0.2.1');
 
@@ -114,6 +123,8 @@ function register_admin_settings_cf7datepicker() {
 */
 function read_schemes_cf7datepicker() {
 =======
+=======
+>>>>>>> github/master
 define('CF7_DATE_PICKER_VERSION', '0.3');
 
 class CF7DatePicker {
@@ -200,7 +211,10 @@ class CF7DatePicker {
 	* @return Array $themes, the names of the schemes found
 	*/
 	private function read_schemes() {
+<<<<<<< HEAD
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+>>>>>>> github/master
 	$path = ABSPATH.'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/';
 	if ($handle = opendir($path)) {
 		$themes = array() ;
@@ -214,6 +228,7 @@ class CF7DatePicker {
 	return $themes;
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 /**
 * get_scheme_images_cf7datepicker()
@@ -258,6 +273,8 @@ function admin_settings_html_cf7datepicker() {
 	?>
 	<div class="wrap">
 =======
+=======
+>>>>>>> github/master
 	/**
 	* get_scheme_images()
 	*
@@ -298,7 +315,10 @@ function admin_settings_html_cf7datepicker() {
 	
 		?>
 		<div class="wrap">
+<<<<<<< HEAD
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+>>>>>>> github/master
 		<h2>Contact Form 7 Datepicker</h2><?php
 		echo __('<p>This plugin implements a new <strong>[date]</strong> tag in <a href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form 7</a> 
 		that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.<br />
@@ -314,10 +334,14 @@ function admin_settings_html_cf7datepicker() {
 						<td colspan="2"><?php
 						foreach($cellColorScheme as $scheme) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 							if($scheme == $setting[3])
 =======
 							if($scheme == get_option('cellColorScheme'))
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+							if($scheme == get_option('cellColorScheme'))
+>>>>>>> github/master
 								$checked = "checked='checked'";
 							else
 								$checked = ""; ?>
@@ -326,10 +350,14 @@ function admin_settings_html_cf7datepicker() {
 									<div style="display: block; padding: 5px; background: #fff; border: 1px solid #ccc; border-radius: 4px 4px 4px 4px;">
 										<label><?php echo $scheme; ?></label><br /><?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 									foreach(get_scheme_images_cf7datepicker($scheme) as $img) { ?>
 =======
 									foreach(self::get_scheme_images($scheme) as $img) { ?>
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+									foreach(self::get_scheme_images($scheme) as $img) { ?>
+>>>>>>> github/master
 										<img src="<?php echo get_option('siteurl') . $img; ?>" style="margin: 5px;" /><?php 
 									} ?><br /><br />
 										<input name="cellColorScheme" type="radio" width="24" height="25" value="<?php echo $scheme; ?>" <?php echo $checked; ?> />
@@ -347,10 +375,14 @@ function admin_settings_html_cf7datepicker() {
 							<select name="useMode"><?php
 							foreach($useMode as $row) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 								if($row == $setting[0])
 =======
 								if($row == get_option('useMode'))
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+								if($row == get_option('useMode'))
+>>>>>>> github/master
 									$selected = "selected";
 								else
 									$selected = "";
@@ -378,10 +410,14 @@ function admin_settings_html_cf7datepicker() {
 									$val = "false";
 								
 <<<<<<< HEAD
+<<<<<<< HEAD
 								if ($val == $setting[1])
 =======
 								if ($val == get_option('isStripped'))
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+								if ($val == get_option('isStripped'))
+>>>>>>> github/master
 									$selected = "selected";
 								else
 									$selected = "";
@@ -408,10 +444,14 @@ function admin_settings_html_cf7datepicker() {
 									$val = "false";
 								
 <<<<<<< HEAD
+<<<<<<< HEAD
 								if ($val == $setting[2])
 =======
 								if ($val == get_option('limitToToday'))
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+								if ($val == get_option('limitToToday'))
+>>>>>>> github/master
 									$selected = "selected";
 								else
 									$selected = "";
@@ -438,10 +478,14 @@ function admin_settings_html_cf7datepicker() {
 									$val = 1;
 								
 <<<<<<< HEAD
+<<<<<<< HEAD
 								if($val == $setting[5])
 =======
 								if($val == get_option('weekStartDay'))
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+								if($val == get_option('weekStartDay'))
+>>>>>>> github/master
 									$selected = "selected";
 								else
 									$selected = "";
@@ -467,10 +511,14 @@ function admin_settings_html_cf7datepicker() {
 									$val = "rtl";
 								
 <<<<<<< HEAD
+<<<<<<< HEAD
 								if($val == $setting[6])
 =======
 								if($val == get_option('directionality'))
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+								if($val == get_option('directionality'))
+>>>>>>> github/master
 									$selected = "selected";
 								else
 									$selected = "";
@@ -489,10 +537,14 @@ function admin_settings_html_cf7datepicker() {
 						</th>
 						<td>
 <<<<<<< HEAD
+<<<<<<< HEAD
 							<input name="dateFormat" id="dateFormat" type="text" value="<?php echo $setting[4]; ?>" />
 =======
 							<input name="dateFormat" id="dateFormat" type="text" value="<?php echo get_option('dateFormat'); ?>" />
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+							<input name="dateFormat" id="dateFormat" type="text" value="<?php echo get_option('dateFormat'); ?>" />
+>>>>>>> github/master
 						</td>
 						<td>
 <?php echo __('<p>Possible values to use in the date format:<br />
@@ -521,6 +573,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 				</tbody>
 			</table>
 		</form><?php
+<<<<<<< HEAD
 <<<<<<< HEAD
 }
 
@@ -742,6 +795,8 @@ add_action('init', 'load_plugin_text_domain_cf7datepicker');
 add_filter( 'wpcf7_validate_date', 'wpcf7_validation_filter_cf7datepicker', 10, 2 );
 add_filter( 'wpcf7_validate_date*', 'wpcf7_validation_filter_cf7datepicker', 10, 2 );
 =======
+=======
+>>>>>>> github/master
 	}
 
 	/**
@@ -1021,6 +1076,9 @@ add_filter( 'wpcf7_validate_date*', 'wpcf7_validation_filter_cf7datepicker', 10,
 }
 
 CF7DatePicker::init();
+<<<<<<< HEAD
 >>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
+=======
+>>>>>>> github/master
 
 ?>
