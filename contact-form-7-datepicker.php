@@ -4,12 +4,12 @@ Plugin Name: Contact Form 7 Datepicker
 Plugin URI: https://github.com/relu/contact-form-7-datepicker/
 Description: Implements a new [date] tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.
 Author: Aurel Canciu
-Version: 0.2.1
+Version: 0.3
 Author URI: https://github.com/relu/
 */
 ?>
 <?php
-/* Copyright 2011 Aurel Canciu <aurelcanciu@gmail.com>
+/* Copyright 2011 Aurel Canciu <aurelcanciu at gmail.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 ?>
 <?php
 
-define('CF7_DATE_PICKER_VERSION', '0.2.1');
+define('CF7_DATE_PICKER_VERSION', '0.3');
 
 class CF7DatePicker {
 	
@@ -43,15 +43,17 @@ class CF7DatePicker {
 	);
 
 	function init() {
-		register_activation_hook( __FILE__, array( __CLASS__, 'activate') );
-		register_deactivation_hook( __FILE__, array( __CLASS__, 'deactivate') );
+		register_activation_hook(__FILE__, array(__CLASS__, 'activate'));
+		register_deactivation_hook(__FILE__, array(__CLASS__, 'deactivate'));
+		
+		add_action('init', array(__CLASS__, 'load_plugin_text_domain'));
+		add_action('plugins_loaded', array(__CLASS__, 'register_shortcodes'));
+		add_action('admin_init', array(__CLASS__, 'tag_generator'));
+		add_action('admin_menu', array(__CLASS__, 'register_admin_settings'));
+		add_action('wp_head', array(__CLASS__, 'plugin_enqueues'), 1002);
 
-		add_action( 'admin_menu', array( __CLASS__, 'register_admin_settings') );
-		add_action( 'wp_head', array( __CLASS__, 'plugin_enqueues' ), 1002 );
-		add_action( 'init', array( __CLASS__, 'load_plugin_text_domain') );
-
-		add_filter( 'wpcf7_validate_date', 'wpcf7_validation_filter', 10, 2 );
-		add_filter( 'wpcf7_validate_date*', 'wpcf7_validation_filter', 10, 2 );
+		add_filter('wpcf7_validate_date', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
+		add_filter('wpcf7_validate_date*', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
 	}
 
 	/**
@@ -60,9 +62,9 @@ class CF7DatePicker {
 	* Action triggered when plugin is activated
 	* It inserts some default values as options
 	*/	
-	public function activate() {
-		foreach (self::$option_defaults as $option) {
-			add_option($option, $option->value);
+	public static function activate() {
+		foreach (self::$option_defaults as $option => $value) {
+			add_option($option, $value);
 		}
 	}
 
@@ -72,8 +74,8 @@ class CF7DatePicker {
 	* Action triggered when plugin is deactivated
 	* It deletes the settings stored in the database
 	*/	
-	public function deactivate() {
-		foreach (self::$option_defaults as $option) {
+	public static function deactivate() {
+		foreach (self::$option_defaults as $option => $value) {
 			delete_option($option);
 		}
 	}
@@ -84,9 +86,10 @@ class CF7DatePicker {
 	* Updates plugin's settings into the database
 	* @param Array $dateupdate, contains the updated settings
 	*/
-	public function update_settings($dataupdate) {
-		foreach ($dataupdate as $option => $value){
-			update_option($option, $value);
+	public static function update_settings($dataupdate) {
+		foreach ($dataupdate as $option => $value) {
+			if ($value != get_option($option))
+				update_option($option, $value);
 		}
 	}
 
@@ -95,13 +98,13 @@ class CF7DatePicker {
 	*
 	* Registers the Admin panel so that it will show up as a submenu page in Contact Form 7's menu
 	*/
-	public function register_admin_settings() {
+	public static function register_admin_settings() {
 		if (function_exists('add_submenu_page')) {
 			add_submenu_page('wpcf7',__('Datepicker Settings', 'contact-form-7-datepicker'),__('Datepicker Settings', 'contact-form-7-datepicker'),
 							 'edit_themes',
 							 basename(__FILE__),
 							 array(__CLASS__,'admin_settings_html'));
-		}	
+		}
 	}
 
 	/**
@@ -150,9 +153,10 @@ class CF7DatePicker {
 	*
 	* Generates the admin panel HTML
 	*/
-	public function admin_settings_html() {
+	public static function admin_settings_html() {
 		if(isset($_POST['datepickersave'])) {
-				$dataupdate = array($_POST['useMode'], $_POST['isStripped'], $_POST['limitToToday'], $_POST['cellColorScheme'], $_POST['dateFormat'], $_POST['weekStartDay'], $_POST['directionality']);
+				foreach(self::$option_defaults as $option => $value)
+					$dataupdate[$option] = $_POST[$option];
 				self::update_settings($dataupdate);
 			}
 			$useMode = array(1,2);
@@ -360,8 +364,8 @@ You can of course put whatever divider you want between them.<br /></p>',
 	*
 	* Loads needed scripts and CSS
 	*/
-	public function plugin_enqueues() {
-		if( is_admin() )
+	public static function plugin_enqueues() {
+		if(is_admin())
 			return; ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo plugins_url( '/css/jsDatePick_'.((get_option('directionality') != "") ? get_option('directionality') : "ltr").'.min.css', __FILE__ ); ?>" />
 		<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.min.1.3.js', __FILE__ ); ?>"></script>
@@ -397,34 +401,30 @@ You can of course put whatever divider you want between them.<br /></p>',
 	}
 
 	/**
-	* page_text_filter($content)
-	*
-	* Searches for [datepicker ] tag inside page content
-	* @param String $content, the page content which gets filtered
-	* @return function preg_replace_callback, searches for the tag and calls page_text_filter_callback_cf7datepicker if found
-	*/
-	public function page_text_filter_cf7datepicker($content) {
-		$regex = '/\[datepicker\s(.*?)\]/';
-		return preg_replace_callback($regex, array(__CLASS__, 'page_text_filter_callback'), $content);
-	}
-
-	/**
-	* page_text_filter_callback_cf7datepicker($matches)
+	* page_text_filter_callback($matches)
 	*
 	* If a match is found in the content of a form, this returns the HTML for the matched date input field
 	* @param Array $matches, the name of the input date field that we generate code for
 	* @return String $string, the HTML for our match
 	*/
-	public function page_text_filter_callback($matches) { ?>
-	<input type="text" name="<?php echo $matches[1]; ?>" id="<?php echo $matches[1];?>" />
-	<script type="text/javascript">
-		jQuery(document).ready(function() {
-			DatePicker_<?php echo $matches[1]; ?> = new JsDatePick({<?php
-			foreach (self::$option_defaults as $optname => $optvalue)
-				echo "\"".$optname.": ".$optvalue.(next(self::$option_defaults)) ? "," : "" ; ?>
+	private function page_text_filter_callback($matches) {
+		$string = "<input type=\"text\" name=\"".$matches[1]."\" id=\"".$matches[1]."\" />
+		<script type=\"text/javascript\">
+			jQuery(document).ready(function() {
+				DatePicker_".$matches[1]." = new JsDatePick({
+					useMode:".get_option('useMode').",
+					isStripped:".get_option('isStripped').",
+					target:\"".$matches[1]."\",
+					limitToToday:".get_option('limitToToday').",
+					cellColorScheme:\"".get_option('cellColorScheme')."\",
+					dateFormat:\"".get_option('dateFormat')."\",
+					imgPath:\"".plugins_url( '/img/'.get_option('cellColorScheme').'/', __FILE__ )."\",
+					weekStartDay:".get_option('weekStartDay').",
+					directionality:\"".get_option('directionality')."\"
+				});
 			});
-		});
-	</script><?php
+		</script>";
+		return $string;
 	}
 
 	/**
@@ -434,7 +434,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 	* @param Array $tag, this is the tag that will be handled (can be 'date' or 'date*')
 	* @return String $html, the HTML that will be appended to the form
 	*/
-	private function wpcf7_shotcode_handler($tag) {
+	public static function wpcf7_shotcode_handler($tag) {
 		global $wpcf7_contact_form;
 
 		if ( ! is_array( $tag ) )
@@ -448,11 +448,11 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if ( empty( $name ) )
 			return '';
 
-		static $atts = '';
-		static $id_att = '';
-		static $class_att = '';
-		static $size_att = '';
-		static $maxlength_att = '';
+		$atts = '';
+		$id_att = '';
+		$class_att = '';
+		$size_att = '';
+		$maxlength_att = '';
 
 		if ( 'date*' == $type )
 			$class_att .= ' wpcf7-validates-as-required';
@@ -512,7 +512,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 	* @param Array $tag, contains the type and name of the field that is validated
 	* @return Array $result
 	*/
-	private function wpcf7_validation_filter( $result, $tag ) {
+	public static function wpcf7_validation_filter( $result, $tag ) {
 		global $wpcf7_contact_form;
 
 		$type = $tag['type'];
@@ -531,23 +531,110 @@ You can of course put whatever divider you want between them.<br /></p>',
 	}
 
 	/**
-	* load_plugin_text_domain_cf7datepicker()
+	* load_plugin_text_domain()
 	*
 	* Function for loading the l10n files from /languages/ dir
 	*/
-	function load_plugin_text_domain() {
+	public static function load_plugin_text_domain() {
 		load_plugin_textdomain( 'contact-form-7-datepicker', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
+	
+	/**
+	* register_shortcodes()
+	* 
+	* Function for registering our shortcodes with CF7
+	*/
+	public static function register_shortcodes() {
+		if (function_exists('wpcf7_add_shortcode')) {
+			wpcf7_add_shortcode('date', array(__CLASS__, 'wpcf7_shotcode_handler'), true);
+			wpcf7_add_shortcode('date*', array(__CLASS__, 'wpcf7_shotcode_handler'), true);
+		}
+	}
+	
+	/**
+	* tag_generator()
+	* 
+	* Registers the tag generator for CF7
+	*/
+	public static function tag_generator() {
+		if (function_exists('wpcf7_add_tag_generator')) {
+			wpcf7_add_tag_generator('date', __('Date field', 'contact-form-7-datepicker'),
+			'wpcf7-tg-pane-date', array(__CLASS__, 'wpcf7_tg_pane_datepicker_'));
+		}
+	}
+	
+	/**
+	* wpcf7_tg_pane_datepicker_(&$contact_form)
+	* 
+	* Caller function for the tag generator
+	* @param reference &$contact_form
+	*/
+	public static function wpcf7_tg_pane_datepicker_(&$contact_form) {
+		self::wpcf7_tg_pane_datepicker( 'date' );
+	}
+	
+	/**
+	* wpcf7_tg_pane_datepicker($type = 'date')
+	* 
+	* Callback function for the tag generator (called by wpcf7_tg_pane_datepicker_)
+	* @param $type = 'date'
+	*/
+	private function wpcf7_tg_pane_datepicker($type = 'date') { ?>
+		<div id="wpcf7-tg-pane-<?php echo $type; ?>" class="hidden">
+			<form action="">
+			<table>
+				<tr>
+					<td>
+						<input type="checkbox" name="required" />&nbsp;<?php echo esc_html( __( 'Required field?', 'wpcf7' ) ); ?>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<?php echo esc_html( __( 'Name', 'wpcf7' ) ); ?><br /><input type="text" name="name" class="tg-name oneline" />
+					</td>
+					<td></td>
+				</tr>
+			</table>
+
+			<table>
+				<tr>
+					<td>
+						<code>id</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
+						<input type="text" name="id" class="idvalue oneline option" />
+					</td>
+
+					<td>
+						<code>class</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
+						<input type="text" name="class" class="classvalue oneline option" />
+					</td>
+				</tr>
+
+				<tr>
+					<td>
+						<code>size</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
+						<input type="text" name="size" class="numeric oneline option" />
+					</td>
+
+					<td>
+						<code>maxlength</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
+						<input type="text" name="maxlength" class="numeric oneline option" />
+					</td>
+				</tr>
+			</table>
+
+			<div class="tg-tag">
+				<?php echo esc_html( __( "Copy this code and paste it into the form left.", 'wpcf7' ) ); ?><br /><input type="text" name="<?php echo $type; ?>" class="tag" readonly="readonly" onfocus="this.select()" />
+			</div>
+
+			<div class="tg-mail-tag">
+				<?php echo esc_html( __( "And, put this code into the Mail fields below.", 'wpcf7' ) ); ?><br /><span class="arrow">&#11015;</span>&nbsp;<input type="text" class="mail-tag" readonly="readonly" onfocus="this.select()" />
+			</div>
+			</form>
+		</div><?php
+	}
 
 }
-if ( ! function_exists( 'wpcf7_add_shortcode' ) ) {
-	if( is_file( WP_PLUGIN_DIR."/contact-form-7/includes/shortcodes.php" ) ) {
-		include WP_PLUGIN_DIR."/contact-form-7/includes/shortcodes.php";
-	}
-}
-wpcf7_add_shortcode( 'date', array('CF7DatePicker', 'wpcf7_shotcode_handler'), true );
-wpcf7_add_shortcode( 'date*', array('CF7DatePicker', 'wpcf7_shotcode_handler'), true );
 
 CF7DatePicker::init();
-/* Add wpcf7 shortcodes [date ] and [date* ] */
+
 ?>
