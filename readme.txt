@@ -4,7 +4,11 @@ Donate link:
 Tags: wordpress, datepicker, calendar, contact form 7, forms
 Requires at least: WordPress 2.9
 Tested up to: WordPress 3.1.2
+<<<<<<< HEAD
 Stable tag: 0.2.1
+=======
+Stable tag: 0.3
+>>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
 
 Datepicker for Contact Form 7 Wordpress Plugin based on jsDatePick script.
 
@@ -35,6 +39,12 @@ You can contact me anywhere and I'll add them to the project :)
 
 == Changelog ==
 
+<<<<<<< HEAD
+=======
+= 0.3 =
+* Added tag generator
+
+>>>>>>> 049b13046e83ff5cf51f5332c4562b630ffac580
 = 0.2.1 =
 * Fixed input field not being populated on date selection
 
