@@ -40,6 +40,7 @@ class CF7DatePicker {
 		"dateFormat" => "%d-%m-%Y", 
 		"weekStartDay" => 1,
 		"directionality" => "ltr",
+		"yearsRange" => "1970,2100",
 		"yearButtons" => "true",
 		"monthButtons" => "true"
 	);
@@ -159,6 +160,7 @@ class CF7DatePicker {
 		if(isset($_POST['datepickersave'])) {
 				foreach(self::$option_defaults as $option => $value)
 					$dataupdate[$option] = $_POST[$option];
+				$dateupdate['yearsRange'] = trim($_POST['yearmin']).",".trim($_POST['yearmax']);
 				self::update_settings($dataupdate);
 			}
 			$useMode = array(1,2);
@@ -175,6 +177,7 @@ class CF7DatePicker {
 				__('Left to right', 'contact-form-7-datepicker'),
 				__('Right to left', 'contact-form-7-datepicker')
 			);
+			$yearsRange = explode(",",trim(get_option('yearsRange')));
 	
 		?>
 		<div class="wrap">
@@ -304,6 +307,17 @@ class CF7DatePicker {
 								echo "<option value='".$val."' ".$selected." >".__($row,'contact-form-7-datepicker')."</option>";
 							} ?>
 							</select>
+						</td>
+						<td>
+						</td>
+					</tr>
+					
+					<tr>
+						<th>
+							<label><?php echo __('Years Range', 'contact-form-7-datepicker'); ?></h2></label>
+						</th>
+						<td><input name="yearmin" id="yearmin" type="text" value="<?php echo $yearsRange[0]; ?>" />
+							<input name="yearmax" id="yearmax" type="text" value="<?php echo $yearsRange[1]; ?>" />
 						</td>
 						<td>
 						</td>
@@ -471,6 +485,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 					dateFormat:\"".get_option('dateFormat')."\",
 					imgPath:\"".plugins_url( '/img/'.get_option('cellColorScheme').'/', __FILE__ )."\",
 					weekStartDay:".get_option('weekStartDay').",
+					yearsRange:[".get_option('yearsRange')."],
 					directionality:\"".get_option('directionality')."\",
 					yearButtons:\"".get_option('yearButtons')."\",
 					monthButtons:\"".get_option('monthButtons')."\"
