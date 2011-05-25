@@ -4,7 +4,7 @@ Plugin Name: Contact Form 7 Datepicker
 Plugin URI: https://github.com/relu/contact-form-7-datepicker/
 Description: Implements a new [date] tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.
 Author: Aurel Canciu
-Version: 0.3.1
+Version: 0.4
 Author URI: https://github.com/relu/
 */
 ?>
@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 ?>
 <?php
 
-define('CF7_DATE_PICKER_VERSION', '0.3.1');
+define('CF7_DATE_PICKER_VERSION', '0.4');
 define('PLUGIN_PATH', '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)));
 
 class CF7DatePicker {
@@ -161,7 +161,7 @@ class CF7DatePicker {
 	* @return Boolean false if no file found
 	*/
 	private function get_scheme_style($scheme) {
-		$file = PLUGIN_PATH.'/img/'.$scheme.'/'.$scheme.'.css';
+		$file = PLUGIN_PATH.'/css/schemes/'.$scheme.'.css';
 		if (is_file(ABSPATH.$file)) {
 			return get_option('siteurl').$file;
 		}
@@ -460,7 +460,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if(is_admin())
 			return; ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo plugins_url( '/css/jsDatePick_'.((get_option('directionality') != "") ? get_option('directionality') : "ltr").'.min.css', __FILE__ ); ?>" />
-		<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.full.1.3.js', __FILE__ ); ?>"></script>
+		<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.min.1.3.js', __FILE__ ); ?>"></script>
 		<script type="text/javascript"><?php echo "
 			g_l = [];
 			g_l[\"MONTHS\"] = [\"".__('Janaury', 'contact-form-7-datepicker').
