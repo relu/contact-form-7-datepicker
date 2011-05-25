@@ -41,7 +41,7 @@ You can contact me anywhere and I'll add them to the project :)
 	- available years range option
 	- the posibility to show/hide the month and year controls (forward/backward)
 * Added new scheme (red)
-* Added the posibility to use custom stylesheet files with schemes (located in the scheme's directory css/schemes/<scheme_name>.css)
+* Added the posibility to use custom stylesheet files with color schemes (located in css/schemes/<scheme_name>.css)
 
 = 0.3.1 =
 * Fixed translations
