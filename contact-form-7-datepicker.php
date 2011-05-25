@@ -200,10 +200,6 @@ class CF7DatePicker {
 				__('Right to left', 'contact-form-7-datepicker')
 			);
 			$yearsRange = explode(",", trim(get_option('yearsRange')));
-			echo get_option('yearsRange');
-			echo $yearsRange[0];
-			echo $yearsRange[1];
-			echo 1;
 	
 		?>
 		<div class="wrap">
