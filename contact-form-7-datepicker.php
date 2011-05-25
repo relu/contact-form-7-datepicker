@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 <?php
 
 define('CF7_DATE_PICKER_VERSION', '0.3.1');
+define('PLUGIN_PATH', '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)));
 
 class CF7DatePicker {
 	
@@ -117,7 +118,7 @@ class CF7DatePicker {
 	* @return Array $themes, the names of the schemes found
 	*/
 	private function read_schemes() {
-	$path = ABSPATH.'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/';
+	$path = ABSPATH.PLUGIN_PATH.'/img/';
 	if ($handle = opendir($path)) {
 		$themes = array() ;
 		while (false !== ($file = readdir($handle))) {
@@ -131,24 +132,40 @@ class CF7DatePicker {
 }
 
 	/**
-	* get_scheme_images()
+	* get_scheme_images($scheme)
 	*
 	* Gets the images of a scheme and natural sorts them
 	* @param String $scheme, the name of the scheme to get images for
 	* @return Array $schemeimg, the paths to the scheme images
 	*/
 	private function get_scheme_images($scheme) {
-		$path = ABSPATH.'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/'.$scheme.'/';
+		$path = ABSPATH.PLUGIN_PATH.'/img/'.$scheme.'/';
 		if ($handle = opendir($path)) {
 			$schemeimg = array();
 			while (false !== ($file = readdir($handle))) {
 				if (is_file($path.$file) && preg_match('/\.gif$/i', $file))
-					$schemeimg[] = '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/'.$scheme.'/'.$file;
+					$schemeimg[] = get_option('siteurl').PLUGIN_PATH.'/img/'.$scheme.'/'.$file;
 			}
 			natsort($schemeimg);
 		}
 		closedir($handle);
 		return $schemeimg;
+	}
+	
+	/**
+	* get_scheme_style($scheme)
+	*
+	* Checks if a CSS file exists in the scheme's directory and returns the path if so
+	* @param String $scheme, the name of the scheme to get the CSS for
+	* @return String the path to the CSS file
+	* @return Boolean false if no file found
+	*/
+	private function get_scheme_style($scheme) {
+		$file = PLUGIN_PATH.'/img/'.$scheme.'/'.$scheme.'.css';
+		if (is_file(ABSPATH.$file)) {
+			return get_option('siteurl').$file;
+		}
+		return false;
 	}
 
 	/**
@@ -213,7 +230,7 @@ class CF7DatePicker {
 									<div style="display: block; padding: 5px; background: #fff; border: 1px solid #ccc; border-radius: 4px 4px 4px 4px;">
 										<label><?php echo $scheme; ?></label><br /><?php
 									foreach(self::get_scheme_images($scheme) as $img) { ?>
-										<img src="<?php echo get_option('siteurl') . $img; ?>" style="margin: 5px;" /><?php 
+										<img src="<?php echo $img; ?>" style="margin: 5px;" /><?php 
 									} ?><br /><br />
 										<input name="cellColorScheme" type="radio" width="24" height="25" value="<?php echo $scheme; ?>" <?php echo $checked; ?> />
 									</div>
@@ -502,6 +519,13 @@ You can of course put whatever divider you want between them.<br /></p>',
 				});
 			});
 		</script>";
+		$schemecss = self::get_scheme_style(get_option('cellColorScheme'));
+		if ($schemecss)
+		$string .= "
+		<style type=\"text/css\">
+			@import url('".$schemecss."');
+		</style>";
+		
 		return $string;
 	}
 
