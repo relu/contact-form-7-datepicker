@@ -460,7 +460,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if(is_admin())
 			return; ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo plugins_url( '/css/jsDatePick_'.((get_option('directionality') != "") ? get_option('directionality') : "ltr").'.min.css', __FILE__ ); ?>" />
-		<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.min.1.3.js', __FILE__ ); ?>"></script>
+		<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.min.js', __FILE__ ); ?>"></script>
 		<script type="text/javascript"><?php echo "
 			g_l = [];
 			g_l[\"MONTHS\"] = [\"".__('Janaury', 'contact-form-7-datepicker').

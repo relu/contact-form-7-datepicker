@@ -3,8 +3,8 @@ Contributors: shockware
 Donate link: 
 Tags: wordpress, datepicker, calendar, contact form 7, forms
 Requires at least: WordPress 2.9
-Tested up to: WordPress 3.1.2
-Stable tag: 0.3.1
+Tested up to: WordPress 3.1.3
+Stable tag: 0.4
 
 Datepicker for Contact Form 7 Wordpress Plugin based on jsDatePick script.
 
@@ -34,6 +34,14 @@ You can contact me anywhere and I'll add them to the project :)
 1. The datepicker in action
 
 == Changelog ==
+
+= 0.4 =
+* Added new configuration options: 
+	- limit selectable dates according to current date (before or or after)
+	- available years range option
+	- the posibility to show/hide the month and year controls (forward/backward)
+* Added new scheme (red)
+* Added the posibility to use custom stylesheet files with schemes (located in the scheme's directory css/schemes/<scheme_name>.css)
 
 = 0.3.1 =
 * Fixed translations
