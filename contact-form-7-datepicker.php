@@ -4,7 +4,7 @@ Plugin Name: Contact Form 7 Datepicker
 Plugin URI: https://github.com/relu/contact-form-7-datepicker/
 Description: Implements a new [date] tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.
 Author: Aurel Canciu
-Version: 0.3.1
+Version: 0.4
 Author URI: https://github.com/relu/
 */
 ?>
@@ -28,14 +28,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 ?>
 <?php
 
-define('CF7_DATE_PICKER_VERSION', '0.3.1');
+define('CF7_DATE_PICKER_VERSION', '0.4');
+define('PLUGIN_PATH', '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)));
 
 class CF7DatePicker {
 	
 	static $option_defaults = array(
 		"useMode" => 2, 
 		"isStripped" => "false", 
-		"limitToToday" => "false", 
+		"limitToToday" => 0, 
 		"cellColorScheme" => "beige", 
 		"dateFormat" => "%d-%m-%Y", 
 		"weekStartDay" => 1,
@@ -117,7 +118,7 @@ class CF7DatePicker {
 	* @return Array $themes, the names of the schemes found
 	*/
 	private function read_schemes() {
-	$path = ABSPATH.'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/';
+	$path = ABSPATH.PLUGIN_PATH.'/img/';
 	if ($handle = opendir($path)) {
 		$themes = array() ;
 		while (false !== ($file = readdir($handle))) {
@@ -131,24 +132,40 @@ class CF7DatePicker {
 }
 
 	/**
-	* get_scheme_images()
+	* get_scheme_images($scheme)
 	*
 	* Gets the images of a scheme and natural sorts them
 	* @param String $scheme, the name of the scheme to get images for
 	* @return Array $schemeimg, the paths to the scheme images
 	*/
 	private function get_scheme_images($scheme) {
-		$path = ABSPATH.'/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/'.$scheme.'/';
+		$path = ABSPATH.PLUGIN_PATH.'/img/'.$scheme.'/';
 		if ($handle = opendir($path)) {
 			$schemeimg = array();
 			while (false !== ($file = readdir($handle))) {
 				if (is_file($path.$file) && preg_match('/\.gif$/i', $file))
-					$schemeimg[] = '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)).'/img/'.$scheme.'/'.$file;
+					$schemeimg[] = get_option('siteurl').PLUGIN_PATH.'/img/'.$scheme.'/'.$file;
 			}
 			natsort($schemeimg);
 		}
 		closedir($handle);
 		return $schemeimg;
+	}
+	
+	/**
+	* get_scheme_style($scheme)
+	*
+	* Checks if a CSS file exists in the scheme's directory and returns the path if so
+	* @param String $scheme, the name of the scheme to get the CSS for
+	* @return String the path to the CSS file
+	* @return Boolean false if no file found
+	*/
+	private function get_scheme_style($scheme) {
+		$file = PLUGIN_PATH.'/css/schemes/'.$scheme.'.css';
+		if (is_file(ABSPATH.$file)) {
+			return get_option('siteurl').$file;
+		}
+		return false;
 	}
 
 	/**
@@ -160,11 +177,16 @@ class CF7DatePicker {
 		if(isset($_POST['datepickersave'])) {
 				foreach(self::$option_defaults as $option => $value)
 					$dataupdate[$option] = $_POST[$option];
-				$dateupdate['yearsRange'] = trim($_POST['yearmin']).",".trim($_POST['yearmax']);
+				$dataupdate['yearsRange'] = trim($_POST['yearmin']).",".trim($_POST['yearmax']);
 				self::update_settings($dataupdate);
 			}
 			$useMode = array(1,2);
-			$limitToToday = $isStripped = $yearButtons = $monthButtons = array(
+			$limitToToday = array(
+				__('Today and future', 'contact-form-7-datepicker'),
+				__('Today and past', 'contact-form-7-datepicker'),
+				__('No limit', 'contact-form-7-datepicker')
+			);
+			$isStripped = $yearButtons = $monthButtons = array(
 				__('true', 'contact-form-7-datepicker'),
 				__('false', 'contact-form-7-datepicker')
 			);
@@ -177,7 +199,11 @@ class CF7DatePicker {
 				__('Left to right', 'contact-form-7-datepicker'),
 				__('Right to left', 'contact-form-7-datepicker')
 			);
-			$yearsRange = explode(",",trim(get_option('yearsRange')));
+			$yearsRange = explode(",", trim(get_option('yearsRange')));
+			echo get_option('yearsRange');
+			echo $yearsRange[0];
+			echo $yearsRange[1];
+			echo 1;
 	
 		?>
 		<div class="wrap">
@@ -204,7 +230,7 @@ class CF7DatePicker {
 									<div style="display: block; padding: 5px; background: #fff; border: 1px solid #ccc; border-radius: 4px 4px 4px 4px;">
 										<label><?php echo $scheme; ?></label><br /><?php
 									foreach(self::get_scheme_images($scheme) as $img) { ?>
-										<img src="<?php echo get_option('siteurl') . $img; ?>" style="margin: 5px;" /><?php 
+										<img src="<?php echo $img; ?>" style="margin: 5px;" /><?php 
 									} ?><br /><br />
 										<input name="cellColorScheme" type="radio" width="24" height="25" value="<?php echo $scheme; ?>" <?php echo $checked; ?> />
 									</div>
@@ -263,15 +289,17 @@ class CF7DatePicker {
 					
 					<tr>
 						<th>
-							<label><?php echo __('Limit To Today', 'contact-form-7-datepicker'); ?></label>
+							<label><?php echo __('Limit Dates To', 'contact-form-7-datepicker'); ?></label>
 						</th>
 						<td>
 							<select name="limitToToday"><?php
 							foreach($limitToToday as $row) {
-								if($row == __('true', 'contact-form-7-datepicker'))
-									$val = "true";
+								if ($row == __('Today and future', 'contact-form-7-datepicker'))
+									$val = 1;
+								elseif ($row == __('Today and past', 'contact-form-7-datepicker'))
+									$val = -1;
 								else
-									$val = "false";
+									$val = 0;
 								
 								if ($val == get_option('limitToToday'))
 									$selected = "selected";
@@ -283,7 +311,7 @@ class CF7DatePicker {
 							</select>
 						</td>
 						<td>
-							<?php echo __('<p>Enables you to limit the possible picking days to today\'s date.</p>','contact-form-7-datepicker'); ?>
+							<?php echo __('<p>Enables you to limit the possible picking dates according to the current date.</p>','contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
 					
@@ -316,10 +344,9 @@ class CF7DatePicker {
 						<th>
 							<label><?php echo __('Years Range', 'contact-form-7-datepicker'); ?></h2></label>
 						</th>
-						<td><input name="yearmin" id="yearmin" type="text" value="<?php echo $yearsRange[0]; ?>" />
+						<td colspan="2">
+							<input name="yearmin" id="yearmin" type="text" value="<?php echo $yearsRange[0]; ?>" />&nbsp;-&nbsp;
 							<input name="yearmax" id="yearmax" type="text" value="<?php echo $yearsRange[1]; ?>" />
-						</td>
-						<td>
 						</td>
 					</tr>
 					
@@ -433,7 +460,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if(is_admin())
 			return; ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo plugins_url( '/css/jsDatePick_'.((get_option('directionality') != "") ? get_option('directionality') : "ltr").'.min.css', __FILE__ ); ?>" />
-		<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.min.1.3.js', __FILE__ ); ?>"></script>
+		<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.min.js', __FILE__ ); ?>"></script>
 		<script type="text/javascript"><?php echo "
 			g_l = [];
 			g_l[\"MONTHS\"] = [\"".__('Janaury', 'contact-form-7-datepicker').
@@ -492,6 +519,13 @@ You can of course put whatever divider you want between them.<br /></p>',
 				});
 			});
 		</script>";
+		$schemecss = self::get_scheme_style(get_option('cellColorScheme'));
+		if ($schemecss)
+		$string .= "
+		<style type=\"text/css\">
+			@import url('".$schemecss."');
+		</style>";
+		
 		return $string;
 	}
 

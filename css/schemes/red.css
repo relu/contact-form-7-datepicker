@@ -1,0 +1,12 @@
+.JsDatePickBox .boxMainInner .dayNormalToday, .JsDatePickBox .boxMainInner .dayDownToday {
+	color: #000;
+}
+
+.JsDatePickBox .boxMainInner .dayOver, 
+.JsDatePickBox .boxMainInner .dayOverToday {
+	color: #fff;
+}
+
+.JsDatePickBox .boxMainInner .dayNormal {
+	color: #444;
+}

@@ -18,7 +18,10 @@
 	
 	yearsRange (Array) – When supplied , this array sets the limits for the years enabled in the calendar.
 	
-	limitToToday (Boolean) – Enables you to limit the possible picking days to today's date.
+	limitToToday (Integer) – Enables you to limit the possible picking days according to today's date.
+		1 – Today and after
+	   -1 – Today and before
+		0 – No limit
 	
 	cellColorScheme (String) – Enables you to swap the colors of the date's cells from a wide range of colors.
 		Available color schemes: torqoise,purple,pink,orange,peppermint,aqua,armygreen,bananasplit,beige,
@@ -42,9 +45,17 @@
 		
 		You can of course put whatever divider you want between them.
 		
-	weekStartDay (Integer) : Enables you to change the day that the week starts on.
+	weekStartDay (Integer) – Enables you to change the day that the week starts on.
 		Possible values 0 (Sunday) through 6 (Saturday)
 		Default value is 1 (Monday)
+	
+	yearButtons (Boolean) – Enables you to toggle displaying the year navigation controls (backward/forward)
+	
+	monthButtons (Boolean) – Enables you to toggle displaying the month navigation controls (backward/forward)
+	 
+	directionality (String) – Change text direction
+		ltr - Left To Right (default)
+		rtl - Right To Left
 		
 	Note: We have implemented a way to change the image path of the img folder should you decide you want to move it somewhere else.
 	Please read through the instructions on how to carefully accomplish that just in the next comment!
@@ -53,6 +64,12 @@
 	Itamar :-)
 	
 	itamar.arjuan@gmail.com
+	 
+	This version of the script is modified by Aurel Canciu for Contact Form 7 Datepicker Wordpress Plugin
+	* http://wordpress.org/extend/plugins/contact-form-7-datepicker/ *
+	
+	aurelcanciu@gmail.com 
+	
 	
 */
 // The language array - change these values to your language to better fit your needs!
@@ -216,7 +233,7 @@ JsDatePick.prototype.setConfiguration = function(aConf){
 	this.oConfiguration.yearsRange		= (aConf["yearsRange"] != null) ? aConf["yearsRange"] : [1971,2100];
 	this.oConfiguration.yearButtons		= (aConf["yearButtons"] != null) ? aConf["yearButtons"] : true;
 	this.oConfiguration.monthButtons	= (aConf["monthButtons"] != null) ? aConf["monthButtons"] : true;
-	this.oConfiguration.limitToToday	= (aConf["limitToToday"] != null) ? aConf["limitToToday"] : false;
+	this.oConfiguration.limitToToday	= (aConf["limitToToday"] != null) ? aConf["limitToToday"] : 0;
 	this.oConfiguration.field			= (aConf["field"] != null) ? aConf["field"] : false;
 	this.oConfiguration.cellColorScheme = (aConf["cellColorScheme"] != null) ? aConf["cellColorScheme"] : "ocean_blue";
 	this.oConfiguration.dateFormat		= (aConf["dateFormat"] != null) ? aConf["dateFormat"] : "%m-%d-%Y";
@@ -665,7 +682,13 @@ JsDatePick.prototype.populateMainBox = function(aMainBox){
 			aDayDiv.setAttribute("isToday",1);
 		}
 		
-		if (this.oConfiguration.limitToToday){
+		if (this.oConfiguration.limitToToday >= 1){
+			if ( this.isAvailable(this.currentYear, this.currentMonth, parseInt(oDay.getDate()+1) ) ){
+				disabledDayFlag = true;
+				aDayDiv.setAttribute("isJsDatePickDisabled",1);
+			}
+		}
+		else if (this.oConfiguration.limitToToday <= -1){
 			if ( ! this.isAvailable(this.currentYear, this.currentMonth, parseInt(oDay.getDate()) ) ){
 				disabledDayFlag = true;
 				aDayDiv.setAttribute("isJsDatePickDisabled",1);
@@ -918,7 +941,7 @@ JsDatePick.prototype.setTooltipText = function(aText){
 
 JsDatePick.prototype.moveForwardOneYear = function(){
 	var desiredYear = this.currentYear + 1;
-	if (desiredYear < parseInt(this.oConfiguration.yearsRange[1])){
+	if (desiredYear <= parseInt(this.oConfiguration.yearsRange[1])){
 		this.currentYear++;
 		this.repopulateMainBox();
 		return true;
@@ -930,7 +953,7 @@ JsDatePick.prototype.moveForwardOneYear = function(){
 JsDatePick.prototype.moveBackOneYear = function(){
 	var desiredYear = this.currentYear - 1;
 	
-	if (desiredYear > parseInt(this.oConfiguration.yearsRange[0])){
+	if (desiredYear >= parseInt(this.oConfiguration.yearsRange[0])){
 		this.currentYear--;
 		this.repopulateMainBox();
 		return true;

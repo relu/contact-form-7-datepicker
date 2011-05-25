@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: contact-form-7-datepicker\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-23 01:03+0200\n"
-"PO-Revision-Date: 2011-05-23 01:06+0200\n"
+"POT-Creation-Date: 2011-05-26 00:35+0200\n"
+"PO-Revision-Date: 2011-05-26 00:36+0200\n"
 "Last-Translator: Aurel Canciu <aurelcanciu@gmail.com>\n"
 "Language-Team: \n"
 "Language: \n"
@@ -16,39 +16,54 @@ msgstr ""
 "X-Poedit-Language: English\n"
 "X-Poedit-SearchPath-0: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker\n"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:103
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:107
 msgid "Datepicker Settings"
 msgstr "Setări Calendar"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:163
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:231
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:257
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:185
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:297
+msgid "Today and future"
+msgstr "Astăzi și viitor"
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:186
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:299
+msgid "Today and past"
+msgstr "Astăzi și trecut"
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:187
+msgid "No limit"
+msgstr "Fără limită"
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:190
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:271
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:385
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:400
 msgid "true"
 msgstr "adevărat"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:163
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:191
 msgid "false"
 msgstr "fals"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:165
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:283
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:195
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:325
 msgid "Sunday"
 msgstr "Duminică"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:165
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:196
 msgid "Monday"
 msgstr "Luni"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:166
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:308
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:199
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:360
 msgid "Left to right"
 msgstr "Stânga spre dreapta"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:166
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:200
 msgid "Right to left"
 msgstr "Dreapta spre stânga"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:171
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:211
 msgid ""
 "<p>This plugin implements a new <strong>[date]</strong> tag in <a href=\"http://wordpress.org/extend/plugins/contact-form-7/\">Contact Form 7</a> \n"
 "\t\tthat adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.<br />\n"
@@ -60,15 +75,15 @@ msgstr ""
 "\t\tPentru a-l folosi, introduceți eticheta <strong>[date numele-câmpului]</strong> sau <strong>[date* numele-câmpului-necesar]</strong> dacă doriți să fie obligatoriu,\n"
 "\t\tîn zona de editare a Contact Form 7.</p>"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:180
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:220
 msgid "Color scheme"
 msgstr "Schemă de culori"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:204
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:244
 msgid "Use Mode"
 msgstr "Mod de utilizare"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:219
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:259
 msgid ""
 "<p>1 – The calendar's HTML will be directly appended to the field supplied by target<br />\n"
 "\t\t\t\t\t\t\t2 – The calendar will appear as a popup when the field with the id supplied in target is clicked.</p>"
@@ -76,35 +91,55 @@ msgstr ""
 "<p>1 – Codul HTML al calendarului va fi atașat la câmpul text specificat de țintă<br />\n"
 "\t\t\t\t\t\t\t2 – Calendarul va apărea ca și un popup când câmpul cu id-ul specificat ca țintă este activat.</p>"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:226
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:266
 msgid "Sripped"
 msgstr "Fără decor"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:246
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:286
 msgid "<p>When set to true the calendar appears without the visual design - usually used with 'Use Mod' 1.</p>"
 msgstr "<p>Când este setat ca și adevărat, calendarul apare fără design vizual - de obicei este folosit cu 'Modul de utilizare' 1.</p>"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:252
-msgid "Limit To Today"
-msgstr "Limitează la ziua curentă"
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:292
+msgid "Limit Dates To"
+msgstr "Limitează datele la"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:272
-msgid "<p>Enables you to limit the possible picking days to today's date.</p>"
-msgstr "<p>Oferă posibilitatea de a limita zilele care pot fi selectate la ziua curentă.</p>"
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:314
+msgid "<p>Enables you to limit the possible picking dates according to the current date.</p>"
+msgstr "<p>Oferă posibilitatea de a limita datele care pot fi selectate în funcție de data curentă.</p>"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:278
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:320
 msgid "Week Start Day"
 msgstr "Prima zi a săptămânii"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:303
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:345
+msgid "Years Range"
+msgstr "Interval ani"
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:355
 msgid "Text Direction"
 msgstr "Direcție text"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:328
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:380
+msgid "Controls"
+msgstr "Controale"
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:396
+msgid "Year Controls"
+msgstr "Controale An"
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:411
+msgid "Month Controls"
+msgstr "Controale Lună"
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:414
+msgid "You can select here what controls would you like to display on the calendar."
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:420
 msgid "Date Format"
 msgstr "Format dată"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:334
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:426
 msgid ""
 "<p>Possible values to use in the date format:<br />\n"
 "<br />\n"
@@ -132,115 +167,140 @@ msgstr ""
 "<br />\n"
 "Puteți desigur să introduceți orice separator doriți între valori.<br /></p>"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:354
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:446
 msgid "Save Setting"
 msgstr "Salvează setări"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:374
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:466
 msgid "Janaury"
 msgstr "Ianuarie"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:375
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:467
 msgid "February"
 msgstr "Februarie"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:376
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:468
 msgid "March"
 msgstr "Martie"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:377
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:469
 msgid "April"
 msgstr "Aprilie"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:378
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:470
 msgid "May"
 msgstr "Mai"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:379
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:471
 msgid "June"
 msgstr "Iunie"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:380
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:472
 msgid "July"
 msgstr "Iulie"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:381
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:473
 msgid "August"
 msgstr "August"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:382
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:474
 msgid "September"
 msgstr "Septembrie"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:383
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:475
 msgid "October"
 msgstr "Octombrie"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:384
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:476
 msgid "November"
 msgstr "Noiembrie"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:385
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:477
 msgid "December"
 msgstr "Decembrie"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:386
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:478
 msgid "Sun"
 msgstr "Dum"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:387
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:479
 msgid "Mon"
 msgstr "Lun"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:388
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:480
 msgid "Tue"
 msgstr "Mar"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:389
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:481
 msgid "Wed"
 msgstr "Mie"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:390
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:482
 msgid "Thu"
 msgstr "Joi"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:391
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:483
 msgid "Fri"
 msgstr "Vin"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:392
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:484
 msgid "Sat"
 msgstr "Sâm"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:393
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:485
 msgid "Move a month forward"
 msgstr "Înaintează  cu o lună"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:394
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:486
 msgid "Move a month backward"
 msgstr "Întoarce cu o lună"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:395
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:487
 msgid "Move a year forward"
 msgstr "Înaintează cu un an"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:396
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:488
 msgid "Move a year backward"
 msgstr "Întoarce cu un an"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:397
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:489
 msgid "Close the calendar"
 msgstr "Închide calendarul"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:398
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:490
 msgid "Date object invalid!"
 msgstr "Obiect dată invalid!"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:399
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:491
 msgid "Target invalid!"
 msgstr "Țintă nevalidă!"
 
-#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:561
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:663
 msgid "Date field"
 msgstr "Câmp dată"
 
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:690
+msgid "Required field?"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:695
+msgid "Name"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:704
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:709
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:716
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:721
+msgid "optional"
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:728
+msgid "Copy this code and paste it into the form left."
+msgstr ""
+
+#: /home/relu/public_html/wordpress/wp-content/plugins/contact-form-7-datepicker/contact-form-7-datepicker.php:732
+msgid "And, put this code into the Mail fields below."
+msgstr ""
+
+#~ msgid "Today and before"
+#~ msgstr "Astăzi și trecut"
