@@ -39,7 +39,10 @@ class CF7DatePicker {
 		"cellColorScheme" => "beige", 
 		"dateFormat" => "%d-%m-%Y", 
 		"weekStartDay" => 1,
-		"directionality" => "ltr"
+		"directionality" => "ltr",
+		"yearsRange" => "1970,2100",
+		"yearButtons" => "true",
+		"monthButtons" => "true"
 	);
 
 	function init() {
@@ -157,13 +160,24 @@ class CF7DatePicker {
 		if(isset($_POST['datepickersave'])) {
 				foreach(self::$option_defaults as $option => $value)
 					$dataupdate[$option] = $_POST[$option];
+				$dateupdate['yearsRange'] = trim($_POST['yearmin']).",".trim($_POST['yearmax']);
 				self::update_settings($dataupdate);
 			}
 			$useMode = array(1,2);
-			$limitToToday = $isStripped = array(__('true', 'contact-form-7-datepicker'),__('false', 'contact-form-7-datepicker'));
+			$limitToToday = $isStripped = $yearButtons = $monthButtons = array(
+				__('true', 'contact-form-7-datepicker'),
+				__('false', 'contact-form-7-datepicker')
+			);
 			$cellColorScheme = self::read_schemes();
-			$weekStartDay = array(__('Sunday', 'contact-form-7-datepicker'),__('Monday', 'contact-form-7-datepicker'));
-			$directionality = array(__('Left to right', 'contact-form-7-datepicker'),__('Right to left', 'contact-form-7-datepicker'));
+			$weekStartDay = array(
+				__('Sunday', 'contact-form-7-datepicker'),
+				__('Monday', 'contact-form-7-datepicker')
+			);
+			$directionality = array(
+				__('Left to right', 'contact-form-7-datepicker'),
+				__('Right to left', 'contact-form-7-datepicker')
+			);
+			$yearsRange = explode(",",trim(get_option('yearsRange')));
 	
 		?>
 		<div class="wrap">
@@ -300,6 +314,17 @@ class CF7DatePicker {
 					
 					<tr>
 						<th>
+							<label><?php echo __('Years Range', 'contact-form-7-datepicker'); ?></h2></label>
+						</th>
+						<td><input name="yearmin" id="yearmin" type="text" value="<?php echo $yearsRange[0]; ?>" />
+							<input name="yearmax" id="yearmax" type="text" value="<?php echo $yearsRange[1]; ?>" />
+						</td>
+						<td>
+						</td>
+					</tr>
+					
+					<tr>
+						<th>
 							<label><?php echo __('Text Direction', 'contact-form-7-datepicker'); ?></h2></label>
 						</th>
 						<td>
@@ -320,6 +345,46 @@ class CF7DatePicker {
 							</select>
 						</td>
 						<td>
+						</td>
+					</tr>
+					
+					<tr>
+						<th>
+							<label><?php echo __('Controls', 'contact-form-7-datepicker'); ?></h2></label>
+						</th>
+						<td><?php
+						
+							foreach($yearButtons as $row) {
+								if($row == __('true', 'contact-form-7-datepicker'))
+									$val = "true";
+								else
+									$val = "false";
+								
+								if ($val == get_option('yearButtons'))
+									$checked = "checked";
+								else
+									$checked = "";
+							} 
+							echo "<input type=\"checkbox\" name=\"yearButtons\" value='".$val."' ".$checked." >"; ?>
+							<label><?php echo __('Year Controls','contact-form-7-datepicker'); ?>&nbsp;</label>
+							<br /><?php
+							
+							foreach($monthButtons as $row) {
+								if($row == __('true', 'contact-form-7-datepicker'))
+									$val = "true";
+								else
+									$val = "false";
+								
+								if ($val == get_option('monthButtons'))
+									$checked = "checked";
+								else
+									$checked = "";
+							}
+							echo "<input type=\"checkbox\" name=\"monthButtons\" value='".$val."' ".$checked." >"; ?>
+							<label><?php echo __('Month Controls','contact-form-7-datepicker'); ?>&nbsp;</label>
+						</td>
+						<td>
+							<?php echo __('You can select here what controls would you like to display on the calendar.', 'contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
 					
@@ -420,7 +485,10 @@ You can of course put whatever divider you want between them.<br /></p>',
 					dateFormat:\"".get_option('dateFormat')."\",
 					imgPath:\"".plugins_url( '/img/'.get_option('cellColorScheme').'/', __FILE__ )."\",
 					weekStartDay:".get_option('weekStartDay').",
-					directionality:\"".get_option('directionality')."\"
+					yearsRange:[".get_option('yearsRange')."],
+					directionality:\"".get_option('directionality')."\",
+					yearButtons:\"".get_option('yearButtons')."\",
+					monthButtons:\"".get_option('monthButtons')."\"
 				});
 			});
 		</script>";

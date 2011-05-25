@@ -214,6 +214,8 @@ JsDatePick.prototype.setConfiguration = function(aConf){
 	this.oConfiguration.selectedDate   	= (aConf["selectedDate"] != null) ? aConf["selectedDate"] : null;
 	this.oConfiguration.target			= (aConf["target"] != null) ? aConf["target"] : null;
 	this.oConfiguration.yearsRange		= (aConf["yearsRange"] != null) ? aConf["yearsRange"] : [1971,2100];
+	this.oConfiguration.yearButtons		= (aConf["yearButtons"] != null) ? aConf["yearButtons"] : true;
+	this.oConfiguration.monthButtons	= (aConf["monthButtons"] != null) ? aConf["monthButtons"] : true;
 	this.oConfiguration.limitToToday	= (aConf["limitToToday"] != null) ? aConf["limitToToday"] : false;
 	this.oConfiguration.field			= (aConf["field"] != null) ? aConf["field"] : false;
 	this.oConfiguration.cellColorScheme = (aConf["cellColorScheme"] != null) ? aConf["cellColorScheme"] : "ocean_blue";
@@ -989,17 +991,24 @@ JsDatePick.prototype.getDOMControlBar = function(){
 	this.setC(controlsBarText, "controlsBarText");
 		
 	jQuery(controlsBar).attr("globalNumber",this.globalNumber);
-	jQuery(monthForwardButton).attr("globalNumber",this.globalNumber);
-	jQuery(monthBackwardButton).attr("globalNumber",this.globalNumber);
-	jQuery(yearBackwardButton).attr("globalNumber",this.globalNumber);
-	jQuery(yearForwardButton).attr("globalNumber",this.globalNumber);
-	
+	if (this.oConfiguration.monthButtons) {
+		jQuery(monthForwardButton).attr("globalNumber",this.globalNumber);
+		jQuery(monthBackwardButton).attr("globalNumber",this.globalNumber);
+	}
+	if (this.oConfiguration.yearButtons) {
+		jQuery(yearBackwardButton).attr("globalNumber",this.globalNumber);
+		jQuery(yearForwardButton).attr("globalNumber",this.globalNumber);
+	}
 	this.controlsBarTextCell = controlsBarText;
 	
-	controlsBar.appendChild(monthForwardButton);
-	controlsBar.appendChild(monthBackwardButton);
-	controlsBar.appendChild(yearForwardButton);
-	controlsBar.appendChild(yearBackwardButton);
+	if (this.oConfiguration.monthButtons) {
+		controlsBar.appendChild(monthForwardButton);
+		controlsBar.appendChild(monthBackwardButton);
+	}
+	if (this.oConfiguration.yearButtons) {
+		controlsBar.appendChild(yearForwardButton);
+		controlsBar.appendChild(yearBackwardButton);
+	}
 	controlsBar.appendChild(controlsBarText);
 	
 	monthForwardButton.onmouseover = function(){
