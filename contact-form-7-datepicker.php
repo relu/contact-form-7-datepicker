@@ -160,7 +160,7 @@ class CF7DatePicker {
 		if(isset($_POST['datepickersave'])) {
 				foreach(self::$option_defaults as $option => $value)
 					$dataupdate[$option] = $_POST[$option];
-				$dateupdate['yearsRange'] = trim($_POST['yearmin']).",".trim($_POST['yearmax']);
+				$dataupdate['yearsRange'] = trim($_POST['yearmin']).",".trim($_POST['yearmax']);
 				self::update_settings($dataupdate);
 			}
 			$useMode = array(1,2);
@@ -177,7 +177,11 @@ class CF7DatePicker {
 				__('Left to right', 'contact-form-7-datepicker'),
 				__('Right to left', 'contact-form-7-datepicker')
 			);
-			$yearsRange = explode(",",trim(get_option('yearsRange')));
+			$yearsRange = explode(",", trim(get_option('yearsRange')));
+			echo get_option('yearsRange');
+			echo $yearsRange[0];
+			echo $yearsRange[1];
+			echo 1;
 	
 		?>
 		<div class="wrap">
@@ -316,10 +320,9 @@ class CF7DatePicker {
 						<th>
 							<label><?php echo __('Years Range', 'contact-form-7-datepicker'); ?></h2></label>
 						</th>
-						<td><input name="yearmin" id="yearmin" type="text" value="<?php echo $yearsRange[0]; ?>" />
+						<td colspan="2">
+							<input name="yearmin" id="yearmin" type="text" value="<?php echo $yearsRange[0]; ?>" />&nbsp;-&nbsp;
 							<input name="yearmax" id="yearmax" type="text" value="<?php echo $yearsRange[1]; ?>" />
-						</td>
-						<td>
 						</td>
 					</tr>
 					
