@@ -35,7 +35,7 @@ class CF7DatePicker {
 	static $option_defaults = array(
 		"useMode" => 2, 
 		"isStripped" => "false", 
-		"limitToToday" => "false", 
+		"limitToToday" => 0, 
 		"cellColorScheme" => "beige", 
 		"dateFormat" => "%d-%m-%Y", 
 		"weekStartDay" => 1,
@@ -164,7 +164,12 @@ class CF7DatePicker {
 				self::update_settings($dataupdate);
 			}
 			$useMode = array(1,2);
-			$limitToToday = $isStripped = $yearButtons = $monthButtons = array(
+			$limitToToday = array(
+				__('Today and after', 'contact-form-7-datepicker'),
+				__('Today and before', 'contact-form-7-datepicker'),
+				__('No limit', 'contact-form-7-datepicker')
+			);
+			$isStripped = $yearButtons = $monthButtons = array(
 				__('true', 'contact-form-7-datepicker'),
 				__('false', 'contact-form-7-datepicker')
 			);
@@ -267,15 +272,17 @@ class CF7DatePicker {
 					
 					<tr>
 						<th>
-							<label><?php echo __('Limit To Today', 'contact-form-7-datepicker'); ?></label>
+							<label><?php echo __('Limit Dates To', 'contact-form-7-datepicker'); ?></label>
 						</th>
 						<td>
 							<select name="limitToToday"><?php
 							foreach($limitToToday as $row) {
-								if($row == __('true', 'contact-form-7-datepicker'))
-									$val = "true";
+								if ($row == __('Today and after', 'contact-form-7-datepicker'))
+									$val = 1;
+								elseif ($row == __('Today and before', 'contact-form-7-datepicker'))
+									$val = -1;
 								else
-									$val = "false";
+									$val = 0;
 								
 								if ($val == get_option('limitToToday'))
 									$selected = "selected";
@@ -287,7 +294,7 @@ class CF7DatePicker {
 							</select>
 						</td>
 						<td>
-							<?php echo __('<p>Enables you to limit the possible picking days to today\'s date.</p>','contact-form-7-datepicker'); ?>
+							<?php echo __('<p>Enables you to limit the possible picking dates according to the current date.</p>','contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
 					
@@ -436,7 +443,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if(is_admin())
 			return; ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo plugins_url( '/css/jsDatePick_'.((get_option('directionality') != "") ? get_option('directionality') : "ltr").'.min.css', __FILE__ ); ?>" />
-		<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.min.1.3.js', __FILE__ ); ?>"></script>
+		<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.full.1.3.js', __FILE__ ); ?>"></script>
 		<script type="text/javascript"><?php echo "
 			g_l = [];
 			g_l[\"MONTHS\"] = [\"".__('Janaury', 'contact-form-7-datepicker').
