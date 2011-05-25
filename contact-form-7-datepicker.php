@@ -182,8 +182,8 @@ class CF7DatePicker {
 			}
 			$useMode = array(1,2);
 			$limitToToday = array(
-				__('Today and after', 'contact-form-7-datepicker'),
-				__('Today and before', 'contact-form-7-datepicker'),
+				__('Today and future', 'contact-form-7-datepicker'),
+				__('Today and past', 'contact-form-7-datepicker'),
 				__('No limit', 'contact-form-7-datepicker')
 			);
 			$isStripped = $yearButtons = $monthButtons = array(
@@ -294,9 +294,9 @@ class CF7DatePicker {
 						<td>
 							<select name="limitToToday"><?php
 							foreach($limitToToday as $row) {
-								if ($row == __('Today and after', 'contact-form-7-datepicker'))
+								if ($row == __('Today and future', 'contact-form-7-datepicker'))
 									$val = 1;
-								elseif ($row == __('Today and before', 'contact-form-7-datepicker'))
+								elseif ($row == __('Today and past', 'contact-form-7-datepicker'))
 									$val = -1;
 								else
 									$val = 0;
