@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 ?>
 <?php
 
-define('CF7_DATE_PICKER_VERSION', '0.4');
+define('CF7_DATE_PICKER_VERSION', '0.4.1');
 define('PLUGIN_PATH', '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)));
 
 class CF7DatePicker {
@@ -178,6 +178,10 @@ class CF7DatePicker {
 				foreach(self::$option_defaults as $option => $value)
 					$dataupdate[$option] = $_POST[$option];
 				$dataupdate['yearsRange'] = trim($_POST['yearmin']).",".trim($_POST['yearmax']);
+				
+				$dataupdate['yearButtons'] = (isset($_POST['yearButtons'])) ? "true" : "false";
+				$dataupdate['monthButtons'] = (isset($_POST['monthButtons'])) ? "true" : "false";
+				
 				self::update_settings($dataupdate);
 			}
 			$useMode = array(1,2);
@@ -186,7 +190,7 @@ class CF7DatePicker {
 				__('Today and past', 'contact-form-7-datepicker'),
 				__('No limit', 'contact-form-7-datepicker')
 			);
-			$isStripped = $yearButtons = $monthButtons = array(
+			$isStripped = array(
 				__('true', 'contact-form-7-datepicker'),
 				__('false', 'contact-form-7-datepicker')
 			);
@@ -218,7 +222,7 @@ class CF7DatePicker {
 						<td colspan="2"><?php
 						foreach($cellColorScheme as $scheme) {
 							if($scheme == get_option('cellColorScheme'))
-								$checked = "checked='checked'";
+								$checked = "checked=\"checked\"";
 							else
 								$checked = ""; ?>
 								
@@ -376,34 +380,20 @@ class CF7DatePicker {
 							<label><?php echo __('Controls', 'contact-form-7-datepicker'); ?></h2></label>
 						</th>
 						<td><?php
-						
-							foreach($yearButtons as $row) {
-								if($row == __('true', 'contact-form-7-datepicker'))
-									$val = "true";
-								else
-									$val = "false";
 								
-								if ($val == get_option('yearButtons'))
-									$checked = "checked";
-								else
-									$checked = "";
-							} 
-							echo "<input type=\"checkbox\" name=\"yearButtons\" value='".$val."' ".$checked." >"; ?>
+							if (get_option('yearButtons') == "true")
+								$checked = "checked=\"checked\"";
+							else
+								$checked = "";
+							echo "<input type=\"checkbox\" name=\"yearButtons\" ".$checked.">"; ?>
 							<label><?php echo __('Year Controls','contact-form-7-datepicker'); ?>&nbsp;</label>
 							<br /><?php
 							
-							foreach($monthButtons as $row) {
-								if($row == __('true', 'contact-form-7-datepicker'))
-									$val = "true";
-								else
-									$val = "false";
-								
-								if ($val == get_option('monthButtons'))
-									$checked = "checked";
-								else
-									$checked = "";
-							}
-							echo "<input type=\"checkbox\" name=\"monthButtons\" value='".$val."' ".$checked." >"; ?>
+							if (get_option('monthButtons') == "true")
+								$checked = "checked=\"checked\"";
+							else
+								$checked = "";
+							echo "<input type=\"checkbox\" name=\"monthButtons\" ".$checked." >"; ?>
 							<label><?php echo __('Month Controls','contact-form-7-datepicker'); ?>&nbsp;</label>
 						</td>
 						<td>
@@ -492,17 +482,17 @@ You can of course put whatever divider you want between them.<br /></p>',
 	* page_text_filter_callback($matches)
 	*
 	* If a match is found in the content of a form, this returns the HTML for the matched date input field
-	* @param Array $matches, the name of the input date field that we generate code for
+	* @param String $name, the name of the input date field that we generate code for
 	* @return String $string, the HTML for our match
 	*/
-	private function page_text_filter_callback($matches) {
-		$string = "<input type=\"text\" name=\"".$matches[1]."\" id=\"".$matches[1]."\" />
+	private function page_text_filter_callback($name) {
+		$string = "<input type=\"text\" name=\"".$name."\" id=\"".$name."\" />
 		<script type=\"text/javascript\">
 			jQuery(document).ready(function() {
-				DatePicker_".$matches[1]." = new JsDatePick({
+				DatePicker_".$name." = new JsDatePick({
 					useMode:".get_option('useMode').",
 					isStripped:".get_option('isStripped').",
-					target:\"".$matches[1]."\",
+					target:\"".$name."\",
 					limitToToday:".get_option('limitToToday').",
 					cellColorScheme:\"".get_option('cellColorScheme')."\",
 					dateFormat:\"".get_option('dateFormat')."\",
@@ -510,8 +500,8 @@ You can of course put whatever divider you want between them.<br /></p>',
 					weekStartDay:".get_option('weekStartDay').",
 					yearsRange:[".get_option('yearsRange')."],
 					directionality:\"".get_option('directionality')."\",
-					yearButtons:\"".get_option('yearButtons')."\",
-					monthButtons:\"".get_option('monthButtons')."\"
+					yearButtons:".get_option('yearButtons').",
+					monthButtons:".get_option('monthButtons')."
 				});
 			});
 		</script>";
@@ -591,7 +581,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 			$value = $values[0];
 		}
 
-		$html = self::page_text_filter_callback(array('',$name));
+		$html = self::page_text_filter_callback($name);
 		$validation_error = '';
 		if ( is_a( $wpcf7_contact_form, 'WPCF7_ContactForm' ) )
 			$validation_error = $wpcf7_contact_form->validation_error( $name );
