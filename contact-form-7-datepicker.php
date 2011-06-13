@@ -4,7 +4,7 @@ Plugin Name: Contact Form 7 Datepicker
 Plugin URI: https://github.com/relu/contact-form-7-datepicker/
 Description: Implements a new [date] tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.
 Author: Aurel Canciu
-Version: 0.4
+Version: 0.5
 Author URI: https://github.com/relu/
 */
 ?>
@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 ?>
 <?php
 
-define('CF7_DATE_PICKER_VERSION', '0.4');
+define('CF7_DATE_PICKER_VERSION', '0.5');
 define('PLUGIN_PATH', '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)));
 
 class CF7DatePicker {
@@ -43,18 +43,21 @@ class CF7DatePicker {
 		"directionality" => "ltr",
 		"yearsRange" => "1970,2100",
 		"yearButtons" => "true",
-		"monthButtons" => "true"
+		"monthButtons" => "true",
+		"animate" => "true"
 	);
 
 	function init() {
 		register_activation_hook(__FILE__, array(__CLASS__, 'activate'));
 		register_deactivation_hook(__FILE__, array(__CLASS__, 'deactivate'));
 		
-		add_action('init', array(__CLASS__, 'load_plugin_text_domain'));
 		add_action('plugins_loaded', array(__CLASS__, 'register_shortcodes'));
+		add_action('admin_init', array(__CLASS__, 'admin_l10n'));
 		add_action('admin_init', array(__CLASS__, 'tag_generator'));
 		add_action('admin_menu', array(__CLASS__, 'register_admin_settings'));
-		add_action('wp_head', array(__CLASS__, 'plugin_enqueues'), 1002);
+		add_action('init', array(__CLASS__, 'register_files'));
+		add_action('init', array(__CLASS__, 'plugin_enqueues'));
+		add_action('init', array(__CLASS__, 'calendar_l10n'));
 
 		add_filter('wpcf7_validate_date', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
 		add_filter('wpcf7_validate_date*', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
@@ -178,6 +181,10 @@ class CF7DatePicker {
 				foreach(self::$option_defaults as $option => $value)
 					$dataupdate[$option] = $_POST[$option];
 				$dataupdate['yearsRange'] = trim($_POST['yearmin']).",".trim($_POST['yearmax']);
+				
+				$dataupdate['yearButtons'] = (isset($_POST['yearButtons'])) ? "true" : "false";
+				$dataupdate['monthButtons'] = (isset($_POST['monthButtons'])) ? "true" : "false";
+				
 				self::update_settings($dataupdate);
 			}
 			$useMode = array(1,2);
@@ -186,7 +193,7 @@ class CF7DatePicker {
 				__('Today and past', 'contact-form-7-datepicker'),
 				__('No limit', 'contact-form-7-datepicker')
 			);
-			$isStripped = $yearButtons = $monthButtons = array(
+			$isStripped = $animate = array(
 				__('true', 'contact-form-7-datepicker'),
 				__('false', 'contact-form-7-datepicker')
 			);
@@ -218,7 +225,7 @@ class CF7DatePicker {
 						<td colspan="2"><?php
 						foreach($cellColorScheme as $scheme) {
 							if($scheme == get_option('cellColorScheme'))
-								$checked = "checked='checked'";
+								$checked = "checked=\"checked\"";
 							else
 								$checked = ""; ?>
 								
@@ -376,38 +383,50 @@ class CF7DatePicker {
 							<label><?php echo __('Controls', 'contact-form-7-datepicker'); ?></h2></label>
 						</th>
 						<td><?php
-						
-							foreach($yearButtons as $row) {
-								if($row == __('true', 'contact-form-7-datepicker'))
-									$val = "true";
-								else
-									$val = "false";
 								
-								if ($val == get_option('yearButtons'))
-									$checked = "checked";
-								else
-									$checked = "";
-							} 
-							echo "<input type=\"checkbox\" name=\"yearButtons\" value='".$val."' ".$checked." >"; ?>
+							if (get_option('yearButtons') == "true")
+								$checked = "checked=\"checked\"";
+							else
+								$checked = "";
+							echo "<input type=\"checkbox\" name=\"yearButtons\" ".$checked.">"; ?>
 							<label><?php echo __('Year Controls','contact-form-7-datepicker'); ?>&nbsp;</label>
 							<br /><?php
 							
-							foreach($monthButtons as $row) {
+							if (get_option('monthButtons') == "true")
+								$checked = "checked=\"checked\"";
+							else
+								$checked = "";
+							echo "<input type=\"checkbox\" name=\"monthButtons\" ".$checked." >"; ?>
+							<label><?php echo __('Month Controls','contact-form-7-datepicker'); ?>&nbsp;</label>
+						</td>
+						<td>
+							<?php echo __('<p>You can select here what controls would you like to display on the calendar.</p>', 'contact-form-7-datepicker'); ?>
+						</td>
+					</tr>
+					
+					<tr>
+						<th>
+							<label><?php echo __('Animate', 'contact-form-7-datepicker'); ?></label>
+						</th>
+						<td>
+							<select name="animate"><?php
+							foreach($animate as $row) {
 								if($row == __('true', 'contact-form-7-datepicker'))
 									$val = "true";
 								else
 									$val = "false";
 								
-								if ($val == get_option('monthButtons'))
-									$checked = "checked";
+								if ($val == get_option('animate'))
+									$selected = "selected";
 								else
-									$checked = "";
-							}
-							echo "<input type=\"checkbox\" name=\"monthButtons\" value='".$val."' ".$checked." >"; ?>
-							<label><?php echo __('Month Controls','contact-form-7-datepicker'); ?>&nbsp;</label>
+									$selected = "";
+								
+								echo "<option value='".$val."' ".$selected." >".__($row, 'contact-form-7-datepicker')."</option>";
+							} ?>
+							</select>
 						</td>
 						<td>
-							<?php echo __('You can select here what controls would you like to display on the calendar.', 'contact-form-7-datepicker'); ?>
+							<?php echo __('<p>Animation on display.</p>','contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
 					
@@ -448,61 +467,43 @@ You can of course put whatever divider you want between them.<br /></p>',
 	}
 
 	/**
+	* register_files()
+	*
+	* Registers needed files
+	*/
+	public static function register_files() {
+		wp_register_style('jsdp_ltr', plugins_url( '/css/jsDatePick_ltr.min.css', __FILE__ ));
+		wp_register_style('jsdp_rtl', plugins_url( '/css/jsDatePick_rtl.min.css', __FILE__ ));
+		
+		wp_register_script('jsDatePickJS', plugins_url( '/js/jsDatePick.jquery.min.js', __FILE__ ), array('jquery'), false, true);
+	}
+	
+	/**
 	* plugin_enqueues()
 	*
-	* Loads needed scripts and CSS
+	* Enqueues JS/CSS
 	*/
 	public static function plugin_enqueues() {
-		if(is_admin())
-			return; ?>
-		<link rel="stylesheet" type="text/css" href="<?php echo plugins_url( '/css/jsDatePick_'.((get_option('directionality') != "") ? get_option('directionality') : "ltr").'.min.css', __FILE__ ); ?>" />
-		<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.min.js', __FILE__ ); ?>"></script>
-		<script type="text/javascript"><?php echo "
-			g_l = [];
-			g_l[\"MONTHS\"] = [\"".__('Janaury', 'contact-form-7-datepicker').
-				"\",\"".__('February', 'contact-form-7-datepicker').
-				"\",\"".__('March', 'contact-form-7-datepicker').
-				"\",\"".__('April', 'contact-form-7-datepicker').
-				"\",\"".__('May', 'contact-form-7-datepicker').
-				"\",\"".__('June', 'contact-form-7-datepicker').
-				"\",\"".__('July', 'contact-form-7-datepicker').
-				"\",\"".__('August', 'contact-form-7-datepicker').
-				"\",\"".__('September', 'contact-form-7-datepicker').
-				"\",\"".__('October', 'contact-form-7-datepicker').
-				"\",\"".__('November', 'contact-form-7-datepicker').
-				"\",\"".__('December', 'contact-form-7-datepicker')."\"];
-			g_l[\"DAYS_3\"] = [\"".__('Sun', 'contact-form-7-datepicker').
-				"\",\"".__('Mon', 'contact-form-7-datepicker').
-				"\",\"".__('Tue', 'contact-form-7-datepicker').
-				"\",\"".__('Wed', 'contact-form-7-datepicker').
-				"\",\"".__('Thu', 'contact-form-7-datepicker').
-				"\",\"".__('Fri', 'contact-form-7-datepicker').
-				"\",\"".__('Sat', 'contact-form-7-datepicker')."\"];
-			g_l[\"MONTH_FWD\"] = \"".__('Move a month forward', 'contact-form-7-datepicker')."\";
-			g_l[\"MONTH_BCK\"] = \"".__('Move a month backward', 'contact-form-7-datepicker')."\";
-			g_l[\"YEAR_FWD\"] = \"".__('Move a year forward', 'contact-form-7-datepicker')."\";
-			g_l[\"YEAR_BCK\"] = \"".__('Move a year backward', 'contact-form-7-datepicker')."\";
-			g_l[\"CLOSE\"] = \"".__('Close the calendar', 'contact-form-7-datepicker')."\";
-			g_l[\"ERROR_2\"] = g_l[\"ERROR_1\"] = \"".__('Date object invalid!', 'contact-form-7-datepicker')."\";
-			g_l[\"ERROR_4\"] = g_l[\"ERROR_3\"] = \"".__('Target invalid!', 'contact-form-7-datepicker')."\";"; ?>
-	</script><?php
+		wp_enqueue_style('jsdp_'.get_option('directionality'));
+		wp_enqueue_script('jsDatePickJS');
 	}
 
 	/**
 	* page_text_filter_callback($matches)
 	*
 	* If a match is found in the content of a form, this returns the HTML for the matched date input field
-	* @param Array $matches, the name of the input date field that we generate code for
+	* @param String $name, the name of the input date field that we generate code for
 	* @return String $string, the HTML for our match
 	*/
-	private function page_text_filter_callback($matches) {
-		$string = "<input type=\"text\" name=\"".$matches[1]."\" id=\"".$matches[1]."\" />
+	private function page_text_filter_callback($name) {
+		$jssafe = preg_replace('/[^A-Za-z0-9]/', '', $name);
+		$string = "<input type=\"text\" name=\"".$name."\" id=\"".$name."\" />
 		<script type=\"text/javascript\">
 			jQuery(document).ready(function() {
-				DatePicker_".$matches[1]." = new JsDatePick({
+				DatePicker_".$jssafe." = new JsDatePick({
 					useMode:".get_option('useMode').",
 					isStripped:".get_option('isStripped').",
-					target:\"".$matches[1]."\",
+					target:\"".$name."\",
 					limitToToday:".get_option('limitToToday').",
 					cellColorScheme:\"".get_option('cellColorScheme')."\",
 					dateFormat:\"".get_option('dateFormat')."\",
@@ -510,8 +511,9 @@ You can of course put whatever divider you want between them.<br /></p>',
 					weekStartDay:".get_option('weekStartDay').",
 					yearsRange:[".get_option('yearsRange')."],
 					directionality:\"".get_option('directionality')."\",
-					yearButtons:\"".get_option('yearButtons')."\",
-					monthButtons:\"".get_option('monthButtons')."\"
+					yearButtons:".get_option('yearButtons').",
+					monthButtons:".get_option('monthButtons').",
+					animate:".get_option('animate')."
 				});
 			});
 		</script>";
@@ -591,7 +593,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 			$value = $values[0];
 		}
 
-		$html = self::page_text_filter_callback(array('',$name));
+		$html = self::page_text_filter_callback($name);
 		$validation_error = '';
 		if ( is_a( $wpcf7_contact_form, 'WPCF7_ContactForm' ) )
 			$validation_error = $wpcf7_contact_form->validation_error( $name );
@@ -629,12 +631,57 @@ You can of course put whatever divider you want between them.<br /></p>',
 	}
 
 	/**
-	* load_plugin_text_domain()
+	* admin_l10n()
 	*
-	* Function for loading the l10n files from /languages/ dir
+	* Function for loading the l10n files from /languages/ dir for the administatrion panel
 	*/
-	public static function load_plugin_text_domain() {
+	public static function admin_l10n() {
 		load_plugin_textdomain( 'contact-form-7-datepicker', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
+	
+	/**
+	* calendar_l10n()
+	*
+	* Localization of JS file strings
+	*/
+	public static function calendar_l10n() {
+		$l10n_strings = array(
+						'MONTHS' => array(
+											__('Janaury', 'contact-form-7-datepicker'), 
+											__('February', 'contact-form-7-datepicker'),
+											__('March', 'contact-form-7-datepicker'),
+											__('April', 'contact-form-7-datepicker'),
+											__('May', 'contact-form-7-datepicker'),
+											__('June', 'contact-form-7-datepicker'),
+											__('July', 'contact-form-7-datepicker'),
+											__('August', 'contact-form-7-datepicker'),
+											__('September', 'contact-form-7-datepicker'),
+											__('October', 'contact-form-7-datepicker'),
+											__('November', 'contact-form-7-datepicker'),
+											__('December', 'contact-form-7-datepicker')
+										),
+						'DAYS_3' => array(
+											__('Sun', 'contact-form-7-datepicker'),
+											__('Mon', 'contact-form-7-datepicker'),
+											__('Tue', 'contact-form-7-datepicker'),
+											__('Wed', 'contact-form-7-datepicker'),
+											__('Thu', 'contact-form-7-datepicker'),
+											__('Fri', 'contact-form-7-datepicker'),
+											__('Sat', 'contact-form-7-datepicker')
+										),
+						'MONTH_FWD' => __('Move a month forward', 'contact-form-7-datepicker'),
+						'MONTH_BCK' => __('Move a month backward', 'contact-form-7-datepicker'),
+						'YEAR_FWD' => __('Move a year forward', 'contact-form-7-datepicker'),
+						'YEAR_BCK' => __('Move a year backward', 'contact-form-7-datepicker'),
+						'CLOSE' => __('Close the calendar', 'contact-form-7-datepicker'),
+						'ERROR_2' => __('Date object invalid!', 'contact-form-7-datepicker'),
+						'ERROR_1' => __('Date object invalid!', 'contact-form-7-datepicker'),
+						'ERROR_4' => __('Target invalid!', 'contact-form-7-datepicker'),
+						'ERROR_3' => __('Target invalid!', 'contact-form-7-datepicker')
+						);
+		$l10n = array('l10n_print_after' => 'g_l10n = ' . json_encode($l10n_strings) . ';');		
+		
+		wp_localize_script('jsDatePickJS', 'g_l10n', $l10n);
 	}
 	
 	/**
