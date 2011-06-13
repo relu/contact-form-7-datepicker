@@ -39,6 +39,7 @@ You can contact me anywhere and I'll add them to the project :)
 * Bugfixes:
 	- the name of the js var that holds the jsDatePick object is now escaped so no illegal char gets printed (regards [Petrus](http://wordpress.org/support/profile/petrus006))
 	- removed any posibility of the calendar being displayed more than once at a time on a page when in Mode 2
+	- controls option now works
 * New:
 	- animate the calendar on display option
 	- added Dutch translations (regards [Petrus](http://wordpress.org/support/profile/petrus006))
