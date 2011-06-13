@@ -418,9 +418,9 @@ JsDatePick.prototype.makeCalendar = function(){
 				inputElement.onclick = function(){ JsDatePick.getCalInstanceById(this.getAttribute("globalNumber")).showCalendar(); };
 				inputElement.onfocus = function(){ JsDatePick.getCalInstanceById(this.getAttribute("globalNumber")).showCalendar(); };
 				jQuery(inputElement).mouseout(function(){ 
-					document.onclick = function() {
+					jQuery('*').bind("focus", function() {
 						JsDatePick.getCalInstanceById(inputElement.getAttribute("globalNumber")).closeCalendar(); 
-					};
+					});
 				});
 				
 				
