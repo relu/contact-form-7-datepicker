@@ -23,7 +23,7 @@ Please follow the [standard installation procedure for WordPress plugins](http:/
 
 = Where do I submit a bug? =
 
-You can (open an issue on github)[https://github.com/relu/contact-form-7-datepicker/issues] or just contact me via email.
+You can [open an issue on github](https://github.com/relu/contact-form-7-datepicker/issues) or just contact me via email.
 
 = I've translated this plugin, how can I share my translation? =
 
