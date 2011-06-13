@@ -71,36 +71,22 @@
 	aurelcanciu@gmail.com 
 	
 	
-*/
+
 // The language array - change these values to your language to better fit your needs!
-/*g_l10n = [];
-g_l10n["MONTHS"] = ["Janaury","February","March","April","May","June","July","August","September","October","November","December"];
-g_l10n["DAYS_3"] = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-g_l10n["MONTH_FWD"] = "Move a month forward";
-g_l10n["MONTH_BCK"] = "Move a month backward";
-g_l10n["YEAR_FWD"] = "Move a year forward";
-g_l10n["YEAR_BCK"] = "Move a year backward";
-g_l10n["CLOSE"] = "Close the calendar";
-g_l10n["ERROR_2"] = g_l10n["ERROR_1"] = "Date object invalid!";
-g_l10n["ERROR_4"] = g_l10n["ERROR_3"] = "Target invalid!";
 */
 
-if (g_l10n === undefined) {
-	g_l10n = {
-			"MONTHS":
-				["Janaury","February","March","April","May","June","July","August","September","October","November","December"],
-			"DAYS_3":
-				["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
-			"MONTH_FWD":"Move a month forward",
-			"MONTH_BCK":"Move a month backward",
-			"YEAR_FWD":"Move a year forward",
-			"YEAR_BCK":"Move a year backward",
-			"CLOSE":"Close the calendar",
-			"ERROR_2":"Obiect dat\u0103 invalid!",
-			"ERROR_1":"Obiect dat\u0103 invalid!",
-			"ERROR_4":"Date object invalid!",
-			"ERROR_3":"Target invalid!"
-			};
+
+if (typeof(g_l10n) === "undefined") {
+	g_l10n = [];
+	g_l10n["MONTHS"] = ["Janaury","February","March","April","May","June","July","August","September","October","November","December"];
+	g_l10n["DAYS_3"] = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+	g_l10n["MONTH_FWD"] = "Move a month forward";
+	g_l10n["MONTH_BCK"] = "Move a month backward";
+	g_l10n["YEAR_FWD"] = "Move a year forward";
+	g_l10n["YEAR_BCK"] = "Move a year backward";
+	g_l10n["CLOSE"] = "Close the calendar";
+	g_l10n["ERROR_2"] = g_l10n["ERROR_1"] = "Date object invalid!";
+	g_l10n["ERROR_4"] = g_l10n["ERROR_3"] = "Target invalid!";
 }
 
 /* Changing the image path: WARNING! */

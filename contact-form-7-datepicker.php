@@ -51,12 +51,13 @@ class CF7DatePicker {
 		register_activation_hook(__FILE__, array(__CLASS__, 'activate'));
 		register_deactivation_hook(__FILE__, array(__CLASS__, 'deactivate'));
 		
-		add_action('init', array(__CLASS__, 'load_plugin_text_domain'));
 		add_action('plugins_loaded', array(__CLASS__, 'register_shortcodes'));
+		add_action('admin_init', array(__CLASS__, 'admin_l10n'));
 		add_action('admin_init', array(__CLASS__, 'tag_generator'));
 		add_action('admin_menu', array(__CLASS__, 'register_admin_settings'));
 		add_action('init', array(__CLASS__, 'register_files'));
 		add_action('init', array(__CLASS__, 'plugin_enqueues'));
+		add_action('init', array(__CLASS__, 'calendar_l10n'));
 
 		add_filter('wpcf7_validate_date', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
 		add_filter('wpcf7_validate_date*', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
@@ -485,44 +486,6 @@ You can of course put whatever divider you want between them.<br /></p>',
 	public static function plugin_enqueues() {
 		wp_enqueue_style('jsdp_'.get_option('directionality'));
 		wp_enqueue_script('jsDatePickJS');
-		
-		$l10n_strings = array(
-						'MONTHS' => array(
-											__('Janaury', 'contact-form-7-datepicker'), 
-											__('February', 'contact-form-7-datepicker'),
-											__('March', 'contact-form-7-datepicker'),
-											__('April', 'contact-form-7-datepicker'),
-											__('May', 'contact-form-7-datepicker'),
-											__('June', 'contact-form-7-datepicker'),
-											__('July', 'contact-form-7-datepicker'),
-											__('August', 'contact-form-7-datepicker'),
-											__('September', 'contact-form-7-datepicker'),
-											__('October', 'contact-form-7-datepicker'),
-											__('November', 'contact-form-7-datepicker'),
-											__('December', 'contact-form-7-datepicker')
-										),
-						'DAYS_3' => array(
-											__('Sun', 'contact-form-7-datepicker'),
-											__('Mon', 'contact-form-7-datepicker'),
-											__('Tue', 'contact-form-7-datepicker'),
-											__('Wed', 'contact-form-7-datepicker'),
-											__('Thu', 'contact-form-7-datepicker'),
-											__('Fri', 'contact-form-7-datepicker'),
-											__('Sat', 'contact-form-7-datepicker')
-										),
-						'MONTH_FWD' => __('Move a month forward', 'contact-form-7-datepicker'),
-						'MONTH_BCK' => __('Move a month backward', 'contact-form-7-datepicker'),
-						'YEAR_FWD' => __('Move a year forward', 'contact-form-7-datepicker'),
-						'YEAR_BCK' => __('Move a year backward', 'contact-form-7-datepicker'),
-						'CLOSE' => __('Close the calendar', 'contact-form-7-datepicker'),
-						'ERROR_2' => __('Date object invalid!', 'contact-form-7-datepicker'),
-						'ERROR_1' => __('Date object invalid!', 'contact-form-7-datepicker'),
-						'ERROR_4' => __('Target invalid!', 'contact-form-7-datepicker'),
-						'ERROR_3' => __('Target invalid!', 'contact-form-7-datepicker')
-						);
-		$l10n = array('l10n_print_after' => 'g_l10n = ' . json_encode($l10n_strings) . ';');		
-		
-		wp_localize_script('jsDatePickJS', 'g_l10n', $l10n);
 	}
 
 	/**
@@ -668,12 +631,57 @@ You can of course put whatever divider you want between them.<br /></p>',
 	}
 
 	/**
-	* load_plugin_text_domain()
+	* admin_l10n()
 	*
-	* Function for loading the l10n files from /languages/ dir
+	* Function for loading the l10n files from /languages/ dir for the administatrion panel
 	*/
-	public static function load_plugin_text_domain() {
+	public static function admin_l10n() {
 		load_plugin_textdomain( 'contact-form-7-datepicker', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
+	
+	/**
+	* calendar_l10n()
+	*
+	* Localization of JS file strings
+	*/
+	public static function calendar_l10n() {
+		$l10n_strings = array(
+						'MONTHS' => array(
+											__('Janaury', 'contact-form-7-datepicker'), 
+											__('February', 'contact-form-7-datepicker'),
+											__('March', 'contact-form-7-datepicker'),
+											__('April', 'contact-form-7-datepicker'),
+											__('May', 'contact-form-7-datepicker'),
+											__('June', 'contact-form-7-datepicker'),
+											__('July', 'contact-form-7-datepicker'),
+											__('August', 'contact-form-7-datepicker'),
+											__('September', 'contact-form-7-datepicker'),
+											__('October', 'contact-form-7-datepicker'),
+											__('November', 'contact-form-7-datepicker'),
+											__('December', 'contact-form-7-datepicker')
+										),
+						'DAYS_3' => array(
+											__('Sun', 'contact-form-7-datepicker'),
+											__('Mon', 'contact-form-7-datepicker'),
+											__('Tue', 'contact-form-7-datepicker'),
+											__('Wed', 'contact-form-7-datepicker'),
+											__('Thu', 'contact-form-7-datepicker'),
+											__('Fri', 'contact-form-7-datepicker'),
+											__('Sat', 'contact-form-7-datepicker')
+										),
+						'MONTH_FWD' => __('Move a month forward', 'contact-form-7-datepicker'),
+						'MONTH_BCK' => __('Move a month backward', 'contact-form-7-datepicker'),
+						'YEAR_FWD' => __('Move a year forward', 'contact-form-7-datepicker'),
+						'YEAR_BCK' => __('Move a year backward', 'contact-form-7-datepicker'),
+						'CLOSE' => __('Close the calendar', 'contact-form-7-datepicker'),
+						'ERROR_2' => __('Date object invalid!', 'contact-form-7-datepicker'),
+						'ERROR_1' => __('Date object invalid!', 'contact-form-7-datepicker'),
+						'ERROR_4' => __('Target invalid!', 'contact-form-7-datepicker'),
+						'ERROR_3' => __('Target invalid!', 'contact-form-7-datepicker')
+						);
+		$l10n = array('l10n_print_after' => 'g_l10n = ' . json_encode($l10n_strings) . ';');		
+		
+		wp_localize_script('jsDatePickJS', 'g_l10n', $l10n);
 	}
 	
 	/**
