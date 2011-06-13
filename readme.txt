@@ -4,7 +4,7 @@ Donate link:
 Tags: wordpress, datepicker, calendar, contact form 7, forms
 Requires at least: WordPress 2.9
 Tested up to: WordPress 3.1.3
-Stable tag: 0.4
+Stable tag: 0.5
 
 Datepicker for Contact Form 7 Wordpress Plugin based on jsDatePick script.
 
@@ -35,6 +35,14 @@ You can contact me anywhere and I'll add them to the project :)
 
 == Changelog ==
 
+= 0.5 =
+* Bugfixes:
+	- the name of the js var that holds the jsDatePick object is now escaped so no illegal char gets printed (regards [Petrus](http://wordpress.org/support/profile/petrus006))
+	- removed any posibility of the calendar being displayed more than once at a time on a page when in Mode 2
+* New:
+	- animate the calendar on display option
+	- added Dutch translations (regards [Petrus](http://wordpress.org/support/profile/petrus006))
+
 = 0.4 =
 * Added new configuration options: 
 	- limit selectable dates according to current date (before or or after)
@@ -63,4 +71,6 @@ First release
 
 == Upgrade Notice ==
 
-* Nothing yet
+= 0.5 =
+
+This should now work _out of the box_ for everyone, do upgrade!
