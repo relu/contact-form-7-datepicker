@@ -4,7 +4,7 @@ Plugin Name: Contact Form 7 Datepicker
 Plugin URI: https://github.com/relu/contact-form-7-datepicker/
 Description: Implements a new [date] tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.
 Author: Aurel Canciu
-Version: 0.4
+Version: 0.5
 Author URI: https://github.com/relu/
 */
 ?>
@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 ?>
 <?php
 
-define('CF7_DATE_PICKER_VERSION', '0.4.1');
+define('CF7_DATE_PICKER_VERSION', '0.5');
 define('PLUGIN_PATH', '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)));
 
 class CF7DatePicker {
@@ -475,7 +475,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		wp_register_style('jsdp_ltr', plugins_url( '/css/jsDatePick_ltr.min.css', __FILE__ ));
 		wp_register_style('jsdp_rtl', plugins_url( '/css/jsDatePick_rtl.min.css', __FILE__ ));
 		
-		wp_register_script('jsDatePickJS', plugins_url( '/js/jsDatePick.jquery.full.js', __FILE__ ), array('jquery'), false, true);
+		wp_register_script('jsDatePickJS', plugins_url( '/js/jsDatePick.jquery.min.js', __FILE__ ), array('jquery'), false, true);
 	}
 	
 	/**
