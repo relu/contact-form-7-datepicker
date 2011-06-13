@@ -54,7 +54,8 @@ class CF7DatePicker {
 		add_action('plugins_loaded', array(__CLASS__, 'register_shortcodes'));
 		add_action('admin_init', array(__CLASS__, 'tag_generator'));
 		add_action('admin_menu', array(__CLASS__, 'register_admin_settings'));
-		add_action('wp_head', array(__CLASS__, 'plugin_enqueues'), 1002);
+		add_action('init', array(__CLASS__, 'register_files'));
+		add_action('init', array(__CLASS__, 'plugin_enqueues'));
 
 		add_filter('wpcf7_validate_date', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
 		add_filter('wpcf7_validate_date*', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
@@ -438,44 +439,63 @@ You can of course put whatever divider you want between them.<br /></p>',
 	}
 
 	/**
+	* register_files()
+	*
+	* Registers needed files
+	*/
+	public static function register_files() {
+		wp_register_style('jsdp_ltr', plugins_url( '/css/jsDatePick_ltr.min.css', __FILE__ ));
+		wp_register_style('jsdp_rtl', plugins_url( '/css/jsDatePick_rtl.min.css', __FILE__ ));
+		
+		wp_register_script('jsDatePickJS', plugins_url( '/js/jsDatePick.jquery.full.js', __FILE__ ), array('jquery'), false, true);
+	}
+	
+	/**
 	* plugin_enqueues()
 	*
-	* Loads needed scripts and CSS
+	* Enqueues JS/CSS
 	*/
 	public static function plugin_enqueues() {
-		if(is_admin())
-			return; ?>
-		<link rel="stylesheet" type="text/css" href="<?php echo plugins_url( '/css/jsDatePick_'.((get_option('directionality') != "") ? get_option('directionality') : "ltr").'.min.css', __FILE__ ); ?>" />
-		<script type="text/javascript" src="<?php echo plugins_url( '/js/jsDatePick.jquery.min.js', __FILE__ ); ?>"></script>
-		<script type="text/javascript"><?php echo "
-			g_l = [];
-			g_l[\"MONTHS\"] = [\"".__('Janaury', 'contact-form-7-datepicker').
-				"\",\"".__('February', 'contact-form-7-datepicker').
-				"\",\"".__('March', 'contact-form-7-datepicker').
-				"\",\"".__('April', 'contact-form-7-datepicker').
-				"\",\"".__('May', 'contact-form-7-datepicker').
-				"\",\"".__('June', 'contact-form-7-datepicker').
-				"\",\"".__('July', 'contact-form-7-datepicker').
-				"\",\"".__('August', 'contact-form-7-datepicker').
-				"\",\"".__('September', 'contact-form-7-datepicker').
-				"\",\"".__('October', 'contact-form-7-datepicker').
-				"\",\"".__('November', 'contact-form-7-datepicker').
-				"\",\"".__('December', 'contact-form-7-datepicker')."\"];
-			g_l[\"DAYS_3\"] = [\"".__('Sun', 'contact-form-7-datepicker').
-				"\",\"".__('Mon', 'contact-form-7-datepicker').
-				"\",\"".__('Tue', 'contact-form-7-datepicker').
-				"\",\"".__('Wed', 'contact-form-7-datepicker').
-				"\",\"".__('Thu', 'contact-form-7-datepicker').
-				"\",\"".__('Fri', 'contact-form-7-datepicker').
-				"\",\"".__('Sat', 'contact-form-7-datepicker')."\"];
-			g_l[\"MONTH_FWD\"] = \"".__('Move a month forward', 'contact-form-7-datepicker')."\";
-			g_l[\"MONTH_BCK\"] = \"".__('Move a month backward', 'contact-form-7-datepicker')."\";
-			g_l[\"YEAR_FWD\"] = \"".__('Move a year forward', 'contact-form-7-datepicker')."\";
-			g_l[\"YEAR_BCK\"] = \"".__('Move a year backward', 'contact-form-7-datepicker')."\";
-			g_l[\"CLOSE\"] = \"".__('Close the calendar', 'contact-form-7-datepicker')."\";
-			g_l[\"ERROR_2\"] = g_l[\"ERROR_1\"] = \"".__('Date object invalid!', 'contact-form-7-datepicker')."\";
-			g_l[\"ERROR_4\"] = g_l[\"ERROR_3\"] = \"".__('Target invalid!', 'contact-form-7-datepicker')."\";"; ?>
-	</script><?php
+		wp_enqueue_style('jsdp_'.get_option('directionality'));
+		wp_enqueue_script('jsDatePickJS');
+		
+		$l10n_strings = array(
+						'MONTHS' => array(
+											__('Janaury', 'contact-form-7-datepicker'), 
+											__('February', 'contact-form-7-datepicker'),
+											__('March', 'contact-form-7-datepicker'),
+											__('April', 'contact-form-7-datepicker'),
+											__('May', 'contact-form-7-datepicker'),
+											__('June', 'contact-form-7-datepicker'),
+											__('July', 'contact-form-7-datepicker'),
+											__('August', 'contact-form-7-datepicker'),
+											__('September', 'contact-form-7-datepicker'),
+											__('October', 'contact-form-7-datepicker'),
+											__('November', 'contact-form-7-datepicker'),
+											__('December', 'contact-form-7-datepicker')
+										),
+						'DAYS_3' => array(
+											__('Sun', 'contact-form-7-datepicker'),
+											__('Mon', 'contact-form-7-datepicker'),
+											__('Tue', 'contact-form-7-datepicker'),
+											__('Wed', 'contact-form-7-datepicker'),
+											__('Thu', 'contact-form-7-datepicker'),
+											__('Fri', 'contact-form-7-datepicker'),
+											__('Sat', 'contact-form-7-datepicker')
+										),
+						'MONTH_FWD' => __('Move a month forward', 'contact-form-7-datepicker'),
+						'MONTH_BCK' => __('Move a month backward', 'contact-form-7-datepicker'),
+						'YEAR_FWD' => __('Move a year forward', 'contact-form-7-datepicker'),
+						'YEAR_BCK' => __('Move a year backward', 'contact-form-7-datepicker'),
+						'CLOSE' => __('Close the calendar', 'contact-form-7-datepicker'),
+						'ERROR_2' => __('Date object invalid!', 'contact-form-7-datepicker'),
+						'ERROR_1' => __('Date object invalid!', 'contact-form-7-datepicker'),
+						'ERROR_4' => __('Target invalid!', 'contact-form-7-datepicker'),
+						'ERROR_3' => __('Target invalid!', 'contact-form-7-datepicker')
+						);
+		$l10n = array('l10n_print_after' => 'g_l10n = ' . json_encode($l10n_strings) . ';');		
+		
+		wp_localize_script('jsDatePickJS', 'g_l10n', $l10n);
 	}
 
 	/**
@@ -486,10 +506,11 @@ You can of course put whatever divider you want between them.<br /></p>',
 	* @return String $string, the HTML for our match
 	*/
 	private function page_text_filter_callback($name) {
+		$jssafe = preg_replace('/[^A-Za-z0-9]/', '', $name);
 		$string = "<input type=\"text\" name=\"".$name."\" id=\"".$name."\" />
 		<script type=\"text/javascript\">
 			jQuery(document).ready(function() {
-				DatePicker_".$name." = new JsDatePick({
+				DatePicker_".$jssafe." = new JsDatePick({
 					useMode:".get_option('useMode').",
 					isStripped:".get_option('isStripped').",
 					target:\"".$name."\",

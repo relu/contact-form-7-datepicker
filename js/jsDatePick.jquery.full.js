@@ -73,16 +73,35 @@
 	
 */
 // The language array - change these values to your language to better fit your needs!
-g_l = [];
-g_l["MONTHS"] = ["Janaury","February","March","April","May","June","July","August","September","October","November","December"];
-g_l["DAYS_3"] = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-g_l["MONTH_FWD"] = "Move a month forward";
-g_l["MONTH_BCK"] = "Move a month backward";
-g_l["YEAR_FWD"] = "Move a year forward";
-g_l["YEAR_BCK"] = "Move a year backward";
-g_l["CLOSE"] = "Close the calendar";
-g_l["ERROR_2"] = g_l["ERROR_1"] = "Date object invalid!";
-g_l["ERROR_4"] = g_l["ERROR_3"] = "Target invalid!";
+/*g_l10n = [];
+g_l10n["MONTHS"] = ["Janaury","February","March","April","May","June","July","August","September","October","November","December"];
+g_l10n["DAYS_3"] = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+g_l10n["MONTH_FWD"] = "Move a month forward";
+g_l10n["MONTH_BCK"] = "Move a month backward";
+g_l10n["YEAR_FWD"] = "Move a year forward";
+g_l10n["YEAR_BCK"] = "Move a year backward";
+g_l10n["CLOSE"] = "Close the calendar";
+g_l10n["ERROR_2"] = g_l10n["ERROR_1"] = "Date object invalid!";
+g_l10n["ERROR_4"] = g_l10n["ERROR_3"] = "Target invalid!";
+*/
+
+if (g_l10n === undefined) {
+	g_l10n = {
+			"MONTHS":
+				["Janaury","February","March","April","May","June","July","August","September","October","November","December"],
+			"DAYS_3":
+				["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
+			"MONTH_FWD":"Move a month forward",
+			"MONTH_BCK":"Move a month backward",
+			"YEAR_FWD":"Move a year forward",
+			"YEAR_BCK":"Move a year backward",
+			"CLOSE":"Close the calendar",
+			"ERROR_2":"Obiect dat\u0103 invalid!",
+			"ERROR_1":"Obiect dat\u0103 invalid!",
+			"ERROR_4":"Date object invalid!",
+			"ERROR_3":"Target invalid!"
+			};
+}
 
 /* Changing the image path: WARNING! */
 /*
@@ -137,7 +156,7 @@ JsDatePick = function(configurationObject){
 	
 	this.oConfiguration = {};
 	this.oCurrentDay = g_currentDateObject;
-	this.monthsTextualRepresentation = g_l["MONTHS"];
+	this.monthsTextualRepresentation = g_l10n["MONTHS"];
 	
 	this.lastPostedDay = null;
 	
@@ -300,7 +319,7 @@ JsDatePick.prototype.makeCalendar = function(){
 	
 	closeButton.onmouseover = function(){
 		var gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["CLOSE"]);
+		gRef.setTooltipText(g_l10n["CLOSE"]);
 		gRef.setC(this, "jsDatePickCloseButtonOver");
 	};
 	
@@ -312,7 +331,7 @@ JsDatePick.prototype.makeCalendar = function(){
 	
 	closeButton.onmousedown = function(){
 		var gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["CLOSE"]);
+		gRef.setTooltipText(g_l10n["CLOSE"]);
 		gRef.setC(this, "jsDatePickCloseButtonDown");
 	};
 	
@@ -419,7 +438,7 @@ JsDatePick.prototype.makeCalendar = function(){
 				
 				this.setOnSelectedDelegate(aFunc);
 			} else {
-				alert(g_l["ERROR_3"]);
+				alert(g_l10n["ERROR_3"]);
 			}
 		}
 	} else {
@@ -432,7 +451,7 @@ JsDatePick.prototype.makeCalendar = function(){
 			this.resizeCalendar();
 			this.executePopulationDelegateIfExists();
 		} else {
-			alert(g_l["ERROR_4"]);
+			alert(g_l10n["ERROR_4"]);
 		}
 	}
 };
@@ -477,13 +496,13 @@ JsDatePick.prototype.determineFieldDate = function(){
 				
 				if (tflag){
 					for (i=0; i<12; i++){
-						if (g_l["MONTHS"][i].substr(0,3).toUpperCase() == array[mI].toUpperCase()){
+						if (g_l10n["MONTHS"][i].substr(0,3).toUpperCase() == array[mI].toUpperCase()){
 							mI = i+1; break;
 						}
 					}
 				} else if (fflag){
 					for (i=0; i<12; i++){
-						if (g_l["MONTHS"][i].toLowerCase() == array[mI].toLowerCase()){
+						if (g_l10n["MONTHS"][i].toLowerCase() == array[mI].toLowerCase()){
 							mI = i+1; break;
 						}
 					}
@@ -585,7 +604,7 @@ JsDatePick.prototype.getDOMCalendarStripped = function(){
 };
 
 JsDatePick.prototype.makeDOMWeekDays = function(aWeekDaysRow){
-	var i=0,d = document,weekDaysArray = g_l["DAYS_3"],textNode,weekDay;	
+	var i=0,d = document,weekDaysArray = g_l10n["DAYS_3"],textNode,weekDay;	
 	
 	for (i=this.oConfiguration.weekStartDay; i<7; i++){
 		weekDay 	= d.createElement("div");
@@ -869,9 +888,9 @@ JsDatePick.prototype.getSelectedDayFormatted = function(){
 		dateStr = dateStr.replace("%j", this.selectedDayObject.day);
 		
 		dateStr = dateStr.replace("%m", this.selectedDayObject.month.toString().strpad());
-		dateStr = dateStr.replace("%M", g_l["MONTHS"][this.selectedDayObject.month-1].substr(0,3).toUpperCase());
+		dateStr = dateStr.replace("%M", g_l10n["MONTHS"][this.selectedDayObject.month-1].substr(0,3).toUpperCase());
 		dateStr = dateStr.replace("%n", this.selectedDayObject.month);
-		dateStr = dateStr.replace("%F", g_l["MONTHS"][this.selectedDayObject.month-1]);
+		dateStr = dateStr.replace("%F", g_l10n["MONTHS"][this.selectedDayObject.month-1]);
 		
 		dateStr = dateStr.replace("%Y", this.selectedDayObject.year);
 		dateStr = dateStr.replace("%y", this.selectedDayObject.year.toString().substr(2,2));
@@ -1044,7 +1063,7 @@ JsDatePick.prototype.getDOMControlBar = function(){
 			parentElement = parentElement.parentNode;
 		}
 		gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["MONTH_FWD"]);
+		gRef.setTooltipText(g_l10n["MONTH_FWD"]);
 		gRef.setC(this, "monthForwardButtonOver");
 	};
 	
@@ -1072,7 +1091,7 @@ JsDatePick.prototype.getDOMControlBar = function(){
 			parentElement = parentElement.parentNode;
 		}		
 		gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["MONTH_FWD"]);
+		gRef.setTooltipText(g_l10n["MONTH_FWD"]);
 		gRef.setC(this, "monthForwardButtonDown");
 	};
 	
@@ -1086,7 +1105,7 @@ JsDatePick.prototype.getDOMControlBar = function(){
 			parentElement = parentElement.parentNode;
 		}
 		gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["MONTH_FWD"]);
+		gRef.setTooltipText(g_l10n["MONTH_FWD"]);
 		gRef.setC(this, "monthForwardButton");
 		gRef.moveForwardOneMonth();
 	};
@@ -1103,7 +1122,7 @@ JsDatePick.prototype.getDOMControlBar = function(){
 			parentElement = parentElement.parentNode;
 		}
 		gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["MONTH_BCK"]);
+		gRef.setTooltipText(g_l10n["MONTH_BCK"]);
 		gRef.setC(this, "monthBackwardButtonOver");
 	};
 	
@@ -1131,7 +1150,7 @@ JsDatePick.prototype.getDOMControlBar = function(){
 			parentElement = parentElement.parentNode;
 		}
 		gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["MONTH_BCK"]);
+		gRef.setTooltipText(g_l10n["MONTH_BCK"]);
 		gRef.setC(this, "monthBackwardButtonDown");
 	};
 	
@@ -1145,7 +1164,7 @@ JsDatePick.prototype.getDOMControlBar = function(){
 			parentElement = parentElement.parentNode;
 		}
 		gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["MONTH_BCK"]);
+		gRef.setTooltipText(g_l10n["MONTH_BCK"]);
 		gRef.setC(this, "monthBackwardButton");
 		gRef.moveBackOneMonth();
 	};
@@ -1162,7 +1181,7 @@ JsDatePick.prototype.getDOMControlBar = function(){
 			parentElement = parentElement.parentNode;
 		}
 		gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["YEAR_FWD"]);
+		gRef.setTooltipText(g_l10n["YEAR_FWD"]);
 		gRef.setC(this, "yearForwardButtonOver");
 	};
 	
@@ -1190,7 +1209,7 @@ JsDatePick.prototype.getDOMControlBar = function(){
 			parentElement = parentElement.parentNode;
 		}
 		gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["YEAR_FWD"]);
+		gRef.setTooltipText(g_l10n["YEAR_FWD"]);
 		gRef.setC(this, "yearForwardButtonDown");
 	};
 	
@@ -1204,7 +1223,7 @@ JsDatePick.prototype.getDOMControlBar = function(){
 			parentElement = parentElement.parentNode;
 		}
 		gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["YEAR_FWD"]);
+		gRef.setTooltipText(g_l10n["YEAR_FWD"]);
 		gRef.setC(this, "yearForwardButton");
 		gRef.moveForwardOneYear();
 	};
@@ -1221,7 +1240,7 @@ JsDatePick.prototype.getDOMControlBar = function(){
 			parentElement = parentElement.parentNode;
 		}
 		gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["YEAR_BCK"]);
+		gRef.setTooltipText(g_l10n["YEAR_BCK"]);
 		gRef.setC(this, "yearBackwardButtonOver");
 	};
 	
@@ -1249,7 +1268,7 @@ JsDatePick.prototype.getDOMControlBar = function(){
 			parentElement = parentElement.parentNode;
 		}
 		gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["YEAR_BCK"]);
+		gRef.setTooltipText(g_l10n["YEAR_BCK"]);
 		gRef.setC(this, "yearBackwardButtonDown");
 	};
 	
@@ -1263,7 +1282,7 @@ JsDatePick.prototype.getDOMControlBar = function(){
 			parentElement = parentElement.parentNode;
 		}		
 		gRef = JsDatePick.getCalInstanceById(this.getAttribute("globalNumber"));
-		gRef.setTooltipText(g_l["YEAR_BCK"]);
+		gRef.setTooltipText(g_l10n["YEAR_BCK"]);
 		gRef.setC(this, "yearBackwardButton");
 		gRef.moveBackOneYear();
 	};
