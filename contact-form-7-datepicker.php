@@ -43,7 +43,8 @@ class CF7DatePicker {
 		"directionality" => "ltr",
 		"yearsRange" => "1970,2100",
 		"yearButtons" => "true",
-		"monthButtons" => "true"
+		"monthButtons" => "true",
+		"animate" => "true"
 	);
 
 	function init() {
@@ -191,7 +192,7 @@ class CF7DatePicker {
 				__('Today and past', 'contact-form-7-datepicker'),
 				__('No limit', 'contact-form-7-datepicker')
 			);
-			$isStripped = array(
+			$isStripped = $animate = array(
 				__('true', 'contact-form-7-datepicker'),
 				__('false', 'contact-form-7-datepicker')
 			);
@@ -398,7 +399,33 @@ class CF7DatePicker {
 							<label><?php echo __('Month Controls','contact-form-7-datepicker'); ?>&nbsp;</label>
 						</td>
 						<td>
-							<?php echo __('You can select here what controls would you like to display on the calendar.', 'contact-form-7-datepicker'); ?>
+							<?php echo __('<p>You can select here what controls would you like to display on the calendar.</p>', 'contact-form-7-datepicker'); ?>
+						</td>
+					</tr>
+					
+					<tr>
+						<th>
+							<label><?php echo __('Animate', 'contact-form-7-datepicker'); ?></label>
+						</th>
+						<td>
+							<select name="animate"><?php
+							foreach($animate as $row) {
+								if($row == __('true', 'contact-form-7-datepicker'))
+									$val = "true";
+								else
+									$val = "false";
+								
+								if ($val == get_option('animate'))
+									$selected = "selected";
+								else
+									$selected = "";
+								
+								echo "<option value='".$val."' ".$selected." >".__($row, 'contact-form-7-datepicker')."</option>";
+							} ?>
+							</select>
+						</td>
+						<td>
+							<?php echo __('<p>Animation on display.</p>','contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
 					
@@ -522,7 +549,8 @@ You can of course put whatever divider you want between them.<br /></p>',
 					yearsRange:[".get_option('yearsRange')."],
 					directionality:\"".get_option('directionality')."\",
 					yearButtons:".get_option('yearButtons').",
-					monthButtons:".get_option('monthButtons')."
+					monthButtons:".get_option('monthButtons').",
+					animate:".get_option('animate')."
 				});
 			});
 		</script>";

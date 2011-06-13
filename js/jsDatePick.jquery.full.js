@@ -259,6 +259,7 @@ JsDatePick.prototype.setConfiguration = function(aConf){
 	this.oConfiguration.imgPath			= (aConf["imgPath"] != null) ? aConf["imgPath"] : "img/";
 	this.oConfiguration.weekStartDay   	= (aConf["weekStartDay"] != null) ? aConf["weekStartDay"] : 1;
 	this.oConfiguration.directionality  = (aConf["directionality"] != null) ? aConf["directionality"] : "ltr";
+	this.oConfiguration.animate  		= (aConf["animate"] != null) ? aConf["animate"] : true;
 	
 	this.selectedDayObject = {};
 	this.flag_DayMarkedBeforeRepopulation = false;
@@ -288,7 +289,11 @@ JsDatePick.prototype.resizeCalendar = function(){
 };
 
 JsDatePick.prototype.closeCalendar = function(){
-	this.JsDatePickBox.style.display = "none";
+	if ( this.oConfiguration.animate === true ) {
+		jQuery(this.JsDatePickBox).hide(500);
+	} else {
+		this.JsDatePickBox.style.display = "none";
+	}
 	document.onclick=function(){};
 };
 
@@ -418,7 +423,7 @@ JsDatePick.prototype.makeCalendar = function(){
 				inputElement.onclick = function(){ JsDatePick.getCalInstanceById(this.getAttribute("globalNumber")).showCalendar(); };
 				inputElement.onfocus = function(){ JsDatePick.getCalInstanceById(this.getAttribute("globalNumber")).showCalendar(); };
 				jQuery(inputElement).mouseout(function(){ 
-					jQuery('*').bind("focus", function() {
+					jQuery('*').live("focus", function() {
 						JsDatePick.getCalInstanceById(inputElement.getAttribute("globalNumber")).closeCalendar(); 
 					});
 				});
@@ -530,6 +535,10 @@ JsDatePick.prototype.showCalendar = function(){
 		this.determineFieldDate();
 		this.JsDatePickBox.style.display = "block";
 		this.resizeCalendar();
+		if ( this.oConfiguration.animate === true ) {
+			this.JsDatePickBox.style.display = "none";
+			jQuery(this.JsDatePickBox).show(500);
+		}
 		this.executePopulationDelegateIfExists();
 		jQuery(this.JsDatePickBox).mouseover(function(){ document.onclick=function(){}; });
 		jQuery(this.JsDatePickBox).attr("globalCalNumber", this.globalNumber);
