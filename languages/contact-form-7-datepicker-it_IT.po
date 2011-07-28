@@ -1,0 +1,314 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: contact-form-7-datepicker\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-13 11:24+0200\n"
+"PO-Revision-Date: 2011-07-05 17:29+0100\n"
+"Last-Translator: Andrea <stardamage@gmail.com>\n"
+"Language-Team: \n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Language: Italian\n"
+"X-Poedit-Country: ITALY\n"
+
+#: ../contact-form-7-datepicker.php:110
+msgid "Datepicker Settings"
+msgstr "Configurazione di Datepicker"
+
+#: ../contact-form-7-datepicker.php:192
+#: ../contact-form-7-datepicker.php:300
+msgid "Today and future"
+msgstr "Oggi e date future"
+
+#: ../contact-form-7-datepicker.php:193
+#: ../contact-form-7-datepicker.php:302
+msgid "Today and past"
+msgstr "Oggi e date passate"
+
+#: ../contact-form-7-datepicker.php:194
+msgid "No limit"
+msgstr "Nessun limite"
+
+#: ../contact-form-7-datepicker.php:197
+#: ../contact-form-7-datepicker.php:274
+#: ../contact-form-7-datepicker.php:414
+msgid "true"
+msgstr "vero"
+
+#: ../contact-form-7-datepicker.php:198
+msgid "false"
+msgstr "falso"
+
+#: ../contact-form-7-datepicker.php:202
+#: ../contact-form-7-datepicker.php:328
+msgid "Sunday"
+msgstr "domenica"
+
+#: ../contact-form-7-datepicker.php:203
+msgid "Monday"
+msgstr "lunedì"
+
+#: ../contact-form-7-datepicker.php:206
+#: ../contact-form-7-datepicker.php:363
+msgid "Left to right"
+msgstr "Da sinistra a destra"
+
+#: ../contact-form-7-datepicker.php:207
+msgid "Right to left"
+msgstr "Da destra a sinistra"
+
+#: ../contact-form-7-datepicker.php:214
+msgid ""
+"<p>This plugin implements a new <strong>[date]</strong> tag in <a href=\"http://wordpress.org/extend/plugins/contact-form-7/\">Contact Form 7</a> \n"
+"\t\tthat adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.<br />\n"
+"\t\tTo use it simply insert the <strong>[date your-field-name]</strong> or <strong>[date* your-requierd-field-name]</strong> if you want it to be mandatory,\n"
+"\t\tin your Contact Form 7 edit section.</p>"
+msgstr ""
+"<p>Questo plugin implementa un nuovo tag <strong>[date]</strong> in <a href=\"http://wordpress.org/extend/plugins/contact-form-7/\">Contact Form 7</a> \n"
+"\t\tche aggiunge un campo data a un form. Cliccando sul campo compare un calendaro che permette ai visitatori del tuo sito di scegliere facilmente qualsiasi data.<br />\n"
+"\t\tPer utilizzarlo è sufficiente inserire <strong>[date nome-del-tuo-campo]</strong> o <strong>[date* nome-del-tuo-campo-obbligatorio]</strong> se vuoi che sia obbligatorio compilarlo,\n"
+"\t\tnella sezione di modifica del tuo Contact Form 7.</p>"
+
+#: ../contact-form-7-datepicker.php:223
+msgid "Color scheme"
+msgstr "Schema dei colori"
+
+#: ../contact-form-7-datepicker.php:247
+msgid "Use Mode"
+msgstr "Modo d'uso"
+
+#: ../contact-form-7-datepicker.php:262
+msgid ""
+"<p>1 – The calendar's HTML will be directly appended to the field supplied by target<br />\n"
+"\t\t\t\t\t\t\t2 – The calendar will appear as a popup when the field with the id supplied in target is clicked.</p>"
+msgstr ""
+"<p>1 – Il codice HTML del calendario sarà aggiunto direttamente in coda al campo fornito dal target<br />\n"
+"\t\t\t\t\t\t\t2 – Il calendario appare come popup quando il campo con l'id fornito nel target è cliccato.</p>"
+
+#: ../contact-form-7-datepicker.php:269
+msgid "Sripped"
+msgstr "Sripped"
+
+#: ../contact-form-7-datepicker.php:289
+msgid "<p>When set to true the calendar appears without the visual design - usually used with 'Use Mod' 1.</p>"
+msgstr "<p>Quando settato a vero il calendario appare senza design - è solitamente utilizzato in combinazione col 'Modo d'uso' 1.</p>"
+
+#: ../contact-form-7-datepicker.php:295
+msgid "Limit Dates To"
+msgstr "Limita le date a"
+
+#: ../contact-form-7-datepicker.php:317
+msgid "<p>Enables you to limit the possible picking dates according to the current date.</p>"
+msgstr "<p>Permette di limitare la possibile scelta delle date secondo la data corrente.</p>"
+
+#: ../contact-form-7-datepicker.php:323
+msgid "Week Start Day"
+msgstr "La settimana inizia"
+
+#: ../contact-form-7-datepicker.php:348
+msgid "Years Range"
+msgstr "Intervallo anni"
+
+#: ../contact-form-7-datepicker.php:358
+msgid "Text Direction"
+msgstr "Direzione del testo"
+
+#: ../contact-form-7-datepicker.php:383
+msgid "Controls"
+msgstr "Controlli"
+
+#: ../contact-form-7-datepicker.php:392
+msgid "Year Controls"
+msgstr "Controlli degli anni"
+
+#: ../contact-form-7-datepicker.php:400
+msgid "Month Controls"
+msgstr "Controlli dei mesi"
+
+#: ../contact-form-7-datepicker.php:403
+msgid "<p>You can select here what controls would you like to display on the calendar.</p>"
+msgstr "<p>Puoi scegliere qui quali controlli vuoi che siano mostrati sul calendario"
+
+#: ../contact-form-7-datepicker.php:409
+msgid "Animate"
+msgstr "Animazione"
+
+#: ../contact-form-7-datepicker.php:429
+msgid "<p>Animation on display.</p>"
+msgstr "<p>Animazione quando mostrato.</p>"
+
+#: ../contact-form-7-datepicker.php:435
+msgid "Date Format"
+msgstr "Formato Data"
+
+#: ../contact-form-7-datepicker.php:441
+msgid ""
+"<p>Possible values to use in the date format:<br />\n"
+"<br />\n"
+"%d - Day of the month, 2 digits with leading zeros<br />\n"
+"%j - Day of the month without leading zeros<br />\n"
+"%m - Numeric representation of a month, with leading zeros<br />\n"
+"%M - A short textual representation of a month, three letters<br />\n"
+"%n - Numeric representation of a month, without leading zeros<br />\n"
+"%F - A full textual representation of a month, such as January or March<br />\n"
+"%Y - A full numeric representation of a year, 4 digits<br />\n"
+"%y - A two digit representation of a year<br />\n"
+"<br />\n"
+"You can of course put whatever divider you want between them.<br /></p>"
+msgstr ""
+"<p>Valori possibili per il formato della data:<br />\n"
+"<br />\n"
+"%d - Giorno del mese, 2 caratteri con zeri in testa<br />\n"
+"%j - Giorno del mese senza zeri in testa<br />\n"
+"%m - Rappresentazione numerica di un mese, con zeri in testa<br />\n"
+"%M - Rappresentazione testuale corta del mese, tre lettere<br />\n"
+"%n - Rappresentazione numerica di un mese, senza zeri in testa<br />\n"
+"%F - Rappresentazione testuale completa di un mese, ad esempio Gennaio o Marzo<br />\n"
+"%Y - Rappresentazione numerica completa di un anno, 4 cifre<br />\n"
+"%y - Rappresentazione a due cifre di un anno<br />\n"
+"<br />\n"
+"Puoi ovviamente scegliere qualsiasi carattere per dividere i valori.<br /></p>"
+
+#: ../contact-form-7-datepicker.php:461
+msgid "Save Setting"
+msgstr "Salva Impostazioni"
+
+#: ../contact-form-7-datepicker.php:650
+msgid "Janaury"
+msgstr "Gennaio"
+
+#: ../contact-form-7-datepicker.php:651
+msgid "February"
+msgstr "Febbraio"
+
+#: ../contact-form-7-datepicker.php:652
+msgid "March"
+msgstr "Marzo"
+
+#: ../contact-form-7-datepicker.php:653
+msgid "April"
+msgstr "Aprile"
+
+#: ../contact-form-7-datepicker.php:654
+msgid "May"
+msgstr "Maggio"
+
+#: ../contact-form-7-datepicker.php:655
+msgid "June"
+msgstr "Giugno"
+
+#: ../contact-form-7-datepicker.php:656
+msgid "July"
+msgstr "Luglio"
+
+#: ../contact-form-7-datepicker.php:657
+msgid "August"
+msgstr "Agosto"
+
+#: ../contact-form-7-datepicker.php:658
+msgid "September"
+msgstr "Settembre"
+
+#: ../contact-form-7-datepicker.php:659
+msgid "October"
+msgstr "Ottobre"
+
+#: ../contact-form-7-datepicker.php:660
+msgid "November"
+msgstr "Novembre"
+
+#: ../contact-form-7-datepicker.php:661
+msgid "December"
+msgstr "Dicembre"
+
+#: ../contact-form-7-datepicker.php:664
+msgid "Sun"
+msgstr "Dom"
+
+#: ../contact-form-7-datepicker.php:665
+msgid "Mon"
+msgstr "Lun"
+
+#: ../contact-form-7-datepicker.php:666
+msgid "Tue"
+msgstr "Mar"
+
+#: ../contact-form-7-datepicker.php:667
+msgid "Wed"
+msgstr "Mer"
+
+#: ../contact-form-7-datepicker.php:668
+msgid "Thu"
+msgstr "Gio"
+
+#: ../contact-form-7-datepicker.php:669
+msgid "Fri"
+msgstr "Ven"
+
+#: ../contact-form-7-datepicker.php:670
+msgid "Sat"
+msgstr "Sab"
+
+#: ../contact-form-7-datepicker.php:672
+msgid "Move a month forward"
+msgstr "Sposta un mese in avanti"
+
+#: ../contact-form-7-datepicker.php:673
+msgid "Move a month backward"
+msgstr "Sposta un mese indietro"
+
+#: ../contact-form-7-datepicker.php:674
+msgid "Move a year forward"
+msgstr "Sposta un anno in avanti"
+
+#: ../contact-form-7-datepicker.php:675
+msgid "Move a year backward"
+msgstr "Sposta un anno indietro"
+
+#: ../contact-form-7-datepicker.php:676
+msgid "Close the calendar"
+msgstr "Chiudi il calendario"
+
+#: ../contact-form-7-datepicker.php:677
+#: ../contact-form-7-datepicker.php:678
+msgid "Date object invalid!"
+msgstr "Oggetto data invalido!"
+
+#: ../contact-form-7-datepicker.php:679
+#: ../contact-form-7-datepicker.php:680
+msgid "Target invalid!"
+msgstr "Target invalido!"
+
+#: ../contact-form-7-datepicker.php:706
+msgid "Date field"
+msgstr "Campo data"
+
+#: ../contact-form-7-datepicker.php:733
+msgid "Required field?"
+msgstr "Campo obbligatorio?"
+
+#: ../contact-form-7-datepicker.php:738
+msgid "Name"
+msgstr "Nome"
+
+#: ../contact-form-7-datepicker.php:747
+#: ../contact-form-7-datepicker.php:752
+#: ../contact-form-7-datepicker.php:759
+#: ../contact-form-7-datepicker.php:764
+msgid "optional"
+msgstr "Opzionale"
+
+#: ../contact-form-7-datepicker.php:771
+msgid "Copy this code and paste it into the form left."
+msgstr "Copia questo codice e incollalo nel form a sinistra."
+
+#: ../contact-form-7-datepicker.php:775
+msgid "And, put this code into the Mail fields below."
+msgstr "E, inserisci questo codice nei campi Mail sottostanti."
+
