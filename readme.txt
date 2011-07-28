@@ -3,8 +3,8 @@ Contributors: shockware
 Donate link: 
 Tags: wordpress, datepicker, calendar, contact form 7, forms
 Requires at least: WordPress 2.9
-Tested up to: WordPress 3.1.3
-Stable tag: 0.5
+Tested up to: WordPress 3.2.1
+Stable tag: 0.6
 
 Datepicker for Contact Form 7 Wordpress Plugin based on jsDatePick script.
 
@@ -34,6 +34,34 @@ You can contact me anywhere and I'll add them to the project :)
 1. The datepicker in action
 
 == Changelog ==
+
+= 0.6 =
+* Bugfixes:
+	- the entry in admin menu is now being translated
+	- fixed an IE issue where clicking on move forward/backward (years and months) buttons would close the calendar (thanks to [bik](https://github.com/bik) for reporting)
+
+* New:
+	- added Italian l11n (Kudos go to Andrea Cavaliero)
+	- added the possibility to load scrips/styles on what page you like (thanks to Rodolfo Buaiz for suggesting this)
+to achieve this put this into your wp-config.php
+`define('CF7_DATE_PICKER_ENQUEUES', false);`
+
+then in your theme's functions.php file you have two options:
+
+`if (is_page('Form page')) {
+    if (function_exists('CF7DatePicker'))
+       add_action('wp_enqueue_scripts', array('CF7DatePicker', 'plugin_enqueues'));
+}`
+
+or
+
+`function cf7dp_enqueues() {
+    if (is_page('Form page')) {
+        if (function_exists('CF7DatePicker'))
+            CF7DatePicker::plugin_enqueues();
+    }
+}
+add_action('init', 'cf7dp_enqueues');`
 
 = 0.5 =
 * Bugfixes:
