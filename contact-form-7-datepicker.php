@@ -52,12 +52,13 @@ class CF7DatePicker {
 		register_deactivation_hook(__FILE__, array(__CLASS__, 'deactivate'));
 		
 		add_action('plugins_loaded', array(__CLASS__, 'register_shortcodes'));
-		add_action('admin_init', array(__CLASS__, 'admin_l10n'));
 		add_action('admin_init', array(__CLASS__, 'tag_generator'));
 		add_action('admin_menu', array(__CLASS__, 'register_admin_settings'));
 		add_action('init', array(__CLASS__, 'register_files'));
 		add_action('init', array(__CLASS__, 'plugin_enqueues'));
+		
 		add_action('init', array(__CLASS__, 'calendar_l10n'));
+		add_action('admin_init', array(__CLASS__, 'admin_l10n'));
 
 		add_filter('wpcf7_validate_date', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
 		add_filter('wpcf7_validate_date*', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
