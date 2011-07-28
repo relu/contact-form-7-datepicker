@@ -31,6 +31,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 define('CF7_DATE_PICKER_VERSION', '0.5');
 define('PLUGIN_PATH', '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)));
 
+if (!defined('CF7_DATE_PICKER_ENQUEUES')) {
+	define('CF7_DATE_PICKER_ENQUEUES', true);
+}
+
 class CF7DatePicker {
 	
 	static $option_defaults = array(
@@ -55,7 +59,9 @@ class CF7DatePicker {
 		add_action('admin_init', array(__CLASS__, 'tag_generator'));
 		add_action('admin_menu', array(__CLASS__, 'register_admin_settings'));
 		add_action('init', array(__CLASS__, 'register_files'));
-		add_action('init', array(__CLASS__, 'plugin_enqueues'));
+		if (CF7_DATE_PICKER_ENQUEUES) {
+			add_action('wp_enqueue_scripts', array(__CLASS__, 'plugin_enqueues'));
+		}
 		
 		add_action('init', array(__CLASS__, 'calendar_l10n'));
 		add_action('admin_init', array(__CLASS__, 'admin_l10n'));
@@ -487,6 +493,8 @@ You can of course put whatever divider you want between them.<br /></p>',
 	public static function plugin_enqueues() {
 		wp_enqueue_style('jsdp_'.get_option('directionality'));
 		wp_enqueue_script('jsDatePickJS');
+		
+		do_action('plugin_enqueues');
 	}
 
 	/**
