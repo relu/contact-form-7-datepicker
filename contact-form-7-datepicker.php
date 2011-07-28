@@ -48,7 +48,8 @@ class CF7DatePicker {
 		"yearsRange" => "1970,2100",
 		"yearButtons" => "true",
 		"monthButtons" => "true",
-		"animate" => "true"
+		"animate" => "true",
+		"selectedDate" => ""
 	);
 
 	function init() {
@@ -62,12 +63,15 @@ class CF7DatePicker {
 		if (CF7_DATE_PICKER_ENQUEUES) {
 			add_action('wp_enqueue_scripts', array(__CLASS__, 'plugin_enqueues'));
 		}
+		add_action('admin_enqueue_scripts', array(__CLASS__, 'plugin_enqueues'));
 		
 		add_action('init', array(__CLASS__, 'calendar_l10n'));
-		add_action('admin_init', array(__CLASS__, 'admin_l10n'));
+		
 
 		add_filter('wpcf7_validate_date', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
 		add_filter('wpcf7_validate_date*', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
+		
+		add_action('init', array(__CLASS__, 'admin_l10n'));
 	}
 
 	/**
@@ -191,6 +195,18 @@ class CF7DatePicker {
 				
 				$dataupdate['yearButtons'] = (isset($_POST['yearButtons'])) ? "true" : "false";
 				$dataupdate['monthButtons'] = (isset($_POST['monthButtons'])) ? "true" : "false";
+				
+				if ($_POST['selectedDate'] !== '') {
+					if (get_option('dateFormat') !== $dataupdate['dateFormat']) {
+						$df = $dataupdate['dateFormat'];
+					} else {
+						$df = get_option('dateFormat');
+					}
+					$df = str_replace('%', '', trim($df));
+					
+					$dataupdate['selectedDate'] = date($df, strtotime($_POST['selectedDate']));
+					$dataupdate['selectedDate'] = date("Y,m,d", strtotime($dataupdate['selectedDate']));
+				}
 				
 				self::update_settings($dataupdate);
 			}
@@ -413,6 +429,20 @@ class CF7DatePicker {
 					
 					<tr>
 						<th>
+							<label><?php echo __('Selected Date', 'contact-form-7-datepicker'); ?></label>
+						</th>
+						<td style="overflow: visible">
+							<?php 
+								echo self::page_text_filter_callback("selectedDate");
+							?>
+						</td>
+						<td>
+							<?php echo __('<p>You can set here a default selected date.</p>'); ?>
+						</td>
+					</tr>
+					
+					<tr>
+						<th>
 							<label><?php echo __('Animate', 'contact-form-7-datepicker'); ?></label>
 						</th>
 						<td>
@@ -506,7 +536,21 @@ You can of course put whatever divider you want between them.<br /></p>',
 	*/
 	private function page_text_filter_callback($name) {
 		$jssafe = preg_replace('/[^A-Za-z0-9]/', '', $name);
-		$string = "<input type=\"text\" name=\"".$name."\" id=\"".$name."\" />
+		
+		$seldate = get_option('selectedDate');
+		if ($seldate) {
+			$seldate = explode(',', $seldate);
+		
+			$df = str_replace('%', '', get_option('dateFormat'));
+			
+			$dateval = (string) $seldate[0].'-'.$seldate[1].'-'.$seldate[2];
+			$dateval = date("Y-m-d", strtotime($dateval));
+			$dateval = date($df, strtotime($dateval));
+		} else {
+			$dateval = '';
+		}
+		
+		$string = "<input type=\"text\" name=\"".$name."\" id=\"".$name."\" value=\"".$dateval."\" />
 		<script type=\"text/javascript\">
 			jQuery(document).ready(function() {
 				DatePicker_".$jssafe." = new JsDatePick({
@@ -522,7 +566,16 @@ You can of course put whatever divider you want between them.<br /></p>',
 					directionality:\"".get_option('directionality')."\",
 					yearButtons:".get_option('yearButtons').",
 					monthButtons:".get_option('monthButtons').",
-					animate:".get_option('animate')."
+					animate:".get_option('animate');
+		if ($seldate) {
+			$string .= ",
+				selectedDate: {
+					year: ".$seldate[0].", 
+					month: ".$seldate[1].",
+					day: ".$seldate[2]."
+				}";
+		}
+		$string .= "
 				});
 			});
 		</script>";
@@ -646,6 +699,8 @@ You can of course put whatever divider you want between them.<br /></p>',
 	*/
 	public static function admin_l10n() {
 		load_plugin_textdomain( 'contact-form-7-datepicker', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		
+		do_action('admin_l10n');
 	}
 	
 	/**
