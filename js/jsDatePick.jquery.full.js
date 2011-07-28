@@ -409,7 +409,7 @@ JsDatePick.prototype.makeCalendar = function(){
 				inputElement.onclick = function(){ JsDatePick.getCalInstanceById(this.getAttribute("globalNumber")).showCalendar(); };
 				inputElement.onfocus = function(){ JsDatePick.getCalInstanceById(this.getAttribute("globalNumber")).showCalendar(); };
 				jQuery(inputElement).mouseout(function(){ 
-					jQuery('*').live("focus", function() {
+					jQuery('*').not('JsDatePickBox').live("focus", function() {
 						JsDatePick.getCalInstanceById(inputElement.getAttribute("globalNumber")).closeCalendar(); 
 					});
 				});
@@ -1104,6 +1104,8 @@ JsDatePick.prototype.getDOMControlBar = function(){
 		gRef.setC(this, "monthForwardButton");
 		gRef.moveForwardOneMonth();
 	};
+	
+	jQuery(monthForwardButton).click(function(e){ e.preventDefault(); }).focus(function(e){ e.preventDefault(); });
 	
 	/* Month backward button event handlers */
 	
