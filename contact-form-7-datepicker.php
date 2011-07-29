@@ -205,7 +205,7 @@ class CF7DatePicker {
 					$df = str_replace('%', '', trim($df));
 					
 					$dataupdate['selectedDate'] = date($df, strtotime($_POST['selectedDate']));
-					$dataupdate['selectedDate'] = date("Y,m,d", strtotime($dataupdate['selectedDate']));
+					$dataupdate['selectedDate'] = date("Y-m-d", strtotime($dataupdate['selectedDate']));
 				}
 				
 				self::update_settings($dataupdate);
@@ -528,50 +528,74 @@ You can of course put whatever divider you want between them.<br /></p>',
 	}
 
 	/**
-	* page_text_filter_callback($matches)
+	* page_text_filter_callback($data)
 	*
 	* If a match is found in the content of a form, this returns the HTML for the matched date input field
-	* @param String $name, the name of the input date field that we generate code for
+	* @param Array $data, an array of attributes and options for the input date field that we generate code for
 	* @return String $string, the HTML for our match
 	*/
-	private function page_text_filter_callback($name) {
-		
-		if (is_array($name)) {
-			$id = $name['id'];
+	private function page_text_filter_callback($data) {
+		if (!is_array($data)) {
+			$name = $data;
 		} else {
+			$name = (string) $data['name'];
+		}
+		
+		if (is_array($data) && isset($data['atts']['id'])) {
+			$data['atts']['id'] = preg_replace('/[^A-Za-z0-9]/', '', $data['atts']['id']);
+			$id = $data['atts']['id'];
+		} else {
+			$name = preg_replace('/[^A-Za-z0-9]/', '', $data);
 			$id = $name;
 		}
 		
-		$jssafe = preg_replace('/[^A-Za-z0-9]/', '', $id);
-		
-		if (!empty($name['value']) && is_numeric(strtotime($name['value']))) {
-			$dateval = $name['value'];
+		if (is_array($data) && !empty($data['value']) && is_numeric(strtotime($data['value']))) {
+			$seldate = date('Y-m-d', $data['value']);
 		} else {
 			$seldate = get_option('selectedDate');
-			if ($seldate) {
-				$seldate = explode(',', $seldate);
-				$dateval = (string) $seldate[0].'-'.$seldate[1].'-'.$seldate[2];
-			} else {
-				$dateval = '';
+		}
+			
+		if ($seldate) {
+			$ts = strtotime($seldate);
+			$seldate = array(
+				'd' => date('d', $ts),
+				'm' => date('m', $ts),
+				'y' => date('Y', $ts)
+			);
+			
+			$dateval = $seldate['y'].'-'.$seldate['m'].'-'.$seldate['d'];
+		} else {
+			$dateval = '';
+		}
+		
+		$attributes = '';
+		
+		if (is_array($data) && is_array($data['atts'])) {
+			foreach ($data['atts'] as $key => $val) {
+				if (!empty($val))
+					$attributes .= $key.'="'.$val.'" ';
 			}
+		} else {
+			$attributes .= 'id="'.$id.'" ';
 		}
 		
 		if (!empty($dateval)) {	
 			$df = str_replace('%', '', get_option('dateFormat'));
 			$dateval = date($df, strtotime($dateval));
+			$attributes .= 'value="'.$dateval.'"';
 		}
+		
+		$attributes = trim($attributes);
 		
 		$string = '';
 		
-		if ($name['newfield'] === 'true' && !empty($name['class'])) {
-			$string = '<input type="text" name="'.$id.'" id="'.$id.'" class="'.$name['class'].'" value="'.$dateval.'" />';
-		} elseif ($name['newfield'] === 'true' || !is_array($name)) {
-			$string = '<input type="text" name="'.$id.'" id="'.$id.'" value="'.$dateval.'" />';
-		}
-			$string .= '
+		if ( (is_array($data) && $data['opts']['newfield'] === 'true') || !is_array($data) || (is_array($data) && empty($data['opts']['newfield'])))
+			$string = '<input type="text" name="'.$name.'" '.$attributes.' />';
+		
+		$string .= '
 		<script type="text/javascript">
 			jQuery(document).ready(function() {
-				DatePicker_'.$jssafe.' = new JsDatePick({
+				DatePicker_'.$id.' = new JsDatePick({
 					useMode:'.get_option('useMode').',
 					isStripped:'.get_option('isStripped').',
 					target:"'.$id.'",
@@ -588,9 +612,9 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if ($seldate) {
 			$string .= ',
 				selectedDate: {
-					year: '.$seldate[0].', 
-					month: '.$seldate[1].',
-					day: '.$seldate[2].'
+					year: '.$seldate['y'].', 
+					month: '.$seldate['m'].',
+					day: '.$seldate['d'].'
 				}';
 		}
 		$string .= '
@@ -624,45 +648,29 @@ You can of course put whatever divider you want between them.<br /></p>',
 		$name = $tag['name'];
 		$options = (array) $tag['options'];
 		$values = (array) $tag['values'];
+		
+		print_r($values);
 	
 		if ( empty( $name ) )
 			return '';
 
-		$atts = '';
-		$id_att = '';
-		$class_att = '';
-		$size_att = '';
-		$maxlength_att = '';
+		$atts = array();
 
 		if ( 'date*' == $type )
-			$class_att .= ' wpcf7-validates-as-required';
+			$atts['class'] = ' wpcf7-validates-as-required';
 
 		foreach ( $options as $option ) {
 			if ( preg_match( '%^id:([-0-9a-zA-Z_]+)$%', $option, $matches ) ) {
-				$id_att = $matches[1];
+				$atts['id'] = $matches[1];
 
 			} elseif ( preg_match( '%^class:([-0-9a-zA-Z_]+)$%', $option, $matches ) ) {
-				$class_att .= ' ' . $matches[1];
+				$atts['class'] .= ' ' . $matches[1];
 
 			} elseif ( preg_match( '%^([0-9]*)[/x]([0-9]*)$%', $option, $matches ) ) {
-				$size_att = (int) $matches[1];
-				$maxlength_att = (int) $matches[2];
+				$atts['size'] = (int) $matches[1];
+				$atts['maxlength'] = (int) $matches[2];
 			}
 		}
-
-		if ( $id_att )
-			$atts .= ' id="' . trim( $id_att ) . '"';
-
-		if ( $class_att )
-			$atts .= ' class="' . trim( $class_att ) . '"';
-
-		if ( $size_att )
-			$atts .= ' size="' . $size_att . '"';
-		else
-			$atts .= ' size="40"';
-
-		if ( $maxlength_att )
-			$atts .= ' maxlength="' . $maxlength_att . '"';
 
 		if ( is_a( $wpcf7_contact_form, 'WPCF7_ContactForm' ) && $wpcf7_contact_form->is_posted() ) {
 			if ( isset( $_POST['_wpcf7_mail_sent'] ) && $_POST['_wpcf7_mail_sent']['ok'] )
@@ -672,8 +680,15 @@ You can of course put whatever divider you want between them.<br /></p>',
 		} else {
 			$value = $values[0];
 		}
+		
+		$data = array(
+			"name" => $name,
+			"atts" => (array) $atts,
+			"opts" => NULL,
+			"value" => $value
+		);
 
-		$html = self::page_text_filter_callback($name);
+		$html = self::page_text_filter_callback($data);
 		$validation_error = '';
 		if ( is_a( $wpcf7_contact_form, 'WPCF7_ContactForm' ) )
 			$validation_error = $wpcf7_contact_form->validation_error( $name );
@@ -722,24 +737,28 @@ You can of course put whatever divider you want between them.<br /></p>',
 	/**
 	* datepicker_shortcode_handler()
 	*
-	* Function that handles the [datepicker id="?" classes="?" newfield="?"] shortcode 
+	* Function that handles the [datepicker name="?" id="?" class="?" newfield="?" value="?"] shortcode 
 	*/
 	public static function datepicker_shortcode_handler($atts) {
 		extract(shortcode_atts(array(
+			'name' => '',
 			'id' => '',
 			'class' => '',
 			'newfield' => 'true',
 			'value' => ''
 		), $atts));
 		
-		$name = array(
-			'id' => "{$id}",
-			'class' => "{$class}",
-			'newfield' => "{$newfield}",
-			'value' => "{$value}"
+		$data = array(
+			"name" => ($name) ? "{$name}" : "{$id}",
+			"atts" => array(
+				"id" => "{$id}",
+				"class" => "{$class}"),
+			"opts" => array(
+				"newfield" => "{$newfield}"),
+			"value" => $value
 		);
 
-		return self::page_text_filter_callback($name);
+		return self::page_text_filter_callback($data);
 	}
 	
 	/**
