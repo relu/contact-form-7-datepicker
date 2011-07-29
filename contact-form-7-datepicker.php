@@ -535,7 +535,14 @@ You can of course put whatever divider you want between them.<br /></p>',
 	* @return String $string, the HTML for our match
 	*/
 	private function page_text_filter_callback($name) {
-		$jssafe = preg_replace('/[^A-Za-z0-9]/', '', $name);
+		
+		if (is_array($name)) {
+			$id = $name['id'];
+		} else {
+			$id = $name;
+		}
+		
+		$jssafe = preg_replace('/[^A-Za-z0-9]/', '', $id);
 		
 		$seldate = get_option('selectedDate');
 		if ($seldate) {
@@ -550,41 +557,48 @@ You can of course put whatever divider you want between them.<br /></p>',
 			$dateval = '';
 		}
 		
-		$string = "<input type=\"text\" name=\"".$name."\" id=\"".$name."\" value=\"".$dateval."\" />
-		<script type=\"text/javascript\">
-			jQuery(document).ready(function() {
-				DatePicker_".$jssafe." = new JsDatePick({
-					useMode:".get_option('useMode').",
-					isStripped:".get_option('isStripped').",
-					target:\"".$name."\",
-					limitToToday:".get_option('limitToToday').",
-					cellColorScheme:\"".get_option('cellColorScheme')."\",
-					dateFormat:\"".get_option('dateFormat')."\",
-					imgPath:\"".plugins_url( '/img/'.get_option('cellColorScheme').'/', __FILE__ )."\",
-					weekStartDay:".get_option('weekStartDay').",
-					yearsRange:[".get_option('yearsRange')."],
-					directionality:\"".get_option('directionality')."\",
-					yearButtons:".get_option('yearButtons').",
-					monthButtons:".get_option('monthButtons').",
-					animate:".get_option('animate');
-		if ($seldate) {
-			$string .= ",
-				selectedDate: {
-					year: ".$seldate[0].", 
-					month: ".$seldate[1].",
-					day: ".$seldate[2]."
-				}";
+		$string = '';
+		
+		if ($name['newfield'] === 'true' && !empty($name['class'])) {
+			$string = '<input type="text" name="'.$id.'" id="'.$id.'" class="'.$name['class'].'" value="'.$dateval.'" />';
+		} elseif ($name['newfield'] === 'true' || !is_array($name)) {
+			$string = '<input type="text" name="'.$id.'" id="'.$id.'" value="'.$dateval.'" />';
 		}
-		$string .= "
+			$string .= '
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+				DatePicker_'.$jssafe.' = new JsDatePick({
+					useMode:'.get_option('useMode').',
+					isStripped:'.get_option('isStripped').',
+					target:"'.$id.'",
+					limitToToday:"'.get_option('limitToToday').'",
+					cellColorScheme:"'.get_option('cellColorScheme').'",
+					dateFormat:"'.get_option('dateFormat').'",
+					imgPath:"'.plugins_url('/img/'.get_option('cellColorScheme').'/', __FILE__).'",
+					weekStartDay:'.get_option('weekStartDay').',
+					yearsRange:['.get_option('yearsRange').'],
+					directionality:"'.get_option('directionality').'",
+					yearButtons:'.get_option('yearButtons').',
+					monthButtons:'.get_option('monthButtons').',
+					animate:'.get_option('animate');
+		if ($seldate) {
+			$string .= ',
+				selectedDate: {
+					year: '.$seldate[0].', 
+					month: '.$seldate[1].',
+					day: '.$seldate[2].'
+				}';
+		}
+		$string .= '
 				});
 			});
-		</script>";
+		</script>';
 		$schemecss = self::get_scheme_style(get_option('cellColorScheme'));
 		if ($schemecss)
-		$string .= "
-		<style type=\"text/css\">
-			@import url('".$schemecss."');
-		</style>";
+		$string .= '
+		<style type="text/css">
+			@import url(\''.$schemecss.'\');
+		</style>';
 		
 		return $string;
 	}
@@ -699,8 +713,27 @@ You can of course put whatever divider you want between them.<br /></p>',
 	*/
 	public static function admin_l10n() {
 		load_plugin_textdomain( 'contact-form-7-datepicker', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+	}
+	
+	/**
+	* datepicker_shortcode_handler()
+	*
+	* Function that handles the [datepicker id="?" classes="?" newfield="?"] shortcode 
+	*/
+	public static function datepicker_shortcode_handler($atts) {
+		extract(shortcode_atts(array(
+			'id' => '',
+			'class' => '',
+			'newfield' => 'true'
+		), $atts));
 		
-		do_action('admin_l10n');
+		$name = array(
+			'id' => "{$id}",
+			'class' => "{$class}",
+			'newfield' => "{$newfield}"
+		);
+
+		return self::page_text_filter_callback($name);
 	}
 	
 	/**
@@ -757,6 +790,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if (function_exists('wpcf7_add_shortcode')) {
 			wpcf7_add_shortcode('date', array(__CLASS__, 'wpcf7_shotcode_handler'), true);
 			wpcf7_add_shortcode('date*', array(__CLASS__, 'wpcf7_shotcode_handler'), true);
+			add_shortcode( 'datepicker', array(__CLASS__, 'datepicker_shortcode_handler') );
 		}
 	}
 	
