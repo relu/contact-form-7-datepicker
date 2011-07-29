@@ -437,7 +437,7 @@ class CF7DatePicker {
 							?>
 						</td>
 						<td>
-							<?php echo __('<p>You can set here a default selected date.</p>'); ?>
+							<?php echo __('<p>You can set here a default selected date and have a look of how the calendar shows up.</p>', 'contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
 					
@@ -544,17 +544,21 @@ You can of course put whatever divider you want between them.<br /></p>',
 		
 		$jssafe = preg_replace('/[^A-Za-z0-9]/', '', $id);
 		
-		$seldate = get_option('selectedDate');
-		if ($seldate) {
-			$seldate = explode(',', $seldate);
-		
-			$df = str_replace('%', '', get_option('dateFormat'));
-			
-			$dateval = (string) $seldate[0].'-'.$seldate[1].'-'.$seldate[2];
-			$dateval = date("Y-m-d", strtotime($dateval));
-			$dateval = date($df, strtotime($dateval));
+		if (!empty($name['value']) && is_numeric(strtotime($name['value']))) {
+			$dateval = $name['value'];
 		} else {
-			$dateval = '';
+			$seldate = get_option('selectedDate');
+			if ($seldate) {
+				$seldate = explode(',', $seldate);
+				$dateval = (string) $seldate[0].'-'.$seldate[1].'-'.$seldate[2];
+			} else {
+				$dateval = '';
+			}
+		}
+		
+		if (!empty($dateval)) {	
+			$df = str_replace('%', '', get_option('dateFormat'));
+			$dateval = date($df, strtotime($dateval));
 		}
 		
 		$string = '';
@@ -724,13 +728,15 @@ You can of course put whatever divider you want between them.<br /></p>',
 		extract(shortcode_atts(array(
 			'id' => '',
 			'class' => '',
-			'newfield' => 'true'
+			'newfield' => 'true',
+			'value' => ''
 		), $atts));
 		
 		$name = array(
 			'id' => "{$id}",
 			'class' => "{$class}",
-			'newfield' => "{$newfield}"
+			'newfield' => "{$newfield}",
+			'value' => "{$value}"
 		);
 
 		return self::page_text_filter_callback($name);
