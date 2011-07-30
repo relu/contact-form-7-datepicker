@@ -4,7 +4,7 @@ Plugin Name: Contact Form 7 Datepicker
 Plugin URI: https://github.com/relu/contact-form-7-datepicker/
 Description: Implements a new [date] tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date. Now you can use the [datepicker] shortcode outside of CF7.
 Author: Aurel Canciu
-Version: 0.7
+Version: 0.7.1
 Author URI: https://github.com/relu/
 */
 ?>
@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 ?>
 <?php
 
-define('CF7_DATE_PICKER_VERSION', '0.7');
+define('CF7_DATE_PICKER_VERSION', '0.7.1');
 define('PLUGIN_PATH', '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)));
 
 if (!defined('CF7_DATE_PICKER_ENQUEUES')) {
@@ -538,14 +538,14 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if (!is_array($data)) {
 			$name = $data;
 		} else {
-			$name = (string) $data['name'];
+			$name = $data['name'];
 		}
 		
 		if (is_array($data) && isset($data['atts']['id'])) {
 			$data['atts']['id'] = preg_replace('/[^A-Za-z0-9]/', '', $data['atts']['id']);
 			$id = $data['atts']['id'];
 		} else {
-			$name = preg_replace('/[^A-Za-z0-9]/', '', $data);
+			$name = preg_replace('/[^A-Za-z0-9]/', '', $name);
 			$id = $name;
 		}
 		
@@ -571,7 +571,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		
 		$attributes = '';
 		
-		if (is_array($data) && is_array($data['atts'])) {
+		if (is_array($data) && !empty($data['atts']['id'])) {
 			foreach ($data['atts'] as $key => $val) {
 				if (!empty($val))
 					$attributes .= $key.'="'.$val.'" ';
@@ -750,7 +750,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		$data = array(
 			"name" => ($name) ? "{$name}" : "{$id}",
 			"atts" => array(
-				"id" => "{$id}",
+				"id" => ($id) ? "{$id}" : "{$name}",
 				"class" => "{$class}"),
 			"opts" => array(
 				"newfield" => "{$newfield}"),
