@@ -2,9 +2,15 @@
 /*
 Plugin Name: Contact Form 7 Datepicker
 Plugin URI: https://github.com/relu/contact-form-7-datepicker/
+<<<<<<< HEAD
 Description: Implements a new [date] tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.
 Author: Aurel Canciu
 Version: 0.6
+=======
+Description: Implements a new [date] tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date. Now you can use the [datepicker] shortcode outside of CF7.
+Author: Aurel Canciu
+Version: 0.7
+>>>>>>> master
 Author URI: https://github.com/relu/
 */
 ?>
@@ -28,7 +34,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 ?>
 <?php
 
+<<<<<<< HEAD
 define('CF7_DATE_PICKER_VERSION', '0.6');
+=======
+define('CF7_DATE_PICKER_VERSION', '0.7');
+>>>>>>> master
 define('PLUGIN_PATH', '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)));
 
 if (!defined('CF7_DATE_PICKER_ENQUEUES')) {
@@ -48,7 +58,12 @@ class CF7DatePicker {
 		"yearsRange" => "1970,2100",
 		"yearButtons" => "true",
 		"monthButtons" => "true",
+<<<<<<< HEAD
 		"animate" => "true"
+=======
+		"animate" => "true",
+		"selectedDate" => ""
+>>>>>>> master
 	);
 
 	function init() {
@@ -62,12 +77,24 @@ class CF7DatePicker {
 		if (CF7_DATE_PICKER_ENQUEUES) {
 			add_action('wp_enqueue_scripts', array(__CLASS__, 'plugin_enqueues'));
 		}
+<<<<<<< HEAD
 		
 		add_action('init', array(__CLASS__, 'calendar_l10n'));
 		add_action('admin_init', array(__CLASS__, 'admin_l10n'));
 
 		add_filter('wpcf7_validate_date', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
 		add_filter('wpcf7_validate_date*', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
+=======
+		add_action('admin_enqueue_scripts', array(__CLASS__, 'plugin_enqueues'));
+		
+		add_action('init', array(__CLASS__, 'calendar_l10n'));
+		
+
+		add_filter('wpcf7_validate_date', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
+		add_filter('wpcf7_validate_date*', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
+		
+		add_action('init', array(__CLASS__, 'admin_l10n'));
+>>>>>>> master
 	}
 
 	/**
@@ -192,6 +219,21 @@ class CF7DatePicker {
 				$dataupdate['yearButtons'] = (isset($_POST['yearButtons'])) ? "true" : "false";
 				$dataupdate['monthButtons'] = (isset($_POST['monthButtons'])) ? "true" : "false";
 				
+<<<<<<< HEAD
+=======
+				if ($_POST['selectedDate'] !== '') {
+					if (get_option('dateFormat') !== $dataupdate['dateFormat']) {
+						$df = $dataupdate['dateFormat'];
+					} else {
+						$df = get_option('dateFormat');
+					}
+					$df = str_replace('%', '', trim($df));
+					
+					$dataupdate['selectedDate'] = date($df, strtotime($_POST['selectedDate']));
+					$dataupdate['selectedDate'] = date("Y-m-d", strtotime($dataupdate['selectedDate']));
+				}
+				
+>>>>>>> master
 				self::update_settings($dataupdate);
 			}
 			$useMode = array(1,2);
@@ -413,6 +455,23 @@ class CF7DatePicker {
 					
 					<tr>
 						<th>
+<<<<<<< HEAD
+=======
+							<label><?php echo __('Selected Date', 'contact-form-7-datepicker'); ?></label>
+						</th>
+						<td style="overflow: visible">
+							<?php 
+								echo self::page_text_filter_callback("selectedDate");
+							?>
+						</td>
+						<td>
+							<?php echo __('<p>You can set here a default selected date and have a look of how the calendar shows up.</p>', 'contact-form-7-datepicker'); ?>
+						</td>
+					</tr>
+					
+					<tr>
+						<th>
+>>>>>>> master
 							<label><?php echo __('Animate', 'contact-form-7-datepicker'); ?></label>
 						</th>
 						<td>
@@ -498,6 +557,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 	}
 
 	/**
+<<<<<<< HEAD
 	* page_text_filter_callback($matches)
 	*
 	* If a match is found in the content of a form, this returns the HTML for the matched date input field
@@ -532,6 +592,108 @@ You can of course put whatever divider you want between them.<br /></p>',
 		<style type=\"text/css\">
 			@import url('".$schemecss."');
 		</style>";
+=======
+	* page_text_filter_callback($data)
+	*
+	* If a match is found in the content of a form, this returns the HTML for the matched date input field
+	* @param Array $data, an array of attributes and options for the input date field that we generate code for
+	* @return String $string, the HTML for our match
+	*/
+	private function page_text_filter_callback($data) {
+		if (!is_array($data)) {
+			$name = $data;
+		} else {
+			$name = (string) $data['name'];
+		}
+		
+		if (is_array($data) && isset($data['atts']['id'])) {
+			$data['atts']['id'] = preg_replace('/[^A-Za-z0-9]/', '', $data['atts']['id']);
+			$id = $data['atts']['id'];
+		} else {
+			$name = preg_replace('/[^A-Za-z0-9]/', '', $data);
+			$id = $name;
+		}
+		
+		if (is_array($data) && !empty($data['value']) && is_numeric(strtotime($data['value']))) {
+			$seldate = date('Y-m-d', strtotime($data['value']));
+			
+		} else {
+			$seldate = get_option('selectedDate');
+		}
+			
+		if ($seldate) {
+			$ts = strtotime($seldate);
+			$seldate = array(
+				'd' => date('d', $ts),
+				'm' => date('m', $ts),
+				'y' => date('Y', $ts)
+			);
+			
+			$dateval = $seldate['y'].'-'.$seldate['m'].'-'.$seldate['d'];
+		} else {
+			$dateval = '';
+		}
+		
+		$attributes = '';
+		
+		if (is_array($data) && is_array($data['atts'])) {
+			foreach ($data['atts'] as $key => $val) {
+				if (!empty($val))
+					$attributes .= $key.'="'.$val.'" ';
+			}
+		} else {
+			$attributes .= 'id="'.$id.'" ';
+		}
+		
+		if (!empty($dateval)) {	
+			$df = str_replace('%', '', get_option('dateFormat'));
+			$dateval = date($df, strtotime($dateval));
+			$attributes .= 'value="'.$dateval.'"';
+		}
+		
+		$attributes = trim($attributes);
+		
+		$string = '';
+		
+		if ( (is_array($data) && $data['opts']['newfield'] === 'true') || !is_array($data) || (is_array($data) && empty($data['opts']['newfield'])))
+			$string = '<input type="text" name="'.$name.'" '.$attributes.' />';
+		
+		$string .= '
+		<script type="text/javascript">
+			jQuery(document).ready(function() {
+				DatePicker_'.$id.' = new JsDatePick({
+					useMode:'.get_option('useMode').',
+					isStripped:'.get_option('isStripped').',
+					target:"'.$id.'",
+					limitToToday:"'.get_option('limitToToday').'",
+					cellColorScheme:"'.get_option('cellColorScheme').'",
+					dateFormat:"'.get_option('dateFormat').'",
+					imgPath:"'.plugins_url('/img/'.get_option('cellColorScheme').'/', __FILE__).'",
+					weekStartDay:'.get_option('weekStartDay').',
+					yearsRange:['.get_option('yearsRange').'],
+					directionality:"'.get_option('directionality').'",
+					yearButtons:'.get_option('yearButtons').',
+					monthButtons:'.get_option('monthButtons').',
+					animate:'.get_option('animate');
+		if ($seldate) {
+			$string .= ',
+				selectedDate: {
+					year: '.$seldate['y'].', 
+					month: '.$seldate['m'].',
+					day: '.$seldate['d'].'
+				}';
+		}
+		$string .= '
+				});
+			});
+		</script>';
+		$schemecss = self::get_scheme_style(get_option('cellColorScheme'));
+		if ($schemecss)
+		$string .= '
+		<style type="text/css">
+			@import url(\''.$schemecss.'\');
+		</style>';
+>>>>>>> master
 		
 		return $string;
 	}
@@ -557,6 +719,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if ( empty( $name ) )
 			return '';
 
+<<<<<<< HEAD
 		$atts = '';
 		$id_att = '';
 		$class_att = '';
@@ -593,6 +756,26 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if ( $maxlength_att )
 			$atts .= ' maxlength="' . $maxlength_att . '"';
 
+=======
+		$atts = array();
+
+		if ( 'date*' == $type )
+			$atts['class'] = ' wpcf7-validates-as-required';
+
+		foreach ( $options as $option ) {
+			if ( preg_match( '%^id:([-0-9a-zA-Z_]+)$%', $option, $matches ) ) {
+				$atts['id'] = $matches[1];
+
+			} elseif ( preg_match( '%^class:([-0-9a-zA-Z_]+)$%', $option, $matches ) ) {
+				$atts['class'] .= ' ' . $matches[1];
+
+			} elseif ( preg_match( '%^([0-9]*)[/x]([0-9]*)$%', $option, $matches ) ) {
+				$atts['size'] = (int) $matches[1];
+				$atts['maxlength'] = (int) $matches[2];
+			}
+		}
+
+>>>>>>> master
 		if ( is_a( $wpcf7_contact_form, 'WPCF7_ContactForm' ) && $wpcf7_contact_form->is_posted() ) {
 			if ( isset( $_POST['_wpcf7_mail_sent'] ) && $_POST['_wpcf7_mail_sent']['ok'] )
 				$value = '';
@@ -601,8 +784,20 @@ You can of course put whatever divider you want between them.<br /></p>',
 		} else {
 			$value = $values[0];
 		}
+<<<<<<< HEAD
 
 		$html = self::page_text_filter_callback($name);
+=======
+		
+		$data = array(
+			"name" => $name,
+			"atts" => (array) $atts,
+			"opts" => NULL,
+			"value" => $value
+		);
+
+		$html = self::page_text_filter_callback($data);
+>>>>>>> master
 		$validation_error = '';
 		if ( is_a( $wpcf7_contact_form, 'WPCF7_ContactForm' ) )
 			$validation_error = $wpcf7_contact_form->validation_error( $name );
@@ -649,6 +844,36 @@ You can of course put whatever divider you want between them.<br /></p>',
 	}
 	
 	/**
+<<<<<<< HEAD
+=======
+	* datepicker_shortcode_handler()
+	*
+	* Function that handles the [datepicker name="?" id="?" class="?" newfield="?" value="?"] shortcode 
+	*/
+	public static function datepicker_shortcode_handler($atts) {
+		extract(shortcode_atts(array(
+			'name' => '',
+			'id' => '',
+			'class' => '',
+			'newfield' => 'true',
+			'value' => ''
+		), $atts));
+		
+		$data = array(
+			"name" => ($name) ? "{$name}" : "{$id}",
+			"atts" => array(
+				"id" => "{$id}",
+				"class" => "{$class}"),
+			"opts" => array(
+				"newfield" => "{$newfield}"),
+			"value" => "{$value}"
+		);
+
+		return self::page_text_filter_callback($data);
+	}
+	
+	/**
+>>>>>>> master
 	* calendar_l10n()
 	*
 	* Localization of JS file strings
@@ -702,6 +927,10 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if (function_exists('wpcf7_add_shortcode')) {
 			wpcf7_add_shortcode('date', array(__CLASS__, 'wpcf7_shotcode_handler'), true);
 			wpcf7_add_shortcode('date*', array(__CLASS__, 'wpcf7_shotcode_handler'), true);
+<<<<<<< HEAD
+=======
+			add_shortcode( 'datepicker', array(__CLASS__, 'datepicker_shortcode_handler') );
+>>>>>>> master
 		}
 	}
 	
