@@ -648,8 +648,6 @@ You can of course put whatever divider you want between them.<br /></p>',
 		$name = $tag['name'];
 		$options = (array) $tag['options'];
 		$values = (array) $tag['values'];
-		
-		print_r($values);
 	
 		if ( empty( $name ) )
 			return '';
