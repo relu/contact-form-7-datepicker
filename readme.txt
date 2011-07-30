@@ -10,7 +10,7 @@ Datepicker for Contact Form 7 Wordpress Plugin based on jsDatePick script.
 
 == Description ==
 
-Implements a new **[date]** tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.
+Implements a new **[date]** tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date. Now you can use the [datepicker] shortcode outside of CF7.
 To use, just insert the **[date your-field-name]** or **[date* your-required-field-name]** to any form in Contact Form 7 edit area where you want users to input a date.
 
 This plugin is somewhat a fork of [Contact Form 7 Calendar](http://wordpress.org/extend/plugins/cf7-calendar/) by [harrysudana](http://profiles.wordpress.org/users/harrysudana/).
