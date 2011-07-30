@@ -538,14 +538,14 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if (!is_array($data)) {
 			$name = $data;
 		} else {
-			$name = (string) $data['name'];
+			$name = $data['name'];
 		}
 		
 		if (is_array($data) && isset($data['atts']['id'])) {
 			$data['atts']['id'] = preg_replace('/[^A-Za-z0-9]/', '', $data['atts']['id']);
 			$id = $data['atts']['id'];
 		} else {
-			$name = preg_replace('/[^A-Za-z0-9]/', '', $data);
+			$name = preg_replace('/[^A-Za-z0-9]/', '', $name);
 			$id = $name;
 		}
 		
@@ -571,7 +571,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		
 		$attributes = '';
 		
-		if (is_array($data) && is_array($data['atts'])) {
+		if (is_array($data) && !empty($data['atts']['id'])) {
 			foreach ($data['atts'] as $key => $val) {
 				if (!empty($val))
 					$attributes .= $key.'="'.$val.'" ';
@@ -750,7 +750,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		$data = array(
 			"name" => ($name) ? "{$name}" : "{$id}",
 			"atts" => array(
-				"id" => "{$id}",
+				"id" => ($id) ? "{$id}" : "{$name}",
 				"class" => "{$class}"),
 			"opts" => array(
 				"newfield" => "{$newfield}"),
