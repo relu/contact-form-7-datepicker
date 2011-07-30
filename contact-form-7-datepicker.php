@@ -550,7 +550,8 @@ You can of course put whatever divider you want between them.<br /></p>',
 		}
 		
 		if (is_array($data) && !empty($data['value']) && is_numeric(strtotime($data['value']))) {
-			$seldate = date('Y-m-d', $data['value']);
+			$seldate = date('Y-m-d', strtotime($data['value']));
+			
 		} else {
 			$seldate = get_option('selectedDate');
 		}
@@ -753,7 +754,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 				"class" => "{$class}"),
 			"opts" => array(
 				"newfield" => "{$newfield}"),
-			"value" => $value
+			"value" => "{$value}"
 		);
 
 		return self::page_text_filter_callback($data);
