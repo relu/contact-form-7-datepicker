@@ -571,12 +571,14 @@ You can of course put whatever divider you want between them.<br /></p>',
 		
 		$attributes = '';
 		
-		if (is_array($data) && !empty($data['atts']['id'])) {
+		if (is_array($data['atts'])) {
 			foreach ($data['atts'] as $key => $val) {
 				if (!empty($val))
 					$attributes .= $key.'="'.$val.'" ';
 			}
-		} else {
+		}
+		
+		if (!is_array($data) || (is_array($data['atts']) && empty($data['atts']['id']))) {
 			$attributes .= 'id="'.$id.'" ';
 		}
 		
@@ -648,6 +650,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		$type = $tag['type'];
 		$name = $tag['name'];
 		$options = (array) $tag['options'];
+		print_r($options);
 		$values = (array) $tag['values'];
 	
 		if ( empty( $name ) )
@@ -668,6 +671,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 			} elseif ( preg_match( '%^([0-9]*)[/x]([0-9]*)$%', $option, $matches ) ) {
 				$atts['size'] = (int) $matches[1];
 				$atts['maxlength'] = (int) $matches[2];
+				print_r($atts);
 			}
 		}
 
