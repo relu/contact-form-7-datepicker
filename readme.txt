@@ -60,7 +60,9 @@ You can contact me anywhere and I'll add them to the project :)
 == Changelog ==
 
 = 0.7.1 =
-* Bugfix: fixed calendar not popping out when no id attribute specified in CF7 shortcode
+* Bugfixes:
+	- fixed calendar not popping out when no id attribute specified in CF7 shortcode
+	- fixed field value not showing up in email message when field values contain hyphens and other non-alphanumeric chars
 
 = 0.7 =
 * New: 

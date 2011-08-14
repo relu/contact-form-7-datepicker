@@ -542,12 +542,12 @@ You can of course put whatever divider you want between them.<br /></p>',
 		}
 		
 		if (is_array($data) && isset($data['atts']['id'])) {
-			$data['atts']['id'] = preg_replace('/[^A-Za-z0-9]/', '', $data['atts']['id']);
 			$id = $data['atts']['id'];
 		} else {
-			$name = preg_replace('/[^A-Za-z0-9]/', '', $name);
 			$id = $name;
 		}
+		
+		$jssafeid = preg_replace('/[^A-Za-z0-9]/', '', $id);
 		
 		if (is_array($data) && !empty($data['value']) && is_numeric(strtotime($data['value']))) {
 			$seldate = date('Y-m-d', strtotime($data['value']));
@@ -598,7 +598,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		$string .= '
 		<script type="text/javascript">
 			jQuery(document).ready(function() {
-				DatePicker_'.$id.' = new JsDatePick({
+				DatePicker_'.$jssafeid.' = new JsDatePick({
 					useMode:'.get_option('useMode').',
 					isStripped:'.get_option('isStripped').',
 					target:"'.$id.'",
@@ -649,8 +649,8 @@ You can of course put whatever divider you want between them.<br /></p>',
 
 		$type = $tag['type'];
 		$name = $tag['name'];
+		
 		$options = (array) $tag['options'];
-		print_r($options);
 		$values = (array) $tag['values'];
 	
 		if ( empty( $name ) )
@@ -671,7 +671,6 @@ You can of course put whatever divider you want between them.<br /></p>',
 			} elseif ( preg_match( '%^([0-9]*)[/x]([0-9]*)$%', $option, $matches ) ) {
 				$atts['size'] = (int) $matches[1];
 				$atts['maxlength'] = (int) $matches[2];
-				print_r($atts);
 			}
 		}
 
