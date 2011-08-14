@@ -37,6 +37,11 @@ if (!defined('CF7_DATE_PICKER_ENQUEUES')) {
 
 class CF7DatePicker {
 	
+	/**
+	 * static Array $option_defaults
+	 * 
+	 * Holds the default option values for the plugin
+	 */
 	static $option_defaults = array(
 		"useMode" => 2, 
 		"isStripped" => "false", 
@@ -52,7 +57,12 @@ class CF7DatePicker {
 		"selectedDate" => ""
 	);
 
-	function init() {
+	/**
+	 * __construct()
+	 * 
+	 * This is the class constructor method, it registers actions and initializes the plugin
+	 */
+	function __construct() {
 		register_activation_hook(__FILE__, array(__CLASS__, 'activate'));
 		register_deactivation_hook(__FILE__, array(__CLASS__, 'deactivate'));
 		
@@ -905,6 +915,6 @@ You can of course put whatever divider you want between them.<br /></p>',
 
 }
 
-CF7DatePicker::init();
+new CF7DatePicker;
 
 ?>
