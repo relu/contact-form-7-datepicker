@@ -170,7 +170,7 @@ msgid "Save Setting"
 msgstr ""
 
 #: ../contact-form-7-datepicker.php:753
-msgid "Janaury"
+msgid "January"
 msgstr ""
 
 #: ../contact-form-7-datepicker.php:754

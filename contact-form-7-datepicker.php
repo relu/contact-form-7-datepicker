@@ -781,7 +781,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 	public static function calendar_l10n() {
 		$l10n_strings = array(
 						'MONTHS' => array(
-											__('Janaury', 'contact-form-7-datepicker'), 
+											__('January', 'contact-form-7-datepicker'), 
 											__('February', 'contact-form-7-datepicker'),
 											__('March', 'contact-form-7-datepicker'),
 											__('April', 'contact-form-7-datepicker'),
