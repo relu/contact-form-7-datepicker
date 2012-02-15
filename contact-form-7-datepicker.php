@@ -71,6 +71,14 @@ function cf7dp_register_js() {
 		JQUERY_UI_VERSION,
 		false
 	);
+
+	wp_register_script(
+		'jquery-ui-i18n',
+		'http://ajax.googleapis.com/ajax/libs/jqueryui/' . JQUERY_UI_VERSION . '/i18n/jquery-ui-i18n.min.js',
+		array('jquery-ui'),
+		JQUERY_UI_VERSION,
+		false
+	);
 }
 
 function cf7dp_enqueue_js() {
@@ -78,6 +86,9 @@ function cf7dp_enqueue_js() {
 		return;
 
 	wp_enqueue_script('jquery-ui');
+
+	if (substr(get_locale(),0, 2) != 'en')
+		wp_enqueue_script('jquery-ui-i18n');
 }
 
 function cf7dp_enqueue_css() {

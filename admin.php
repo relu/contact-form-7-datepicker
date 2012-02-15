@@ -8,6 +8,10 @@ function cf7dp_activate() {
 function cf7dp_theme_metabox() {
 ?>
 			<div id="dpdemo" style="float: left; margin: 0 10px 0 0"></div>
+<?php
+	$dp = new CF7_DatePicker('dpdemo');
+	echo $dp->generate_code(true);
+?>
 			<form action="">
 				<label for="jquery-ui-theme"><?php _e('Theme'); ?></label><br />
 				<?php echo cf7dp_ui_themes_dropdown(); ?>
@@ -80,8 +84,6 @@ function cf7dp_ui_theme_js() {
 <script type="text/javascript">
 jQuery(function($){
 	var $spinner = $( new Image() ).attr( 'src', '<?php echo admin_url( "images/wpspin_light.gif" ); ?>' );
-
-	$('#dpdemo').datepicker();
 
 	$('#jquery-ui-theme').change(function(){
 		var style = $(this).val();
