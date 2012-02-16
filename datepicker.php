@@ -115,7 +115,7 @@ class CF7_DatePicker {
 		else
 			$selector = "$('input[name=\"{$this->input_name}\"]')";
 
-		$out .= "{$selector}.datepicker({$this->_options_encode()});\n";
+		$out  = "{$selector}.datepicker({$this->_options_encode()});\n";
 		$out .= self::_regionalize($selector);
 
 		$out = self::_js_wrap($out);
