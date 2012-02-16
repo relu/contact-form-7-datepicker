@@ -71,14 +71,6 @@ function cf7dp_register_js() {
 		JQUERY_UI_VERSION,
 		false
 	);
-
-	wp_register_script(
-		'jquery-ui-i18n',
-		'http://ajax.googleapis.com/ajax/libs/jqueryui/' . JQUERY_UI_VERSION . '/i18n/jquery-ui-i18n.min.js',
-		array('jquery-ui'),
-		JQUERY_UI_VERSION,
-		false
-	);
 }
 
 function cf7dp_enqueue_js() {
@@ -87,8 +79,18 @@ function cf7dp_enqueue_js() {
 
 	wp_enqueue_script('jquery-ui');
 
-	if (substr(get_locale(),0, 2) != 'en')
-		wp_enqueue_script('jquery-ui-i18n');
+	$regional = CF7_DatePicker::get_regional_match();
+
+	if (! $regional)
+		return;
+
+	wp_enqueue_script(
+		'jquery-ui-' . $regional,
+		'http://ajax.googleapis.com/ajax/libs/jqueryui/' . JQUERY_UI_VERSION . '/i18n/jquery.ui.datepicker-' . $regional . '.min.js',
+		array('jquery-ui'),
+		JQUERY_UI_VERSION,
+		false
+	);
 }
 
 function cf7dp_enqueue_css() {

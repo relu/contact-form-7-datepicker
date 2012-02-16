@@ -15,7 +15,7 @@ class CF7_DatePicker {
 		'yearRange' => '',
 	);
 
-	private static $locales = array(
+	private static $regionals = array(
 		'af' =>'Afrikaans',
 		'sq' =>'Albanian',
 		'ar-DZ' =>'Algerian Arabic',
@@ -124,6 +124,15 @@ class CF7_DatePicker {
 	}
 
 	private static function _regionalize($selector) {
+		$regional = self::get_regional_match();
+
+		if ($regional)
+			return "{$selector}.datepicker('option', $.datepicker.regional['{$regional}']);";
+
+		return '';
+	}
+
+	public static function get_regional_match() {
 		$locale = get_locale();
 
 		$key_match = array(
@@ -132,13 +141,13 @@ class CF7_DatePicker {
 		);
 
 		if ($key_match[1] == 'en')
-			return '';
+			return null;
 		else
 			foreach ($key_match as $key)
-				if (array_key_exists($key, self::$locales))
-					return "{$selector}.datepicker('option', $.datepicker.regional.{$key});";
+				if (array_key_exists($key, self::$regionals))
+					return $key;
 
-		return '';
+		return null;
 	}
 
 	private function _options_encode() {
