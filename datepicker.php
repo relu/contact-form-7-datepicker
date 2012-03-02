@@ -126,6 +126,8 @@ class CF7_DatePicker {
 	private static function _regionalize($selector) {
 		$regional = self::get_regional_match();
 
+		$regional = apply_filters('cf7dp_datepicker_regional', $regional);
+
 		if ($regional)
 			return "{$selector}.datepicker('option', $.datepicker.regional['{$regional}']);";
 
