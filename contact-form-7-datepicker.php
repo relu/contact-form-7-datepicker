@@ -827,8 +827,9 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if (function_exists('wpcf7_add_shortcode')) {
 			wpcf7_add_shortcode('date', array(__CLASS__, 'wpcf7_shotcode_handler'), true);
 			wpcf7_add_shortcode('date*', array(__CLASS__, 'wpcf7_shotcode_handler'), true);
-			add_shortcode( 'datepicker', array(__CLASS__, 'datepicker_shortcode_handler') );
 		}
+
+		add_shortcode( 'datepicker', array(__CLASS__, 'datepicker_shortcode_handler') );
 	}
 
 	/**
