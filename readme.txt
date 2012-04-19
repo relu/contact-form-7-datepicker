@@ -4,7 +4,7 @@ Donate link:
 Tags: wordpress, datepicker, calendar, contact form 7, forms
 Requires at least: WordPress 2.9
 Tested up to: WordPress 3.3.1
-Stable tag: 0.7.3
+Stable tag: 0.7.4
 
 Datepicker for Contact Form 7 Wordpress Plugin based on jsDatePick script.
 
@@ -58,6 +58,10 @@ You can contact me anywhere and I'll add them to the project :)
 1. The datepicker in action
 
 == Changelog ==
+
+= 0.7.4 =
+* Bugfix:
+	- datepicker shortcode works now if contact form 7 is not installed
 
 = 0.7.3 =
 * Bugfix:
