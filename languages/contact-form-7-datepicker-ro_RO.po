@@ -187,7 +187,7 @@ msgid "Save Setting"
 msgstr "Salvează setări"
 
 #: ../contact-form-7-datepicker.php:753
-msgid "Janaury"
+msgid "January"
 msgstr "Ianuarie"
 
 #: ../contact-form-7-datepicker.php:754

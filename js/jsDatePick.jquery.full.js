@@ -78,7 +78,7 @@
 
 if (typeof(g_l10n) === "undefined") {
 	g_l10n = [];
-	g_l10n["MONTHS"] = ["Janaury","February","March","April","May","June","July","August","September","October","November","December"];
+	g_l10n["MONTHS"] = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 	g_l10n["DAYS_3"] = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 	g_l10n["MONTH_FWD"] = "Move a month forward";
 	g_l10n["MONTH_BCK"] = "Move a month backward";

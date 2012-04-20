@@ -4,7 +4,7 @@ Plugin Name: Contact Form 7 Datepicker
 Plugin URI: https://github.com/relu/contact-form-7-datepicker/
 Description: Implements a new [date] tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date. Now you can use the [datepicker] shortcode outside of CF7.
 Author: Aurel Canciu
-Version: 0.7.2
+Version: 0.7.4
 Author URI: https://github.com/relu/
 */
 ?>
@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 ?>
 <?php
 
-define('CF7_DATE_PICKER_VERSION', '0.7.2');
+define('CF7_DATE_PICKER_VERSION', '0.7.4');
 define('PLUGIN_PATH', '/wp-content/plugins/'.plugin_basename(dirname(__FILE__)));
 
 if (!defined('CF7_DATE_PICKER_ENQUEUES')) {
@@ -36,18 +36,18 @@ if (!defined('CF7_DATE_PICKER_ENQUEUES')) {
 }
 
 class CF7DatePicker {
-	
+
 	/**
 	 * static Array $option_defaults
-	 * 
+	 *
 	 * Holds the default option values for the plugin
 	 */
 	static $option_defaults = array(
-		"useMode" => 2, 
-		"isStripped" => "false", 
-		"limitToToday" => 0, 
-		"cellColorScheme" => "beige", 
-		"dateFormat" => "%d-%m-%Y", 
+		"useMode" => 2,
+		"isStripped" => "false",
+		"limitToToday" => 0,
+		"cellColorScheme" => "beige",
+		"dateFormat" => "%d-%m-%Y",
 		"weekStartDay" => 1,
 		"directionality" => "ltr",
 		"yearsRange" => "1970,2100",
@@ -59,13 +59,13 @@ class CF7DatePicker {
 
 	/**
 	 * __construct()
-	 * 
+	 *
 	 * This is the class constructor method, it registers actions and initializes the plugin
 	 */
 	function __construct() {
 		register_activation_hook(__FILE__, array(__CLASS__, 'activate'));
 		register_deactivation_hook(__FILE__, array(__CLASS__, 'deactivate'));
-		
+
 		add_action('plugins_loaded', array(__CLASS__, 'register_shortcodes'));
 		add_action('admin_init', array(__CLASS__, 'tag_generator'));
 		add_action('admin_menu', array(__CLASS__, 'register_admin_settings'));
@@ -74,22 +74,22 @@ class CF7DatePicker {
 			add_action('wp_enqueue_scripts', array(__CLASS__, 'plugin_enqueues'));
 		}
 		add_action('admin_enqueue_scripts', array(__CLASS__, 'plugin_enqueues'));
-		
+
 		add_action('init', array(__CLASS__, 'calendar_l10n'));
-		
+
 
 		add_filter('wpcf7_validate_date', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
 		add_filter('wpcf7_validate_date*', array(__CLASS__, 'wpcf7_validation_filter'), 10, 2);
-		
+
 		add_action('init', array(__CLASS__, 'admin_l10n'));
 	}
 
 	/**
 	* activate()
-	* 
+	*
 	* Action triggered when plugin is activated
 	* It inserts some default values as options
-	*/	
+	*/
 	public static function activate() {
 		foreach (self::$option_defaults as $option => $value) {
 			add_option($option, $value);
@@ -98,10 +98,10 @@ class CF7DatePicker {
 
 	/**
 	* deactivate()
-	* 
+	*
 	* Action triggered when plugin is deactivated
 	* It deletes the settings stored in the database
-	*/	
+	*/
 	public static function deactivate() {
 		foreach (self::$option_defaults as $option => $value) {
 			delete_option($option);
@@ -110,7 +110,7 @@ class CF7DatePicker {
 
 	/**
 	* update_settings($dataupdate)
-	* 
+	*
 	* Updates plugin's settings into the database
 	* @param Array $dateupdate, contains the updated settings
 	*/
@@ -175,7 +175,7 @@ class CF7DatePicker {
 		closedir($handle);
 		return $schemeimg;
 	}
-	
+
 	/**
 	* get_scheme_style($scheme)
 	*
@@ -202,10 +202,10 @@ class CF7DatePicker {
 				foreach(self::$option_defaults as $option => $value)
 					$dataupdate[$option] = $_POST[$option];
 				$dataupdate['yearsRange'] = trim($_POST['yearmin']).",".trim($_POST['yearmax']);
-				
+
 				$dataupdate['yearButtons'] = (isset($_POST['yearButtons'])) ? "true" : "false";
 				$dataupdate['monthButtons'] = (isset($_POST['monthButtons'])) ? "true" : "false";
-				
+
 				if ($_POST['selectedDate'] !== '') {
 					if (get_option('dateFormat') !== $dataupdate['dateFormat']) {
 						$df = $dataupdate['dateFormat'];
@@ -213,11 +213,11 @@ class CF7DatePicker {
 						$df = get_option('dateFormat');
 					}
 					$df = str_replace('%', '', trim($df));
-					
+
 					$dataupdate['selectedDate'] = date($df, strtotime($_POST['selectedDate']));
 					$dataupdate['selectedDate'] = date("Y-m-d", strtotime($dataupdate['selectedDate']));
 				}
-				
+
 				self::update_settings($dataupdate);
 			}
 			$useMode = array(1,2);
@@ -240,11 +240,11 @@ class CF7DatePicker {
 				__('Right to left', 'contact-form-7-datepicker')
 			);
 			$yearsRange = explode(",", trim(get_option('yearsRange')));
-	
+
 		?>
 		<div class="wrap">
 		<h2>Contact Form 7 Datepicker</h2><?php
-		echo __('<p>This plugin implements a new <strong>[date]</strong> tag in <a href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form 7</a> 
+		echo __('<p>This plugin implements a new <strong>[date]</strong> tag in <a href="http://wordpress.org/extend/plugins/contact-form-7/">Contact Form 7</a>
 		that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.<br />
 		To use it simply insert the <strong>[date your-field-name]</strong> or <strong>[date* your-requierd-field-name]</strong> if you want it to be mandatory,
 		in your Contact Form 7 edit section.</p>', 'contact-form-7-datepicker'); ?>
@@ -261,20 +261,20 @@ class CF7DatePicker {
 								$checked = "checked=\"checked\"";
 							else
 								$checked = ""; ?>
-								
+
 								<div style="float: left; width: 100px; margin: 30px 30px 0 0; text-align: center;">
 									<div style="display: block; padding: 5px; background: #fff; border: 1px solid #ccc; border-radius: 4px 4px 4px 4px;">
 										<label><?php echo $scheme; ?></label><br /><?php
 									foreach(self::get_scheme_images($scheme) as $img) { ?>
-										<img src="<?php echo $img; ?>" style="margin: 5px;" /><?php 
+										<img src="<?php echo $img; ?>" style="margin: 5px;" /><?php
 									} ?><br /><br />
 										<input name="cellColorScheme" type="radio" width="24" height="25" value="<?php echo $scheme; ?>" <?php echo $checked; ?> />
 									</div>
-								</div><?php 
+								</div><?php
 							} ?>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<th>
 							<label><?php echo __('Use Mode', 'contact-form-7-datepicker'); ?></label>
@@ -286,7 +286,7 @@ class CF7DatePicker {
 									$selected = "selected";
 								else
 									$selected = "";
-								
+
 								echo "<option value='".$row."' ".$selected." >".$row."</option>";
 							} ?>
 							</select>
@@ -296,7 +296,7 @@ class CF7DatePicker {
 							2 – The calendar will appear as a popup when the field with the id supplied in target is clicked.</p>', 'contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<th>
 							<label><?php echo __('Sripped', 'contact-form-7-datepicker'); ?></label>
@@ -308,12 +308,12 @@ class CF7DatePicker {
 									$val = "true";
 								else
 									$val = "false";
-								
+
 								if ($val == get_option('isStripped'))
 									$selected = "selected";
 								else
 									$selected = "";
-								
+
 								echo "<option value='".$val."' ".$selected." >".__($row, 'contact-form-7-datepicker')."</option>";
 							} ?>
 							</select>
@@ -322,7 +322,7 @@ class CF7DatePicker {
 							<?php echo __('<p>When set to true the calendar appears without the visual design - usually used with \'Use Mod\' 1.</p>','contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<th>
 							<label><?php echo __('Limit Dates To', 'contact-form-7-datepicker'); ?></label>
@@ -336,12 +336,12 @@ class CF7DatePicker {
 									$val = -1;
 								else
 									$val = 0;
-								
+
 								if ($val == get_option('limitToToday'))
 									$selected = "selected";
 								else
 									$selected = "";
-								
+
 								echo "<option value='".$val."' ".$selected." >".__($row, 'contact-form-7-datepicker')."</option>";
 							} ?>
 							</select>
@@ -350,7 +350,7 @@ class CF7DatePicker {
 							<?php echo __('<p>Enables you to limit the possible picking dates according to the current date.</p>','contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<th>
 							<label><?php echo __('Week Start Day', 'contact-form-7-datepicker'); ?></h2></label>
@@ -362,12 +362,12 @@ class CF7DatePicker {
 									$val = 0;
 								else
 									$val = 1;
-								
+
 								if($val == get_option('weekStartDay'))
 									$selected = "selected";
 								else
 									$selected = "";
-								
+
 								echo "<option value='".$val."' ".$selected." >".__($row,'contact-form-7-datepicker')."</option>";
 							} ?>
 							</select>
@@ -375,7 +375,7 @@ class CF7DatePicker {
 						<td>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<th>
 							<label><?php echo __('Years Range', 'contact-form-7-datepicker'); ?></h2></label>
@@ -385,7 +385,7 @@ class CF7DatePicker {
 							<input name="yearmax" id="yearmax" type="text" value="<?php echo $yearsRange[1]; ?>" />
 						</td>
 					</tr>
-					
+
 					<tr>
 						<th>
 							<label><?php echo __('Text Direction', 'contact-form-7-datepicker'); ?></h2></label>
@@ -397,12 +397,12 @@ class CF7DatePicker {
 									$val = "ltr";
 								else
 									$val = "rtl";
-								
+
 								if($val == get_option('directionality'))
 									$selected = "selected";
 								else
 									$selected = "";
-								
+
 								echo "<option value='".$val."' ".$selected." >".__($row,'contact-form-7-datepicker')."</option>";
 							} ?>
 							</select>
@@ -410,13 +410,13 @@ class CF7DatePicker {
 						<td>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<th>
 							<label><?php echo __('Controls', 'contact-form-7-datepicker'); ?></h2></label>
 						</th>
 						<td><?php
-								
+
 							if (get_option('yearButtons') == "true")
 								$checked = "checked=\"checked\"";
 							else
@@ -424,7 +424,7 @@ class CF7DatePicker {
 							echo "<input type=\"checkbox\" name=\"yearButtons\" ".$checked.">"; ?>
 							<label><?php echo __('Year Controls','contact-form-7-datepicker'); ?>&nbsp;</label>
 							<br /><?php
-							
+
 							if (get_option('monthButtons') == "true")
 								$checked = "checked=\"checked\"";
 							else
@@ -436,13 +436,13 @@ class CF7DatePicker {
 							<?php echo __('<p>You can select here what controls would you like to display on the calendar.</p>', 'contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<th>
 							<label><?php echo __('Selected Date', 'contact-form-7-datepicker'); ?></label>
 						</th>
 						<td style="overflow: visible">
-							<?php 
+							<?php
 								echo self::page_text_filter_callback("selectedDate");
 							?>
 						</td>
@@ -450,7 +450,7 @@ class CF7DatePicker {
 							<?php echo __('<p>You can set here a default selected date and have a look of how the calendar shows up.</p>', 'contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<th>
 							<label><?php echo __('Animate', 'contact-form-7-datepicker'); ?></label>
@@ -462,12 +462,12 @@ class CF7DatePicker {
 									$val = "true";
 								else
 									$val = "false";
-								
+
 								if ($val == get_option('animate'))
 									$selected = "selected";
 								else
 									$selected = "";
-								
+
 								echo "<option value='".$val."' ".$selected." >".__($row, 'contact-form-7-datepicker')."</option>";
 							} ?>
 							</select>
@@ -476,7 +476,7 @@ class CF7DatePicker {
 							<?php echo __('<p>Animation on display.</p>','contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<th>
 							<label><?php echo __('Date Format', 'contact-form-7-datepicker'); ?></label>
@@ -496,11 +496,11 @@ class CF7DatePicker {
 %Y - A full numeric representation of a year, 4 digits<br />
 %y - A two digit representation of a year<br />
 <br />
-You can of course put whatever divider you want between them.<br /></p>', 
+You can of course put whatever divider you want between them.<br /></p>',
 'contact-form-7-datepicker'); ?>
 						</td>
 					</tr>
-					
+
 					<tr>
 						<td colspan="2">
 						</td>
@@ -521,10 +521,10 @@ You can of course put whatever divider you want between them.<br /></p>',
 	public static function register_files() {
 		wp_register_style('jsdp_ltr', plugins_url( '/css/jsDatePick_ltr.min.css', __FILE__ ), array(), CF7_DATE_PICKER_VERSION);
 		wp_register_style('jsdp_rtl', plugins_url( '/css/jsDatePick_rtl.min.css', __FILE__ ), array(), CF7_DATE_PICKER_VERSION);
-		
+
 		wp_register_script('jsDatePickJS', plugins_url( '/js/jsDatePick.jquery.min.js', __FILE__ ), array('jquery'), CF7_DATE_PICKER_VERSION, true);
 	}
-	
+
 	/**
 	* plugin_enqueues()
 	*
@@ -533,7 +533,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 	public static function plugin_enqueues() {
 		wp_enqueue_style('jsdp_'.get_option('directionality'));
 		wp_enqueue_script('jsDatePickJS');
-		
+
 		do_action('plugin_enqueues');
 	}
 
@@ -550,22 +550,22 @@ You can of course put whatever divider you want between them.<br /></p>',
 		} else {
 			$name = $data['name'];
 		}
-		
+
 		if (is_array($data) && isset($data['atts']['id'])) {
 			$id = $data['atts']['id'];
 		} else {
 			$id = $name;
 		}
-		
+
 		$jssafeid = preg_replace('/[^A-Za-z0-9]/', '', $id);
-		
+
 		if (is_array($data) && !empty($data['value']) && is_numeric(strtotime($data['value']))) {
 			$seldate = date('Y-m-d', strtotime($data['value']));
-			
+
 		} else {
 			$seldate = get_option('selectedDate');
 		}
-			
+
 		if ($seldate) {
 			$ts = strtotime($seldate);
 			$seldate = array(
@@ -573,38 +573,38 @@ You can of course put whatever divider you want between them.<br /></p>',
 				'm' => date('m', $ts),
 				'y' => date('Y', $ts)
 			);
-			
+
 			$dateval = $seldate['y'].'-'.$seldate['m'].'-'.$seldate['d'];
 		} else {
 			$dateval = '';
 		}
-		
+
 		$attributes = '';
-		
+
 		if (is_array($data['atts'])) {
 			foreach ($data['atts'] as $key => $val) {
 				if (!empty($val))
 					$attributes .= $key.'="'.$val.'" ';
 			}
 		}
-		
+
 		if (!is_array($data) || (is_array($data['atts']) && empty($data['atts']['id']))) {
 			$attributes .= 'id="'.$id.'" ';
 		}
-		
-		if (!empty($dateval)) {	
+
+		if (!empty($dateval)) {
 			$df = str_replace('%', '', get_option('dateFormat'));
 			$dateval = date($df, strtotime($dateval));
 			$attributes .= 'value="'.$dateval.'"';
 		}
-		
+
 		$attributes = trim($attributes);
-		
+
 		$string = '';
-		
+
 		if ( (is_array($data) && $data['opts']['newfield'] === 'true') || !is_array($data) || (is_array($data) && empty($data['opts']['newfield'])))
 			$string = '<input type="text" name="'.$name.'" '.$attributes.' />';
-		
+
 		$string .= '
 		<script type="text/javascript">
 			jQuery(document).ready(function() {
@@ -625,7 +625,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		if ($seldate) {
 			$string .= ',
 				selectedDate: {
-					year: '.$seldate['y'].', 
+					year: '.$seldate['y'].',
 					month: '.$seldate['m'].',
 					day: '.$seldate['d'].'
 				}';
@@ -640,7 +640,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		<style type="text/css">
 			@import url(\''.$schemecss.'\');
 		</style>';
-		
+
 		return $string;
 	}
 
@@ -659,10 +659,10 @@ You can of course put whatever divider you want between them.<br /></p>',
 
 		$type = $tag['type'];
 		$name = $tag['name'];
-		
+
 		$options = (array) $tag['options'];
 		$values = (array) $tag['values'];
-	
+
 		if ( empty( $name ) )
 			return '';
 
@@ -692,7 +692,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 		} else {
 			$value = $values[0];
 		}
-		
+
 		$data = array(
 			"name" => $name,
 			"atts" => (array) $atts,
@@ -745,11 +745,11 @@ You can of course put whatever divider you want between them.<br /></p>',
 	public static function admin_l10n() {
 		load_plugin_textdomain( 'contact-form-7-datepicker', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
-	
+
 	/**
 	* datepicker_shortcode_handler()
 	*
-	* Function that handles the [datepicker name="?" id="?" class="?" newfield="?" value="?"] shortcode 
+	* Function that handles the [datepicker name="?" id="?" class="?" newfield="?" value="?"] shortcode
 	*/
 	public static function datepicker_shortcode_handler($atts) {
 		extract(shortcode_atts(array(
@@ -759,7 +759,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 			'newfield' => 'true',
 			'value' => ''
 		), $atts));
-		
+
 		$data = array(
 			"name" => ($name) ? "{$name}" : "{$id}",
 			"atts" => array(
@@ -772,7 +772,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 
 		return self::page_text_filter_callback($data);
 	}
-	
+
 	/**
 	* calendar_l10n()
 	*
@@ -781,7 +781,7 @@ You can of course put whatever divider you want between them.<br /></p>',
 	public static function calendar_l10n() {
 		$l10n_strings = array(
 						'MONTHS' => array(
-											__('Janaury', 'contact-form-7-datepicker'), 
+											__('January', 'contact-form-7-datepicker'),
 											__('February', 'contact-form-7-datepicker'),
 											__('March', 'contact-form-7-datepicker'),
 											__('April', 'contact-form-7-datepicker'),
@@ -813,27 +813,28 @@ You can of course put whatever divider you want between them.<br /></p>',
 						'ERROR_4' => __('Target invalid!', 'contact-form-7-datepicker'),
 						'ERROR_3' => __('Target invalid!', 'contact-form-7-datepicker')
 						);
-		$l10n = array('l10n_print_after' => 'g_l10n = ' . json_encode($l10n_strings) . ';');		
-		
+		$l10n = array('l10n_print_after' => 'g_l10n = ' . json_encode($l10n_strings) . ';');
+
 		wp_localize_script('jsDatePickJS', 'g_l10n', $l10n);
 	}
-	
+
 	/**
 	* register_shortcodes()
-	* 
+	*
 	* Function for registering our shortcodes with CF7
 	*/
 	public static function register_shortcodes() {
 		if (function_exists('wpcf7_add_shortcode')) {
 			wpcf7_add_shortcode('date', array(__CLASS__, 'wpcf7_shotcode_handler'), true);
 			wpcf7_add_shortcode('date*', array(__CLASS__, 'wpcf7_shotcode_handler'), true);
-			add_shortcode( 'datepicker', array(__CLASS__, 'datepicker_shortcode_handler') );
 		}
+
+		add_shortcode( 'datepicker', array(__CLASS__, 'datepicker_shortcode_handler') );
 	}
-	
+
 	/**
 	* tag_generator()
-	* 
+	*
 	* Registers the tag generator for CF7
 	*/
 	public static function tag_generator() {
@@ -842,20 +843,20 @@ You can of course put whatever divider you want between them.<br /></p>',
 			'wpcf7-tg-pane-date', array(__CLASS__, 'wpcf7_tg_pane_datepicker_'));
 		}
 	}
-	
+
 	/**
 	* wpcf7_tg_pane_datepicker_(&$contact_form)
-	* 
+	*
 	* Caller function for the tag generator
 	* @param reference &$contact_form
 	*/
 	public static function wpcf7_tg_pane_datepicker_(&$contact_form) {
 		self::wpcf7_tg_pane_datepicker( 'date' );
 	}
-	
+
 	/**
 	* wpcf7_tg_pane_datepicker($type = 'date')
-	* 
+	*
 	* Callback function for the tag generator (called by wpcf7_tg_pane_datepicker_)
 	* @param $type = 'date'
 	*/
