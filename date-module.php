@@ -110,10 +110,7 @@ function cf7dp_date_validation_filter($result, $tag) {
 
 	if ('date*' == $type && '' == $value) {
 		$result['valid'] = false;
-		$result['reason'] = wpcf7_get_message('invalid_required');
-	} elseif (! strtotime($value)) {
-		$result['valid'] = false;
-		$result['reason'] = __('Invalid date specified');
+		$result['reason'][$name] = wpcf7_get_message('invalid_required');
 	}
 
 	return $result;
