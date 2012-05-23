@@ -34,7 +34,7 @@ if (! defined('JQUERY_UI_VERSION'))
 
 
 add_action('plugins_loaded', 'cf7dp_load_date_module', 1);
-add_action('init', 'cf7dp_register_js');
+add_action('wp_enqueue_scripts', 'cf7dp_register_js');
 add_action('wpcf7_enqueue_scripts', 'cf7dp_enqueue_js');
 add_action('wpcf7_enqueue_styles', 'cf7dp_enqueue_css');
 
