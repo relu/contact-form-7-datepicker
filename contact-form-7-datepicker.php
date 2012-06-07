@@ -38,6 +38,7 @@ add_action('wp_enqueue_scripts', 'cf7dp_register_js');
 add_action('wpcf7_enqueue_scripts', 'cf7dp_enqueue_js');
 add_action('wpcf7_enqueue_styles', 'cf7dp_enqueue_css');
 
+add_action('admin_enqueue_scripts', 'cf7dp_register_js');
 add_action('admin_enqueue_scripts', 'cf7dp_enqueue_js');
 add_action('admin_print_styles', 'cf7dp_enqueue_css');
 
@@ -53,6 +54,9 @@ function cf7dp_load_date_module() {
 require_once dirname(__FILE__) . '/admin.php';
 
 function cf7dp_register_js() {
+	if (is_admin() && ! cf7dp_is_wpcf7_page())
+		return;
+
 	wp_deregister_script('jquery');
 	wp_deregister_script('jquery-ui');
 
