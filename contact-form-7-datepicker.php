@@ -57,12 +57,14 @@ function cf7dp_register_js() {
 	if (is_admin() && ! cf7dp_is_wpcf7_page())
 		return;
 
+	$scheme = (is_ssl()) ? 'https' : 'http';
+
 	wp_deregister_script('jquery');
 	wp_deregister_script('jquery-ui');
 
 	wp_register_script(
 		'jquery',
-		'https://ajax.googleapis.com/ajax/libs/jquery/' . JQUERY_VERSION . '/jquery.min.js',
+		$scheme . '://ajax.googleapis.com/ajax/libs/jquery/' . JQUERY_VERSION . '/jquery.min.js',
 		array(),
 		JQUERY_VERSION,
 		false
@@ -70,7 +72,7 @@ function cf7dp_register_js() {
 
 	wp_register_script(
 		'jquery-ui',
-		'https://ajax.googleapis.com/ajax/libs/jqueryui/' . JQUERY_UI_VERSION . '/jquery-ui.min.js',
+		$scheme . '://ajax.googleapis.com/ajax/libs/jqueryui/' . JQUERY_UI_VERSION . '/jquery-ui.min.js',
 		array('jquery'),
 		JQUERY_UI_VERSION,
 		false

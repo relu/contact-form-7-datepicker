@@ -55,6 +55,8 @@ function cf7dp_date_shortcode_handler($tag) {
 			$dpOptions['changeYear'] = $matches[1];
 		} elseif (preg_match('%^year-range:([\d]+)-?([\d]+)?$%', $option, $matches)) {
 			$dpOptions['yearRange'] = "{$matches[1]}:{$matches[2]}";
+		} elseif (preg_match('%^months:([\d]+)$%', $option, $matches)) {
+			$dpOptions['numberOfMonths'] = (int) $matches[1];
 		}
 	}
 
@@ -224,6 +226,13 @@ function cf7dp_tg_pane_date() {
 					<input type="text" name="year-range" class="option" style="display: none"/>
 					<input size="4" type="text" name="year-range-start" class="numeric" /> -
 					<input size="4"type="text" name="year-range-end" class="numeric" />
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<code>months</code><br />
+					<input type="text" size="2" name="months" class="option"/>
 				</td>
 			</tr>
 

@@ -13,6 +13,8 @@ class CF7_DatePicker {
 		'changeMonth' => '',
 		'changeYear' => '',
 		'yearRange' => '',
+		'numberOfMonths' => 1,
+		'showButtonPanel' => '',
 	);
 
 	private static $regionals = array(
@@ -115,7 +117,7 @@ class CF7_DatePicker {
 		else
 			$selector = "$('input[name=\"{$this->input_name}\"]')";
 
-		$out  = "{$selector}.datepicker({$this->_options_encode()});\n";
+		$out  = "{$selector}.datepicker({$this->options_encode()});\n";
 		$out .= self::_regionalize($selector);
 
 		$out = self::_js_wrap($out);
@@ -152,7 +154,7 @@ class CF7_DatePicker {
 		return null;
 	}
 
-	private function _options_encode() {
+	private function options_encode() {
 		$options = json_encode(array_filter(
 			$this->options,
 			array(__CLASS__, '_array_filter_not_empty')
