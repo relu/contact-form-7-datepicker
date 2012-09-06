@@ -50,14 +50,18 @@ function cf7dp_date_shortcode_handler($tag) {
 		} elseif (preg_match('%^animate:([a-z]+)$%i', $option, $matches)) {
 			$dpOptions['showAnim'] = $matches[1];
 		} elseif (preg_match('%^change-month:(true|false)$%i', $option, $matches)) {
-			$dpOptions['changeMonth'] = $matches[1];
+			$dpOptions['changeMonth'] = ('true' == $matches[1]) ? true : false;
 		} elseif (preg_match('%^change-year:(true|false)$%i', $option, $matches)) {
-			$dpOptions['changeYear'] = $matches[1];
+			$dpOptions['changeYear'] = ('true' == $matches[1]) ? true : false;
 		} elseif (preg_match('%^year-range:([\d]+)-?([\d]+)?$%', $option, $matches)) {
 			$dpOptions['yearRange'] = "{$matches[1]}:{$matches[2]}";
 		} elseif (preg_match('%^months:([\d]+)$%', $option, $matches)) {
 			$dpOptions['numberOfMonths'] = (int) $matches[1];
+		} elseif (preg_match('%^buttons:(true|false)$%', $option, $matches)) {
+			$dpOptions['showButtonPanel'] = ('true' == $matches[1]) ? true : false;
 		}
+
+		do_action('cf7_datepicker_attr_match', $dpOptions, $option);
 	}
 
 	$value = reset($values);
@@ -233,6 +237,14 @@ function cf7dp_tg_pane_date() {
 				<td>
 					<code>months</code><br />
 					<input type="text" size="2" name="months" class="option"/>
+				</td>
+				<td>
+					<code>buttons</code><br />
+					<input type="text" name="buttons" class="option" style="display: none" />
+					<select id="buttons">
+						<option value="true"><?php _e('True'); ?></option>
+						<option value="false" selected="selected"><?php _e('False'); ?></option>
+					</select>
 				</td>
 			</tr>
 
