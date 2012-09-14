@@ -113,14 +113,16 @@ class CF7_DatePicker {
 
 	public function generate_code($inline = false) {
 		if ($inline)
-			$selector = "$('#{$this->input_name}')";
+			$selector = "$('$this->input_name')";
 		else
 			$selector = "$('input[name=\"{$this->input_name}\"]')";
 
 		$out  = "{$selector}.datepicker({$this->options_encode()});\n";
 		$out .= self::_regionalize($selector);
 
-		$out = self::_js_wrap($out);
+		$out = "jQuery(function($){ $out });";
+
+		$out = "\n<script type=\"text/javascript\">{$out}</script>\n";
 
 		return $out;
 	}
@@ -157,24 +159,10 @@ class CF7_DatePicker {
 	private function options_encode() {
 		$options = json_encode(array_filter(
 			$this->options,
-			array(__CLASS__, '_array_filter_not_empty')
+			create_function('$var', 'return ! empty($var);')
 		));
 
 		return stripslashes($options);
-	}
-
-	private static function _array_filter_not_empty($var) {
-		return (! empty($var));
-	}
-
-	private static function _js_wrap($code) {
-		$out  = "<script type=\"text/javascript\">\n";
-		$out .= "\tjQuery(function($){\n";
-		$out .= "\t\t{$code}\n";
-		$out .= "\t});\n";
-		$out .= "</script>\n";
-
-		return $out;
 	}
 }
 

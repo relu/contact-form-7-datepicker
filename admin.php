@@ -7,18 +7,16 @@ function cf7dp_activate() {
 
 function cf7dp_theme_metabox() {
 ?>
-			<div id="dpdemo" style="float: left; margin: 0 10px 0 0"></div>
+	<div id="preview" style="float: left; margin: 0 10px 0 0"></div>
+		<form action="">
+			<label for="jquery-ui-theme"><?php _e('Theme'); ?></label><br />
+			<?php echo cf7dp_ui_themes_dropdown(); ?>
+			<input type="submit" id="save-ui-theme" value="<?php _e('Save'); ?>" class="button" />
+		</form>
+	<div class="clear"></div>
 <?php
-	$dp = new CF7_DatePicker('dpdemo');
+	$dp = new CF7_DatePicker('#preview');
 	echo $dp->generate_code(true);
-?>
-			<form action="">
-				<label for="jquery-ui-theme"><?php _e('Theme'); ?></label><br />
-				<?php echo cf7dp_ui_themes_dropdown(); ?>
-				<input type="submit" id="save-ui-theme" value="<?php _e('Save'); ?>" class="button" />
-			</form>
-			<div class="clear"></div>
-<?php
 }
 
 function cf7dp_add_theme_metabox() {
@@ -83,7 +81,7 @@ function cf7dp_ui_theme_js() {
 ?>
 <script type="text/javascript">
 jQuery(function($){
-	var $spinner = $( new Image() ).attr( 'src', '<?php echo admin_url( "images/wpspin_light.gif" ); ?>' );
+	var $spinner = $(new Image()).attr('src', '<?php echo admin_url('images/wpspin_light.gif'); ?>');
 
 	$('#jquery-ui-theme').change(function(){
 		var style = $(this).val();
