@@ -26,19 +26,9 @@ Author URI: https://github.com/relu/
 ?>
 <?php
 
-if (! defined('JQUERY_VERSION'))
-	define('JQUERY_VERSION', '1.7.1');
-
-if (! defined('JQUERY_UI_VERSION'))
-	define('JQUERY_UI_VERSION', '1.8.16');
-
-
-add_action('plugins_loaded', 'cf7dp_load_date_module', 1);
-add_action('wp_enqueue_scripts', 'cf7dp_register_js');
 add_action('wpcf7_enqueue_scripts', 'cf7dp_enqueue_js');
 add_action('wpcf7_enqueue_styles', 'cf7dp_enqueue_css');
 
-add_action('admin_enqueue_scripts', 'cf7dp_register_js');
 add_action('admin_enqueue_scripts', 'cf7dp_enqueue_js');
 add_action('admin_print_styles', 'cf7dp_enqueue_css');
 
@@ -47,43 +37,19 @@ add_action('wp_ajax_cf7dp_save_settings', 'cf7dp_ajax_save_settings');
 add_action('wpcf7_admin_after_general_settings', 'cf7dp_add_theme_metabox');
 add_action('admin_footer', 'cf7dp_ui_theme_js');
 
+/* Load date-module after loading all plugins */
 function cf7dp_load_date_module() {
 	require_once dirname(__FILE__) . '/date-module.php';
 }
+add_action('plugins_loaded', 'cf7dp_load_date_module', 1);
 
 require_once dirname(__FILE__) . '/admin.php';
-
-function cf7dp_register_js() {
-	if (is_admin() && ! cf7dp_is_wpcf7_page())
-		return;
-
-	$scheme = (is_ssl()) ? 'https' : 'http';
-
-	wp_deregister_script('jquery');
-	wp_deregister_script('jquery-ui');
-
-	wp_register_script(
-		'jquery',
-		$scheme . '://ajax.googleapis.com/ajax/libs/jquery/' . JQUERY_VERSION . '/jquery.min.js',
-		array(),
-		JQUERY_VERSION,
-		false
-	);
-
-	wp_register_script(
-		'jquery-ui',
-		$scheme . '://ajax.googleapis.com/ajax/libs/jqueryui/' . JQUERY_UI_VERSION . '/jquery-ui.min.js',
-		array('jquery'),
-		JQUERY_UI_VERSION,
-		false
-	);
-}
 
 function cf7dp_enqueue_js() {
 	if (is_admin() && ! cf7dp_is_wpcf7_page())
 		return;
 
-	wp_enqueue_script('jquery-ui');
+	wp_enqueue_script('jquery-ui-datepicker');
 
 	$regional = CF7_DatePicker::get_regional_match();
 
@@ -92,9 +58,9 @@ function cf7dp_enqueue_js() {
 
 	wp_enqueue_script(
 		'jquery-ui-' . $regional,
-		'http://ajax.googleapis.com/ajax/libs/jqueryui/' . JQUERY_UI_VERSION . '/i18n/jquery.ui.datepicker-' . $regional . '.min.js',
+		'http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-' . $regional . '.min.js',
 		array('jquery-ui'),
-		JQUERY_UI_VERSION,
+		'',
 		false
 	);
 }
@@ -108,7 +74,7 @@ function cf7dp_enqueue_css() {
 	if (! is_admin() && $theme == 'disabled')
 		return;
 
-	wp_enqueue_style('jquery-ui-theme', 'http://ajax.googleapis.com/ajax/libs/jqueryui/' . JQUERY_UI_VERSION . '/themes/' . $theme . '/jquery-ui.css', array(), JQUERY_UI_VERSION);
+	wp_enqueue_style('jquery-ui-theme', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/' . $theme . '/jquery-ui.css', array(), '');
 }
 
 function cf7dp_is_wpcf7_page() {
