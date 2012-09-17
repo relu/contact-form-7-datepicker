@@ -80,10 +80,10 @@ function cf7dp_enqueue_css() {
 function cf7dp_is_wpcf7_page() {
 	global $current_screen;
 
-	if ($current_screen->id != 'toplevel_page_wpcf7')
-		return false;
+	if (is_object($current_screen) && 'toplevel_page_wpcf7' == $current_screen->id)
+		return true;
 
-	return true;
+	return false;
 }
 
 ?>

@@ -122,11 +122,11 @@ function cf7dp_date_validation_filter($result, $tag) {
 	return $result;
 }
 
-add_action( 'admin_init', 'cf7dp_add_tag_generator_date', 15 );
+add_action('load-toplevel_page_wpcf7', 'cf7dp_add_tag_generator_date');
 
 function cf7dp_add_tag_generator_date() {
-	wpcf7_add_tag_generator( 'date', __( 'Date field', 'wpcf7' ),
-		'wpcf7-tg-pane-date', 'cf7dp_tg_pane_date' );
+	wpcf7_add_tag_generator('date', __('Date field', 'wpcf7'),
+		'wpcf7-tg-pane-date', 'cf7dp_tg_pane_date');
 }
 
 function cf7dp_tg_pane_date() {
