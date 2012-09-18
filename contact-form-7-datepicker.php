@@ -59,7 +59,7 @@ function cf7dp_enqueue_js() {
 	wp_enqueue_script(
 		'jquery-ui-' . $regional,
 		'http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-' . $regional . '.min.js',
-		array('jquery-ui'),
+		array('jquery-ui-datepicker'),
 		'',
 		false
 	);
