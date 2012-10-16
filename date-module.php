@@ -1,7 +1,13 @@
 <?php
 
-wpcf7_add_shortcode('date', 'cf7dp_date_shortcode_handler', true);
-wpcf7_add_shortcode('date*', 'cf7dp_date_shortcode_handler', true);
+add_action('plugins_loaded', 'cf7dp_add_shortcodes');
+
+function cf7dp_add_shortcodes() {
+	if (function_exists('wpcf7_add_shortcode')) {
+		wpcf7_add_shortcode('date', 'cf7dp_date_shortcode_handler', true);
+		wpcf7_add_shortcode('date*', 'cf7dp_date_shortcode_handler', true);
+	}
+}
 
 require_once dirname(__FILE__) . '/datepicker.php';
 
