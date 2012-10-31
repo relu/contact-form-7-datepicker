@@ -77,13 +77,4 @@ function cf7dp_enqueue_css() {
 	wp_enqueue_style('jquery-ui-theme', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/' . $theme . '/jquery-ui.css', array(), '');
 }
 
-function cf7dp_is_wpcf7_page() {
-	global $current_screen;
-
-	if (is_object($current_screen) && 'toplevel_page_wpcf7' == $current_screen->id)
-		return true;
-
-	return false;
-}
-
 ?>

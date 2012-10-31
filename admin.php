@@ -144,4 +144,13 @@ function cf7dp_ajax_save_settings() {
 	die($successmsg);
 }
 
+function cf7dp_is_wpcf7_page() {
+	global $current_screen;
+
+	if (is_object($current_screen) && 'toplevel_page_wpcf7' == $current_screen->id)
+		return true;
+
+	return false;
+}
+
 ?>
