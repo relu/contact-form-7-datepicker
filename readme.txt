@@ -1,16 +1,18 @@
 === Plugin Name ===
 Contributors: shockware
 Donate link: 
-Tags: wordpress, datepicker, calendar, contact form 7, forms
+Tags: wordpress, datepicker, calendar, contact form 7, forms, jqueryui
 Requires at least: WordPress 2.9
-Tested up to: WordPress 3.2.1
-Stable tag: 0.7.2
+Tested up to: WordPress 3.4.2
+Stable tag: 2.0a
 
-Datepicker for Contact Form 7 Wordpress Plugin based on jsDatePick script.
+Easily add a date field using jQuery UI's datepicker to your CF7 forms.
+This plugin depends on Contact Form 7.
 
 == Description ==
 
-Easily add a date field with jQuery UI's datepicker to your CF7 forms.
+Enables adding a date field for Contact Form 7 Wordpress Plugin using jQuery UI's
+datepicker.
 
 == Installation ==
 
@@ -26,8 +28,13 @@ You can [open an issue on github](https://github.com/relu/contact-form-7-datepic
 == Screenshots ==
 
 1. The datepicker in action
+2. Change themes
+3. Date field generator
 
 == Changelog ==
+
+= 2.0 =
+* Complete rewrite, using jquery-ui's datepicker
 
 = 0.7.2 =
 * Bugfix:
@@ -107,6 +114,12 @@ add_action('init', 'cf7dp_enqueues');`
 First release
 
 == Upgrade Notice ==
+
+= 2.0 =
+
+The plugin has been completely rewritten and the older version is no longer
+supported. This version uses jQueryUI's datepicker.
+You will have to regenerate all of your date fields.
 
 = 0.7.1 =
 
