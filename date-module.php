@@ -180,7 +180,7 @@ function cf7dp_tg_pane_date() {
 				</td>
 				<td>
 					<br />
-					<a href="http://docs.jquery.com/UI/Datepicker/formatDate" title="formatDate" target="_blank"><?php _e('See here for posible values'); ?></a>
+					<a href="http://docs.jquery.com/UI/Datepicker/formatDate" title="formatDate" target="_blank"><?php _e('Help'); ?></a>
 				</td>
 			</tr>
 
@@ -271,7 +271,7 @@ function cf7dp_tg_pane_date() {
 		<div class="tg-mail-tag"><?php echo esc_html( __( "And, put this code into the Mail fields below.", 'wpcf7' ) ); ?><br /><span class="arrow">&#11015;</span>&nbsp;<input type="text" class="mail-tag" readonly="readonly" onfocus="this.select()" /></div>
 	</form>
 	<script type="text/javascript">
-	jQuery(document).ready(function($){
+	jQuery(function($){
 		$('select').change(function(){
 			var $this = $(this),
 				value = $this.val();
