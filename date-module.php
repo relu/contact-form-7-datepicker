@@ -273,21 +273,22 @@ function cf7dp_tg_pane_date() {
 	<script type="text/javascript">
 	jQuery(document).ready(function($){
 		$('select').change(function(){
-			var val = $(this).val();
+			var $this = $(this),
+				value = $this.val();
 
-			if (! val)
+			if (! value)
 				return;
 
-			$('input[name="'+$(this).attr('id')+'"]').val(val);
+			$('input[name="'+$this.attr('id')+'"]').val(value);
 		});
 
 		$('input[name="year-range-start"], input[name="year-range-end"]').change(function(){
-			var val = $('input[name="year-range-start"]').val() + '-' + $('input[name="year-range-end"]').val();
+			var value = $('input[name="year-range-start"]').val() + '-' + $('input[name="year-range-end"]').val();
 
-			if (! val)
+			if (! value)
 				return;
 
-			$('input[name="year-range"]').val(val);
+			$('input[name="year-range"]').val(value);
 		});
 	});
 	</script>

@@ -82,12 +82,22 @@ function cf7dp_ui_theme_js() {
 <script type="text/javascript">
 jQuery(function($){
 	var $spinner = $(new Image()).attr('src', '<?php echo admin_url('images/wpspin_light.gif'); ?>');
+	var old_href = '';
 
 	$('#jquery-ui-theme').change(function(){
 		var style = $(this).val();
 
 		var $link = $('#jquery-ui-theme-css');
 		var href = $link.attr('href');
+
+		if (style == 'disabled') {
+			old_href = href;
+			$link.attr('href', '');
+
+			return;
+		} else if (href === '') {
+			href = old_href;
+		}
 
 		href = href.replace(/\/themes\/[-a-z]+\//g, '/themes/' + style + '/');
 		$link.attr('href', href);
