@@ -1,9 +1,9 @@
 <?php
 
 class CF7_DatePicker {
-	private $input_id;
+	private $input_name;
 
-	protected $options = array(
+	private $options = array(
 		'dateFormat' => '',
 		'minDate' => '',
 		'maxDate' => '',
@@ -85,26 +85,22 @@ class CF7_DatePicker {
 		'cy-GB' =>'Welsh/UK',
 	);
 
-	function __construct($name, $options = null) {
+	function __construct($name, $options = array()) {
 		$this->input_name = $name;
 
 		$this->options['firstDay'] = get_option('start_of_week');
-
-		if (! empty($options) && is_array($options))
-			foreach ($options as $key => $val) {
-				if (array_key_exists($key, $this->options))
-					$this->options[$key] = $val;
-			}
-
+		$this->options = wp_parse_args((array)$options, $this->options);
 		$this->options = apply_filters('cf7_datepicker_options', $this->options);
 	}
 
-	public function set($option, $value) {
-		$this->options[$option] = $value;
+	public function __set($option, $value) {
+		if (isset($this->options[$option])) {
+			$this->options[$option] = $value;
+		}
 	}
 
-	public function get($option) {
-		return $this->options[$option];
+	public function __get($option) {
+		return isset($this->options[$option]) ?  $this->options[$option] : null;
 	}
 
 	public function get_all() {
@@ -112,19 +108,14 @@ class CF7_DatePicker {
 	}
 
 	public function generate_code($inline = false) {
-		if ($inline)
-			$selector = "$('$this->input_name')";
-		else
-			$selector = "$('input[name=\"{$this->input_name}\"]')";
+		$selector = ($inline) ? "$('$this->input_name')" : "$('input[name=\"{$this->input_name}\"]')";
 
 		$out  = "{$selector}.datepicker({$this->options_encode()});\n";
 		$out .= self::_regionalize($selector);
 
 		$out = "jQuery(function($){ $out });";
 
-		$out = "\n<script type=\"text/javascript\">{$out}</script>\n";
-
-		return $out;
+		return "\n<script type=\"text/javascript\">{$out}</script>\n";
 	}
 
 	private function options_encode() {
@@ -155,15 +146,14 @@ class CF7_DatePicker {
 			str_replace('_', '-', $locale),
 		);
 
-		if ($key_match[1] == 'en')
-			return null;
-		else
-			foreach ($key_match as $key)
-				if (array_key_exists($key, self::$regionals))
+		if ($key_match[1] != 'en') {
+			foreach ($key_match as $key) {
+				if (array_key_exists($key, self::$regionals)) {
 					return $key;
+				}
+			}
+		}
 
 		return null;
 	}
 }
-
-?>

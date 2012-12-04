@@ -62,15 +62,15 @@ class ContactForm7Datepicker_Date {
 			} elseif (preg_match('%^animate:([a-z]+)$%i', $option, $matches)) {
 				$dpOptions['showAnim'] = $matches[1];
 			} elseif (preg_match('%^change-month:(true|false)$%i', $option, $matches)) {
-				$dpOptions['changeMonth'] = ('true' == $matches[1]) ? true : false;
+				$dpOptions['changeMonth'] = ('true' == $matches[1]);
 			} elseif (preg_match('%^change-year:(true|false)$%i', $option, $matches)) {
-				$dpOptions['changeYear'] = ('true' == $matches[1]) ? true : false;
+				$dpOptions['changeYear'] = ('true' == $matches[1]);
 			} elseif (preg_match('%^year-range:([\d]+)-?([\d]+)?$%', $option, $matches)) {
 				$dpOptions['yearRange'] = "{$matches[1]}:{$matches[2]}";
 			} elseif (preg_match('%^months:([\d]+)$%', $option, $matches)) {
 				$dpOptions['numberOfMonths'] = (int) $matches[1];
 			} elseif (preg_match('%^buttons:(true|false)$%', $option, $matches)) {
-				$dpOptions['showButtonPanel'] = ('true' == $matches[1]) ? true : false;
+				$dpOptions['showButtonPanel'] = ('true' == $matches[1]);
 			}
 
 			do_action('cf7_datepicker_attr_match', $dpOptions, $option);
@@ -107,14 +107,20 @@ class ContactForm7Datepicker_Date {
 		if ($title_att)
 			$atts .= ' title="' . trim(esc_attr($title_att)) . '"';
 
-		$input = '<input type="text" name="' . $name . '" value="' . esc_attr($value) . '"' . $atts . ' />';
-
-		$html = '<span class="wpcf7-form-control-wrap ' . $name . '">' . $input . $validation_error . '</span>';
+		$input = sprintf('<input type="text" name="%s" value="%s" %s/>',
+			esc_attr($name),
+			esc_attr($value),
+			$atts
+		);
 
 		$dp = new CF7_DatePicker($name, $dpOptions);
-		$html .= $dp->generate_code();
 
-		return $html;
+		return sprintf('<span class="wpcf7-form-control-wrap %s">%s %s</span>%s',
+			esc_attr($name),
+			$input,
+			$validation_error,
+			$dp->generate_code()
+		);
 	}
 
 	public static function validation_filter($result, $tag) {
