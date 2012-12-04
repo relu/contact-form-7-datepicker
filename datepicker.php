@@ -3,7 +3,7 @@
 class CF7_DatePicker {
 	private $input_id;
 
-	private $options = array(
+	protected $options = array(
 		'dateFormat' => '',
 		'minDate' => '',
 		'maxDate' => '',
@@ -17,7 +17,7 @@ class CF7_DatePicker {
 		'showButtonPanel' => '',
 	);
 
-	private static $regionals = array(
+	protected static $regionals = array(
 		'af' =>'Afrikaans',
 		'sq' =>'Albanian',
 		'ar-DZ' =>'Algerian Arabic',
@@ -127,6 +127,15 @@ class CF7_DatePicker {
 		return $out;
 	}
 
+	private function options_encode() {
+		$options = json_encode(array_filter(
+			$this->options,
+			create_function('$var', 'return ! empty($var);')
+		));
+
+		return stripslashes($options);
+	}
+
 	private static function _regionalize($selector) {
 		$regional = self::get_regional_match();
 
@@ -154,15 +163,6 @@ class CF7_DatePicker {
 					return $key;
 
 		return null;
-	}
-
-	private function options_encode() {
-		$options = json_encode(array_filter(
-			$this->options,
-			create_function('$var', 'return ! empty($var);')
-		));
-
-		return stripslashes($options);
 	}
 }
 

@@ -2,9 +2,9 @@
 /**
 Plugin Name: Contact Form 7 Datepicker
 Plugin URI: https://github.com/relu/contact-form-7-datepicker/
-Description: Implements a new [date] tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date.
+Description: Easily add a date field using jQuery UI's datepicker to your CF7 forms. This plugin depends on Contact Form 7.
 Author: Aurel Canciu
-Version: 2.0
+Version: 2.0a
 Author URI: https://github.com/relu/
 */
 
@@ -26,55 +26,57 @@ Author URI: https://github.com/relu/
 ?>
 <?php
 
-add_action('wpcf7_enqueue_scripts', 'cf7dp_enqueue_js');
-add_action('wpcf7_enqueue_styles', 'cf7dp_enqueue_css');
+class ContactForm7Datepicker {
 
-add_action('admin_enqueue_scripts', 'cf7dp_enqueue_js');
-add_action('admin_print_styles', 'cf7dp_enqueue_css');
+	public static function init() {
+		add_action('plugins_loaded', array(__CLASS__, 'load_date_module'), 10);
 
+		add_action('wpcf7_enqueue_scripts', array(__CLASS__, 'enqueue_js'));
+		add_action('wpcf7_enqueue_styles', array(__CLASS__, 'enqueue_css'));
 
-add_action('wp_ajax_cf7dp_save_settings', 'cf7dp_ajax_save_settings');
-add_action('wpcf7_admin_after_general_settings', 'cf7dp_add_theme_metabox');
-add_action('admin_footer', 'cf7dp_ui_theme_js');
+		register_activation_hook(__FILE__, array(__CLASS__, 'activate'));
 
-/* Load date-module after loading all plugins */
-function cf7dp_load_date_module() {
-	require_once dirname(__FILE__) . '/date-module.php';
+		if (is_admin()) {
+			require_once dirname(__FILE__) . '/admin.php';
+			ContactForm7Datepicker_Admin::init();
+		}
+	}
+
+	public static function load_date_module() {
+		require_once dirname(__FILE__) . '/date-module.php';
+		ContactForm7Datepicker_Date::register();
+	}
+
+	public static function activate() {
+		if (! get_option('cf7dp_ui_theme'))
+			add_option('cf7dp_ui_theme', 'base');
+	}
+
+	public static function enqueue_js() {
+		wp_enqueue_script('jquery-ui-datepicker');
+
+		$regional = CF7_DatePicker::get_regional_match();
+
+		if (! $regional)
+			return;
+
+		wp_enqueue_script(
+			'jquery-ui-' . $regional,
+			'http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-' . $regional . '.min.js',
+			array('jquery-ui-datepicker'),
+			'',
+			false
+		);
+	}
+
+	public static function enqueue_css() {
+		$theme = get_option('cf7dp_ui_theme');
+
+		if (! is_admin() && $theme == 'disabled')
+			return;
+
+		wp_enqueue_style('jquery-ui-theme', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/' . $theme . '/jquery-ui.css', array(), '');
+	}
 }
-add_action('plugins_loaded', 'cf7dp_load_date_module', 1);
 
-require_once dirname(__FILE__) . '/admin.php';
-
-function cf7dp_enqueue_js() {
-	if (is_admin() && ! cf7dp_is_wpcf7_page())
-		return;
-
-	wp_enqueue_script('jquery-ui-datepicker');
-
-	$regional = CF7_DatePicker::get_regional_match();
-
-	if (! $regional)
-		return;
-
-	wp_enqueue_script(
-		'jquery-ui-' . $regional,
-		'http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-' . $regional . '.min.js',
-		array('jquery-ui-datepicker'),
-		'',
-		false
-	);
-}
-
-function cf7dp_enqueue_css() {
-	if (is_admin() && ! cf7dp_is_wpcf7_page())
-		return;
-
-	$theme = get_option('cf7dp_ui_theme');
-
-	if (! is_admin() && $theme == 'disabled')
-		return;
-
-	wp_enqueue_style('jquery-ui-theme', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/' . $theme . '/jquery-ui.css', array(), '');
-}
-
-?>
+ContactForm7Datepicker::init();
