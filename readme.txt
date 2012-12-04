@@ -1,19 +1,18 @@
 === Plugin Name ===
 Contributors: shockware
 Donate link: 
-Tags: wordpress, datepicker, calendar, contact form 7, forms
+Tags: wordpress, datepicker, calendar, contact form 7, forms, jqueryui
 Requires at least: WordPress 2.9
-Tested up to: WordPress 3.3.1
-Stable tag: 0.7.4
+Tested up to: WordPress 3.4.2
+Stable tag: 2.0
 
-Datepicker for Contact Form 7 Wordpress Plugin based on jsDatePick script.
+Easily add a date field using jQuery UI's datepicker to your CF7 forms.
+This plugin depends on Contact Form 7.
 
 == Description ==
 
-Implements a new **[date]** tag in Contact Form 7 that adds a date field to a form. When clicking the field a calendar pops up enabling your site visitors to easily select any date. Now you can use the [datepicker] shortcode outside of CF7.
-To use, just insert the **[date your-field-name]** or **[date* your-required-field-name]** to any form in Contact Form 7 edit area where you want users to input a date.
-
-This plugin is somewhat a fork of [Contact Form 7 Calendar](http://wordpress.org/extend/plugins/cf7-calendar/) by [harrysudana](http://profiles.wordpress.org/users/harrysudana/).
+Enables adding a date field for Contact Form 7 Wordpress Plugin using jQuery UI's
+datepicker.
 
 == Installation ==
 
@@ -21,43 +20,21 @@ Please follow the [standard installation procedure for WordPress plugins](http:/
 
 == Frequently Asked Questions ==
 
-= How to use the [date] and [date*] tags in CF7? =
-
-These shortcodes have the same syntax as any other CF7 text input field shortcode
-`[date name_of_field (id:id_of_field class:classes_of_field integer_size/integer_maxlength "value")]`
-
-If you do not provide an **id:** the plugin will use the **name_of_field**. Everything between the parenthesis is optional (do not include parenthesis, I've wrapped everything in parenthesis just to mark attributes that are optional).  
-
-= Can I use the datepicker outside of CF7? =
-
-Yes you can! Just use the new **[datepicker]** shortcode for that.
-`[datepicker name="name_of_field" (id="id_of_field" class="classes_of_field" newfield="true/false" value="YYYY-MM-DD")]`
-
-Again, everything wrapped between parenthesis is optional.
-
-	- **name**: name of the input field you want to append the datepicker to
-	- **id**: id of the input field you want to append the datepicker to
-	- **class**: the CSS classes of the input field
-	- **newfield**: specify weather you are appending to an existing input field (false) or create a new input field to append to (true) (default value is true)
-	- **value**: the preselected value of the input field
-	
-If you choose to append to an already existent input field (**newfield**="false"), I recommend you use both name and id (both with the values of the existing input field's attribute values)
-
-For the **value** attribute you can use any date format that can be used as a HTML attribute value, I recommend you use the ISO 8601 (YYYY-MM-DD) date format (ex: 2011-07-30). More info [here](http://php.net/manual/en/function.strtotime.php#refsect1-function.strtotime-notes)
 
 = Where do I submit a bug? =
 
 You can [open an issue on github](https://github.com/relu/contact-form-7-datepicker/issues) or just contact me via email.
 
-= I've translated this plugin, how can I share my translation? =
-
-You can contact me anywhere and I'll add them to the project :)
-
 == Screenshots ==
 
 1. The datepicker in action
+2. Change themes
+3. Date field generator
 
 == Changelog ==
+
+= 2.0 =
+* Complete rewrite, using jquery-ui's datepicker
 
 = 0.7.4 =
 * Bugfix:
@@ -145,6 +122,12 @@ add_action('init', 'cf7dp_enqueues');`
 First release
 
 == Upgrade Notice ==
+
+= 2.0 =
+
+The plugin has been completely rewritten and the older version is no longer
+supported. This version uses jQueryUI's datepicker.
+You will have to regenerate all of your date fields.
 
 = 0.7.1 =
 
