@@ -61,16 +61,16 @@ class ContactForm7Datepicker_Date {
 				$dpOptions['firstDay'] = (int) $matches[1];
 			} elseif (preg_match('%^animate:([a-z]+)$%i', $option, $matches)) {
 				$dpOptions['showAnim'] = $matches[1];
-			} elseif (preg_match('%^change-month:(true|false)$%i', $option, $matches)) {
-				$dpOptions['changeMonth'] = ('true' == $matches[1]);
-			} elseif (preg_match('%^change-year:(true|false)$%i', $option, $matches)) {
-				$dpOptions['changeYear'] = ('true' == $matches[1]);
+			} elseif (preg_match('%^change-month$%i', $option, $matches)) {
+				$dpOptions['changeMonth'] = true;
+			} elseif (preg_match('%^change-year$%i', $option, $matches)) {
+				$dpOptions['changeYear'] = true;
 			} elseif (preg_match('%^year-range:([\d]+)-?([\d]+)?$%', $option, $matches)) {
 				$dpOptions['yearRange'] = "{$matches[1]}:{$matches[2]}";
 			} elseif (preg_match('%^months:([\d]+)$%', $option, $matches)) {
 				$dpOptions['numberOfMonths'] = (int) $matches[1];
-			} elseif (preg_match('%^buttons:(true|false)$%', $option, $matches)) {
-				$dpOptions['showButtonPanel'] = ('true' == $matches[1]);
+			} elseif (preg_match('%^buttons$%', $option, $matches)) {
+				$dpOptions['showButtonPanel'] = true;
 			}
 
 			do_action('cf7_datepicker_attr_match', $dpOptions, $option);
