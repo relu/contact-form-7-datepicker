@@ -42,6 +42,8 @@ class ContactForm7Datepicker_Date {
 		if ($validation_error)
 			$class_att .= ' wpcf7-not-valid';
 
+		$inline = false;
+
 		$dpOptions = array();
 		foreach ($options as $option) {
 			if (preg_match('%^id:([-_0-9a-z]+)$%i', $option, $matches)) {
@@ -71,6 +73,9 @@ class ContactForm7Datepicker_Date {
 				$dpOptions['numberOfMonths'] = (int) $matches[1];
 			} elseif (preg_match('%^buttons$%', $option, $matches)) {
 				$dpOptions['showButtonPanel'] = true;
+			} elseif (preg_match('%inline$%', $option, $matches)) {
+				$inline = true;
+				$dpOptions['altField'] = "#{$name}_alt";
 			}
 
 			do_action('cf7_datepicker_attr_match', $dpOptions, $option);
@@ -107,19 +112,28 @@ class ContactForm7Datepicker_Date {
 		if ($title_att)
 			$atts .= ' title="' . trim(esc_attr($title_att)) . '"';
 
-		$input = sprintf('<input type="text" name="%s" value="%s" %s/>',
+		$input_type = $inline ? 'hidden' : 'text';
+		$input_atts = $inline ? "id=\"{$name}_alt\"" : $atts;
+
+		$input = sprintf('<input type="%s" name="%s" value="%s" %s/>',
+			$input_type,
 			esc_attr($name),
 			esc_attr($value),
-			$atts
+			$input_atts
 		);
 
-		$dp = new CF7_DatePicker($name, $dpOptions);
+		if ($inline)
+			$input .= sprintf('<div id="%s_datepicker" %s></div>', $name, $atts);
+
+		$dp_selector = $inline ? '#' . $name . '_datepicker' : $name;
+
+		$dp = new CF7_DatePicker($dp_selector, $dpOptions);
 
 		return sprintf('<span class="wpcf7-form-control-wrap %s">%s %s</span>%s',
 			esc_attr($name),
 			$input,
 			$validation_error,
-			$dp->generate_code()
+			$dp->generate_code($inline)
 		);
 	}
 

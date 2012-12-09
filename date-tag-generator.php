@@ -103,6 +103,12 @@
 
 			<tr>
 				<td>
+					<label><code>inline</code> <input type="checkbox" name="inline" class="option" /></label>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
 					<?php echo esc_html( __( 'Default value', 'wpcf7' ) ); ?> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br /><input type="text" name="values" class="oneline" />
 				</td>
 
