@@ -9,11 +9,11 @@ class CF7_DatePicker {
 		'maxDate' => '',
 		'firstDay' => '',
 		'defaultDate' => '',
-		'showAnim' => 'show',
+		'showAnim' => '',
 		'changeMonth' => '',
 		'changeYear' => '',
 		'yearRange' => '',
-		'numberOfMonths' => 1,
+		'numberOfMonths' => '',
 		'showButtonPanel' => '',
 	);
 
