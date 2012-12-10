@@ -59,11 +59,12 @@
 			<tr>
 				<td>
 					<code>first-day</code><br />
-					<input type="text" name="first-day" class="option" style="display: none" />
-					<select id="first-day">
-						<option value="0" selected="selected"><?php _e('Sunday'); ?></option>
-						<option value="1"><?php _e('Monday'); ?></option>
-					</select>
+					<input type="checkbox" id="first-day-sunday" name="first-day:0" class="option exclusive" />
+					<label for="first-day-sunday"><?php _e('Sunday'); ?></label>
+					&nbsp;&nbsp;
+
+					<input type="checkbox" value="1" id="first-day-monday" name="first-day:1" class="option exclusive" />
+					<label for="first-day-monday"><?php _e('Monday'); ?></label>
 				</td>
 				<td>
 					<code>animate</code><br />
@@ -74,44 +75,35 @@
 
 			<tr>
 				<td>
-					<code>change-month</code><br />
-					<input type="text" name="change-month" class="option" style="display: none" />
-					<select id="change-month">
-						<option value="true"><?php _e('True'); ?></option>
-						<option value="false"><?php _e('False'); ?></option>
-					</select>
+					<label><code>change-month</code> <input type="checkbox" name="change-month" id="change-month" class="option" /></label>
 				</td>
 			</tr>
 
 			<tr>
 				<td>
-					<code>change-year</code><br />
-					<input type="text" name="change-year" class="option" style="display: none" />
-					<select id="change-year">
-						<option value="true"><?php _e('True'); ?></option>
-						<option value="false" selected="selected"><?php _e('False'); ?></option>
-					</select>
+					<label><code>change-year</code> <input type="checkbox" name="change-year" id="change-year" class="option" /></label>
 				</td>
 				<td>
 					<code>year-range</code><br />
-					<input type="text" name="year-range" class="option" style="display: none"/>
-					<input size="4" type="text" name="year-range-start" class="numeric" /> -
-					<input size="4"type="text" name="year-range-end" class="numeric" />
+					<input type="text" id="year-range" name="year-range" class="option" style="display: none;" />
+					<input size="4" type="text" name="year-range-start" class="year-range numeric" /> -
+					<input size="4"type="text" name="year-range-end" class="year-range numeric" />
 				</td>
 			</tr>
 
 			<tr>
 				<td>
 					<code>months</code><br />
-					<input type="text" size="2" name="months" class="option"/>
+					<input type="text" size="2" name="months" class="option numeric"/>
 				</td>
 				<td>
-					<code>buttons</code><br />
-					<input type="text" name="buttons" class="option" style="display: none" />
-					<select id="buttons">
-						<option value="true"><?php _e('True'); ?></option>
-						<option value="false" selected="selected"><?php _e('False'); ?></option>
-					</select>
+					<label><code>buttons</code> <input type="checkbox" name="buttons" class="option" /></label>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<label><code>inline</code> <input type="checkbox" name="inline" class="option" /></label>
 				</td>
 			</tr>
 
@@ -134,23 +126,23 @@
 
 <script type="text/javascript">
 jQuery(function($){
-	$('select').change(function(){
+	$(document).on('change', 'select', function(){
 		var $this = $(this),
 			value = $this.val();
 
 		if (! value)
 			return;
 
-		$('input[name="'+$this.attr('id')+'"]').val(value);
+		$('input[name="'+$this.attr('id')+'"]').val(value).trigger('change');
 	});
 
-	$('input[name="year-range-start"], input[name="year-range-end"]').change(function(){
+	$(document).on('keyup', '.year-range', function(){
 		var value = $('input[name="year-range-start"]').val() + '-' + $('input[name="year-range-end"]').val();
 
 		if (! value)
 			return;
 
-		$('input[name="year-range"]').val(value);
+		$('#year-range').val(value);
 	});
 });
 </script>

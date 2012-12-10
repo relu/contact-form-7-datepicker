@@ -110,8 +110,8 @@ class CF7_DatePicker {
 	public function generate_code($inline = false) {
 		$selector = ($inline) ? "$('$this->input_name')" : "$('input[name=\"{$this->input_name}\"]')";
 
-		$out  = "{$selector}.datepicker({$this->options_encode()});\n";
-		$out .= self::_regionalize($selector);
+		$out  = self::_regionalize($selector);
+		$out .= "{$selector}.datepicker({$this->options_encode()});\n";
 
 		$out = "jQuery(function($){ $out });";
 
