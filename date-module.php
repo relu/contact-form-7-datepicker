@@ -46,30 +46,30 @@ class ContactForm7Datepicker_Date {
 
 		$dpOptions = array();
 		foreach ($options as $option) {
-			if (preg_match('%^id:([-_0-9a-z]+)$%i', $option, $matches)) {
+			if (preg_match('%^id:([-_\w\d]+)$%i', $option, $matches)) {
 				$id_att = $matches[1];
-			} elseif (preg_match('%^class:([-_0-9a-z]+)$%i', $option, $matches)) {
+			} elseif (preg_match('%^class:([-_\w\d]+)$%i', $option, $matches)) {
 				$class_att .= " $matches[1]";
-			} elseif (preg_match('%^([0-9]*)[/x]([0-9]*)$%i', $option, $matches)) {
+			} elseif (preg_match('%^(\d*)[/x](\d*)$%i', $option, $matches)) {
 				$size_att = (int) $matches[1];
 				$maxlen_att = (int) $matches[2];
 			} elseif (preg_match('%^tabindex:(\d+)$%i', $option, $matches)) {
 				$tabindex_att = (int) $matches[1];
-			} elseif (preg_match('%^date-format:([-_/\.a-z0-9]+)$%i', $option, $matches)) {
+			} elseif (preg_match('%^date-format:([-_/\.\w\d]+)$%i', $option, $matches)) {
 				$dpOptions['dateFormat'] = str_replace('_', ' ', $matches[1]);
-			} elseif (preg_match('%^(min|max)-date:([-_/\., 0-9a-z]+)$%i', $option, $matches)) {
+			} elseif (preg_match('%^(min|max)-date:([-_/\.\w\d]+)$%i', $option, $matches)) {
 				$dpOptions[$matches[1] . 'Date'] = $matches[2];
 			} elseif (preg_match('%^first-day:(\d)$%', $option, $matches)) {
 				$dpOptions['firstDay'] = (int) $matches[1];
-			} elseif (preg_match('%^animate:([a-z]+)$%i', $option, $matches)) {
+			} elseif (preg_match('%^animate:(\w+)$%i', $option, $matches)) {
 				$dpOptions['showAnim'] = $matches[1];
 			} elseif (preg_match('%^change-month$%i', $option, $matches)) {
 				$dpOptions['changeMonth'] = true;
 			} elseif (preg_match('%^change-year$%i', $option, $matches)) {
 				$dpOptions['changeYear'] = true;
-			} elseif (preg_match('%^year-range:([\d]+)-?([\d]+)?$%', $option, $matches)) {
+			} elseif (preg_match('%^year-range:(\d+)-?(\d+)?$%', $option, $matches)) {
 				$dpOptions['yearRange'] = "{$matches[1]}:{$matches[2]}";
-			} elseif (preg_match('%^months:([\d]+)$%', $option, $matches)) {
+			} elseif (preg_match('%^months:(\d+)$%', $option, $matches)) {
 				$dpOptions['numberOfMonths'] = (int) $matches[1];
 			} elseif (preg_match('%^buttons$%', $option, $matches)) {
 				$dpOptions['showButtonPanel'] = true;
@@ -78,7 +78,7 @@ class ContactForm7Datepicker_Date {
 				$dpOptions['altField'] = "#{$name}_alt";
 			}
 
-			do_action('cf7_datepicker_attr_match', $dpOptions, $option);
+			do_action_ref_array('cf7_datepicker_attr_match', array($dpOptions), $option);
 		}
 
 		$value = reset($values);
