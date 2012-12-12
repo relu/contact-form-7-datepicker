@@ -53,7 +53,7 @@ class ContactForm7Datepicker {
 	}
 
 	public static function enqueue_js() {
-		wp_enqueue_script('jquery-ui-datepicker');
+		wp_enqueue_script('jquery-ui-datepicker', null, null, null, true);
 
 		$regional = CF7_DatePicker::get_regional_match();
 
@@ -64,8 +64,8 @@ class ContactForm7Datepicker {
 			'jquery-ui-' . $regional,
 			'http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-' . $regional . '.min.js',
 			array('jquery-ui-datepicker'),
-			'',
-			false
+			null,
+			true
 		);
 	}
 
