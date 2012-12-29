@@ -86,7 +86,7 @@ class ContactForm7Datepicker_Date {
 
 		$value = reset($values);
 
-		if (wpcf7_script_is() && preg_grep('%^waremark$%', $options)) {
+		if (wpcf7_script_is() && preg_grep('%^watermark$%', $options)) {
 			$class_att .= ' wpcf7-use-title-as-watermark';
 			$title_att .= " $value";
 			$value = '';
