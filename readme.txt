@@ -3,7 +3,7 @@ Contributors: shockware
 Tags: wordpress, datepicker, calendar, contact form 7, forms, jqueryui
 Requires at least: 2.9
 Tested up to: 3.5
-Stable tag: 2.1
+Stable tag: 2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,10 @@ You can [open an issue on github](https://github.com/relu/contact-form-7-datepic
 3. Date field generator
 
 == Changelog ==
+
+= 2.2 =
+* Added basic date validation
+* Fixed watermark
 
 = 2.1 =
 * Added inline option

@@ -4,7 +4,7 @@ Plugin Name: Contact Form 7 Datepicker
 Plugin URI: https://github.com/relu/contact-form-7-datepicker/
 Description: Easily add a date field using jQuery UI's datepicker to your CF7 forms. This plugin depends on Contact Form 7.
 Author: Aurel Canciu
-Version: 2.1
+Version: 2.2
 Author URI: https://github.com/relu/
 */
 
@@ -53,7 +53,7 @@ class ContactForm7Datepicker {
 	}
 
 	public static function enqueue_js() {
-		wp_enqueue_script('jquery-ui-datepicker');
+		wp_enqueue_script('jquery-ui-datepicker', null, null, null, true);
 
 		$regional = CF7_DatePicker::get_regional_match();
 
@@ -64,8 +64,8 @@ class ContactForm7Datepicker {
 			'jquery-ui-' . $regional,
 			'http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-' . $regional . '.min.js',
 			array('jquery-ui-datepicker'),
-			'',
-			false
+			null,
+			true
 		);
 	}
 

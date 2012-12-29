@@ -15,6 +15,9 @@ class ContactForm7Datepicker_Date {
 
 		// Tag generator
 		add_action('load-toplevel_page_wpcf7', array(__CLASS__, 'tag_generator'));
+
+		// Messages
+		add_filter('wpcf7_messages', array(__CLASS__, 'messages'));
 	}
 
 	public static function shortcode_handler($tag) {
@@ -68,7 +71,7 @@ class ContactForm7Datepicker_Date {
 			} elseif (preg_match('%^change-year$%i', $option, $matches)) {
 				$dpOptions['changeYear'] = true;
 			} elseif (preg_match('%^year-range:(\d+)-?(\d+)?$%', $option, $matches)) {
-				$dpOptions['yearRange'] = "{$matches[1]}:{$matches[2]}";
+				$dpOptions['yearRange'] = $matches[1] . ':' . @$matches[2];
 			} elseif (preg_match('%^months:(\d+)$%', $option, $matches)) {
 				$dpOptions['numberOfMonths'] = (int) $matches[1];
 			} elseif (preg_match('%^buttons$%', $option, $matches)) {
@@ -83,7 +86,7 @@ class ContactForm7Datepicker_Date {
 
 		$value = reset($values);
 
-		if (wpcf7_script_is() && preg_grep('%^waremark$%', $options)) {
+		if (wpcf7_script_is() && preg_grep('%^watermark$%', $options)) {
 			$class_att .= ' wpcf7-use-title-as-watermark';
 			$title_att .= " $value";
 			$value = '';
@@ -143,9 +146,15 @@ class ContactForm7Datepicker_Date {
 
 		$value = trim($_POST[$name]);
 
-		if ('date*' == $type && '' == $value) {
+		if ('date*' == $type && empty($value)) {
 			$result['valid'] = false;
 			$result['reason'][$name] = wpcf7_get_message('invalid_required');
+		}
+
+		// TODO: Implement date format verification
+		if (! empty($value) && ! self::is_valid_date($value)) {
+			$result['valid'] = false;
+			$result['reason'][$name] = wpcf7_get_message('invalid_date');
 		}
 
 		return $result;
@@ -170,6 +179,14 @@ class ContactForm7Datepicker_Date {
 		}
 	}
 
+	public static function messages($messages) {
+		$messages['invalid_date'] = array(
+			'description' => __('The date that the sender entered is invalid'),
+			'default' => __('Invalid date supplied.'),
+		);
+
+		return $messages;
+	}
 
 	private static function animate_dropdown() {
 		$effects = array(
@@ -195,5 +212,9 @@ class ContactForm7Datepicker_Date {
 		$html .= "</select>";
 
 		echo $html;
+	}
+
+	private static function is_valid_date($value) {
+		return strtotime($value) ? true : false;
 	}
 }
