@@ -89,6 +89,7 @@ class CF7_DatePicker {
 		$this->input_name = $name;
 
 		$this->options['firstDay'] = get_option('start_of_week');
+
 		$this->options = wp_parse_args((array)$options, $this->options);
 		$this->options = apply_filters('cf7_datepicker_options', $this->options);
 	}
@@ -110,8 +111,11 @@ class CF7_DatePicker {
 	public function generate_code($inline = false) {
 		$selector = ($inline) ? "$('$this->input_name')" : "$('input[name=\"{$this->input_name}\"]')";
 
-		$out  = self::_regionalize($selector);
-		$out .= "{$selector}.datepicker({$this->options_encode()});\n";
+		$out  = "{$selector}.datepicker({$this->options_encode()})";
+		$out .= self::_regionalize();
+
+		// Remove watermark class onSelect
+		$out .= ".datepicker('option', 'onSelect', function(){ $(this).removeClass('watermark'); });\n";
 
 		$out = "jQuery(function($){ $out });";
 
@@ -127,13 +131,13 @@ class CF7_DatePicker {
 		return stripslashes($options);
 	}
 
-	private static function _regionalize($selector) {
+	private static function _regionalize() {
 		$regional = self::get_regional_match();
 
 		$regional = apply_filters('cf7dp_datepicker_regional', $regional);
 
 		if ($regional)
-			return "{$selector}.datepicker('option', $.datepicker.regional['{$regional}']);";
+			return ".datepicker('option', $.datepicker.regional['{$regional}'])";
 
 		return '';
 	}
