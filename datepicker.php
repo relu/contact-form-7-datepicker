@@ -115,7 +115,7 @@ class CF7_DatePicker {
 		$out .= self::_regionalize();
 
 		// Remove watermark class onSelect
-		$out .= ".datepicker('option', 'onSelect', function(){ $(this).removeClass('watermark'); });\n";
+		$out .= ".datepicker('option', 'onSelect', function(){ $(this).removeClass('watermark').trigger('change'); });\n";
 
 		$out = "jQuery(function($){ $out });";
 
