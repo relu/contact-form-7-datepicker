@@ -53,8 +53,6 @@ class ContactForm7Datepicker {
 	}
 
 	public static function enqueue_js() {
-		wp_enqueue_script('jquery-ui-datepicker', null, null, null, true);
-
 		$regional = CF7_DatePicker::get_regional_match();
 
 		if (! $regional)
