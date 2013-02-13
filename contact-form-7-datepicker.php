@@ -30,31 +30,30 @@ class ContactForm7Datepicker {
 
 	const JQUERYUI_VERSION = '1.9.2';
 
-	public static function init() {
-		add_action('plugins_loaded', array(__CLASS__, 'load_date_module'), 10);
+	function __construct() {
+		add_action('plugins_loaded', array($this, 'load_date_module'), 10);
 
-		add_action('wpcf7_enqueue_scripts', array(__CLASS__, 'enqueue_js'));
-		add_action('wpcf7_enqueue_styles', array(__CLASS__, 'enqueue_css'));
+		add_action('wpcf7_enqueue_scripts', array($this, 'enqueue_js'));
+		add_action('wpcf7_enqueue_styles', array($this, 'enqueue_css'));
 
-		register_activation_hook(__FILE__, array(__CLASS__, 'activate'));
+		register_activation_hook(__FILE__, array($this, 'activate'));
 
 		if (is_admin()) {
 			require_once dirname(__FILE__) . '/admin.php';
-			ContactForm7Datepicker_Admin::init();
 		}
 	}
 
-	public static function load_date_module() {
+	function load_date_module() {
 		require_once dirname(__FILE__) . '/date-module.php';
 		ContactForm7Datepicker_Date::register();
 	}
 
-	public static function activate() {
+	function activate() {
 		if (! get_option('cf7dp_ui_theme'))
 			add_option('cf7dp_ui_theme', 'base');
 	}
 
-	public static function enqueue_js() {
+	function enqueue_js() {
 		$regional = CF7_DatePicker::get_regional_match();
 		$proto = is_ssl() ? 'https' : 'http';
 
@@ -87,7 +86,7 @@ class ContactForm7Datepicker {
 		}
 	}
 
-	public static function enqueue_css() {
+	function enqueue_css() {
 		$theme = get_option('cf7dp_ui_theme');
 
 		if (! is_admin() && $theme == 'disabled')
@@ -105,4 +104,4 @@ class ContactForm7Datepicker {
 	}
 }
 
-ContactForm7Datepicker::init();
+new ContactForm7Datepicker;

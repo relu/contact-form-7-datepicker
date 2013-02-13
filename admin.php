@@ -2,14 +2,14 @@
 
 class ContactForm7Datepicker_Admin {
 
-	public static function init() {
-		add_action('admin_enqueue_scripts', array(__CLASS__, 'enqueue_assets'));
-		add_action('wpcf7_admin_after_general_settings', array(__CLASS__, 'add_meta_box'));
-		add_action('admin_footer', array(__CLASS__, 'theme_js'));
-		add_action('wp_ajax_cf7dp_save_settings', array(__CLASS__, 'ajax_save_settings'));
+	function __construct() {
+		add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
+		add_action('wpcf7_admin_after_general_settings', array($this, 'add_meta_box'));
+		add_action('admin_footer', array($this, 'theme_js'));
+		add_action('wp_ajax_cf7dp_save_settings', array($this, 'ajax_save_settings'));
 	}
 
-	public static function enqueue_assets() {
+	function enqueue_assets() {
 		if (is_admin() && ! self::is_wpcf7_page())
 			return;
 
@@ -17,7 +17,7 @@ class ContactForm7Datepicker_Admin {
 		ContactForm7Datepicker::enqueue_css();
 	}
 
-	public static function add_meta_box() {
+	function add_meta_box() {
 		if (! current_user_can('publish_pages'))
 			return;
 
@@ -33,7 +33,7 @@ class ContactForm7Datepicker_Admin {
 		do_meta_boxes('cfseven', 'datepicker-theme', array());
 	}
 
-	public static function theme_metabox() {
+	function theme_metabox() {
 		?>
 
 		<div id="preview" style="float: left; margin: 0 10px 0 0"></div>
@@ -49,65 +49,65 @@ class ContactForm7Datepicker_Admin {
 		echo $dp->generate_code(true);
 	}
 
-	public static function  theme_js() {
+	function theme_js() {
 		if (! self::is_wpcf7_page())
 			return;
 	?>
-	<script type="text/javascript">
-	jQuery(function($){
-		var $spinner = $(new Image()).attr('src', '<?php echo admin_url('images/wpspin_light.gif'); ?>');
-		var old_href = '';
+		<script type="text/javascript">
+		jQuery(function($){
+			var $spinner = $(new Image()).attr('src', '<?php echo admin_url('images/wpspin_light.gif'); ?>');
+			var old_href = '';
 
-		$('#jquery-ui-theme').change(function(){
-			var style = $(this).val();
+			$('#jquery-ui-theme').change(function(){
+				var style = $(this).val();
 
-			var $link = $('#jquery-ui-theme-css');
-			var href = $link.attr('href');
+				var $link = $('#jquery-ui-theme-css');
+				var href = $link.attr('href');
 
-			if (style == 'disabled') {
-				old_href = href;
-				$link.attr('href', '');
+				if (style == 'disabled') {
+					old_href = href;
+					$link.attr('href', '');
 
-				return;
-			} else if (href === '') {
-				href = old_href;
-			}
+					return;
+				} else if (href === '') {
+					href = old_href;
+				}
 
-			href = href.replace(/\/themes\/[-a-z]+\//g, '/themes/' + style + '/');
-			$link.attr('href', href);
-		});
-
-		$('#save-ui-theme').click(function(){
-			var data = {
-				action: 'cf7dp_save_settings',
-				ui_theme: $('#jquery-ui-theme').val()
-			};
-
-			var $this_spinner = $spinner.clone();
-
-			$(this).after($this_spinner.show());
-
-			$.post(ajaxurl, data, function(response) {
-				var $prev = $( '.wrap > .updated, .wrap > .error' );
-				var $msg = $(response).hide().insertAfter($('.wrap h2'));
-				if ($prev.length > 0)
-					$prev.fadeOut('slow', function(){
-						$msg.fadeIn('slow');
-					});
-				else
-					$msg.fadeIn('slow');
-
-				$this_spinner.hide();
+				href = href.replace(/\/themes\/[-a-z]+\//g, '/themes/' + style + '/');
+				$link.attr('href', href);
 			});
 
-			return false;
+			$('#save-ui-theme').click(function(){
+				var data = {
+					action: 'cf7dp_save_settings',
+					ui_theme: $('#jquery-ui-theme').val()
+				};
+
+				var $this_spinner = $spinner.clone();
+
+				$(this).after($this_spinner.show());
+
+				$.post(ajaxurl, data, function(response) {
+					var $prev = $( '.wrap > .updated, .wrap > .error' );
+					var $msg = $(response).hide().insertAfter($('.wrap h2'));
+					if ($prev.length > 0)
+						$prev.fadeOut('slow', function(){
+							$msg.fadeIn('slow');
+						});
+					else
+						$msg.fadeIn('slow');
+
+					$this_spinner.hide();
+				});
+
+				return false;
+			});
 		});
-	});
-	</script>
+		</script>
 	<?php
 	}
 
-	public static function ajax_save_settings() {
+	function ajax_save_settings() {
 		$successmsg = '<div id="message" class="updated fade"><p><strong>' . __('Options saved.') . '</strong></p></div>';
 		$errormsg = '<div id="message" class="error fade"><p><strong>' . __('Options could not be saved.') . '</strong></p></div>';
 
@@ -180,3 +180,5 @@ class ContactForm7Datepicker_Admin {
 		return false;
 	}
 }
+
+new ContactForm7Datepicker_Admin;

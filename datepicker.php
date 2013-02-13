@@ -1,6 +1,7 @@
 <?php
 
 class CF7_DatePicker {
+
 	private $input_name;
 
 	private $options = array(
@@ -186,4 +187,5 @@ class CF7_DatePicker {
 	public function enqueue_effect() {
 		wp_enqueue_script('jquery-ui-effect-' . $this->showAnim);
 	}
+
 }
