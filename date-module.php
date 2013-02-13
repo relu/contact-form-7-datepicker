@@ -189,24 +189,10 @@ class ContactForm7Datepicker_Date {
 	}
 
 	private static function animate_dropdown() {
-		$effects = array(
-			'show' => __('Show'),
-			'blind' => __('Blind'),
-			'clip' => __('Clip'),
-			'drop' => __('Drop'),
-			'explode' => __('Explode'),
-			'fade' => __('Fade'),
-			'fold' => __('Fold'),
-			'puff' => __('Puff'),
-			'slide' => __('Slide'),
-			'scale' => __('Scale')
-		);
-
-		$effects = apply_filters('cf7dp_effects', $effects);
-
 		$html = "<select id=\"animate\">\n";
-		foreach ($effects as $key => $val) {
-			$html .= "\t<option value=\"{$key}\">{$val}</option>\n";
+
+		foreach (CF7_DatePicker::$effects as $val) {
+			$html .= '<option value="' . esc_attr($val) . '">' . ucfirst($val) . '</option>';
 		}
 
 		$html .= "</select>";
