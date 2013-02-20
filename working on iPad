@@ -1,0 +1,14 @@
+hello,
+I was using contact form 7 with out your additions plugin and have implemented jquery manualy.
+I was working fine. However, as I am using a responsive theme as cms, on a ipad the form was not working properly.
+It is requested to define the field as date, so HTML5  wise on an ipad, no keyboard is poping up.
+
+I was happy to see, there is you plugin. But I have not found to fix this. 
+As I do not know much about php I need some help on this.
+
+Another point I was looking for, a range of e.g. month will open in defined field.
+
+Any ideas ?
+
+thanks
+haiphin
