@@ -13,6 +13,8 @@ class ContactForm7Datepicker_Admin {
 		if (is_admin() && ! self::is_wpcf7_page())
 			return;
 
+		wp_enqueue_script('jquery-ui-datepicker');
+
 		ContactForm7Datepicker::enqueue_js();
 		ContactForm7Datepicker::enqueue_css();
 	}
