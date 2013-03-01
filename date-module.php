@@ -70,9 +70,7 @@ class ContactForm7Datepicker_Date {
 				$dpOptions['changeMonth'] = true;
 			} elseif (preg_match('%^change-year$%i', $option, $matches)) {
 				$dpOptions['changeYear'] = true;
-			} elseif (preg_match('%^year-range:(\d+)-?(\d+)?$%', $option, $matches)) {
-				$dpOptions['yearRange'] = $matches[1] . ':' . @$matches[2];
-			} elseif (preg_match('%^year-range:([0-9-+:]+)?$%', $option, $matches)) {
+			} elseif (preg_match('%^year-range:([-+\d]+)[:-]?([-+\d]+)?$%', $option, $matches)) {
 				$dpOptions['yearRange'] = $matches[1];
 			} elseif (preg_match('%^months:(\d+)$%', $option, $matches)) {
 				$dpOptions['numberOfMonths'] = (int) $matches[1];
