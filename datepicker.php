@@ -112,7 +112,7 @@ class CF7_DatePicker {
 		$this->options = apply_filters('cf7_datepicker_options', $this->options);
 
 		if ('' !== $this->showAnim) {
-			print_r($this->showAnim);
+			//print_r($this->showAnim);
 			add_action('wp_footer', array($this, 'enqueue_effect'));
 		}
 	}
