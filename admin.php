@@ -124,8 +124,9 @@ class ContactForm7Datepicker_Admin {
 		if (! preg_match('%[-a-z]+%i', $theme))
 			die($errormsg);
 
-		if (! update_option('cf7dp_ui_theme', $theme))
-			die($errormsg);
+		if (get_option('cf7dp_ui_theme') !== $theme)
+			if (! update_option('cf7dp_ui_theme', $theme))
+				die($errormsg);
 
 		die($successmsg);
 	}
