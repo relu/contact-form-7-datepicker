@@ -67,6 +67,8 @@ class ContactForm7Datepicker {
 			);
 		}
 
+		wp_enqueue_script('jquery-ui-datepicker');
+
 		wp_register_script(
 			'jquery-ui-effect-core',
 			plugins_url('js/jquery.ui.effect.min.js', __FILE__),
