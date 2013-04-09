@@ -10,6 +10,7 @@ class ContactForm7Datepicker_Date {
 		remove_filter('wpcf7_validate_date', 'wpcf7_date_validation_filter', 10);
 		remove_filter('wpcf7_validate_date*', 'wpcf7_date_validation_filter', 10);
 		remove_filter('wpcf7_messages', 'wpcf7_date_messages');
+		remove_action('admin_init', 'wpcf7_add_tag_generator_date', 19);
 
 		// Register shortcodes
 		self::add_shortcodes();
