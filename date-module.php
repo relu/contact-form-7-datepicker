@@ -158,7 +158,6 @@ class ContactForm7Datepicker_Date {
 			$result['reason'][$name] = wpcf7_get_message('invalid_required');
 		}
 
-		// TODO: Implement date format verification
 		if (! empty($value) && ! self::is_valid_date($value)) {
 			$result['valid'] = false;
 			$result['reason'][$name] = wpcf7_get_message('invalid_date');
@@ -208,6 +207,14 @@ class ContactForm7Datepicker_Date {
 	}
 
 	private static function is_valid_date($value) {
-		return strtotime($value) ? true : false;
+		$valid = strtotime($value) ? true : false;
+
+		if (! $valid) {
+			// Validate dd/mm/yy
+			$value = str_replace('/', '-', $value);
+			$valid = strtotime($value) ? true : false;
+		}
+
+		return $valid;
 	}
 }
