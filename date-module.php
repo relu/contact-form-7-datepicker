@@ -5,6 +5,12 @@ class ContactForm7Datepicker_Date {
 	public static function register() {
 		require_once dirname(__FILE__) . '/datepicker.php';
 
+		// Remove Contact Form 7's date module
+		remove_action('init', 'wpcf7_add_shortcode_date', 5);
+		remove_filter('wpcf7_validate_date', 'wpcf7_date_validation_filter', 10);
+		remove_filter('wpcf7_validate_date*', 'wpcf7_date_validation_filter', 10);
+		remove_filter('wpcf7_messages', 'wpcf7_date_messages');
+
 		// Register shortcodes
 		self::add_shortcodes();
 
