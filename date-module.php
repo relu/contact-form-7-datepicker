@@ -5,6 +5,12 @@ class ContactForm7Datepicker_Date {
 	public static function register() {
 		require_once dirname(__FILE__) . '/datepicker.php';
 
+		// Remove Contact Form 7's date module
+		remove_action('init', 'wpcf7_add_shortcode_date', 5);
+		remove_filter('wpcf7_validate_date', 'wpcf7_date_validation_filter', 10);
+		remove_filter('wpcf7_validate_date*', 'wpcf7_date_validation_filter', 10);
+		remove_filter('wpcf7_messages', 'wpcf7_date_messages');
+
 		// Register shortcodes
 		self::add_shortcodes();
 
@@ -70,8 +76,8 @@ class ContactForm7Datepicker_Date {
 				$dpOptions['changeMonth'] = true;
 			} elseif (preg_match('%^change-year$%i', $option, $matches)) {
 				$dpOptions['changeYear'] = true;
-			} elseif (preg_match('%^year-range:(\d+)-?(\d+)?$%', $option, $matches)) {
-				$dpOptions['yearRange'] = $matches[1] . ':' . @$matches[2];
+			} elseif (preg_match('%^year-range:([-+\d]+)[:-]?([-+\d]+)?$%', $option, $matches)) {
+				$dpOptions['yearRange'] = $matches[1];
 			} elseif (preg_match('%^months:(\d+)$%', $option, $matches)) {
 				$dpOptions['numberOfMonths'] = (int) $matches[1];
 			} elseif (preg_match('%^buttons$%', $option, $matches)) {
@@ -189,24 +195,10 @@ class ContactForm7Datepicker_Date {
 	}
 
 	private static function animate_dropdown() {
-		$effects = array(
-			'show' => __('Show'),
-			'blind' => __('Blind'),
-			'clip' => __('Clip'),
-			'drop' => __('Drop'),
-			'explode' => __('Explode'),
-			'fade' => __('Fade'),
-			'fold' => __('Fold'),
-			'puff' => __('Puff'),
-			'slide' => __('Slide'),
-			'scale' => __('Scale')
-		);
-
-		$effects = apply_filters('cf7dp_effects', $effects);
-
 		$html = "<select id=\"animate\">\n";
-		foreach ($effects as $key => $val) {
-			$html .= "\t<option value=\"{$key}\">{$val}</option>\n";
+
+		foreach (CF7_DatePicker::$effects as $val) {
+			$html .= '<option value="' . esc_attr($val) . '">' . ucfirst($val) . '</option>';
 		}
 
 		$html .= "</select>";
