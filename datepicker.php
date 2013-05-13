@@ -137,11 +137,12 @@ class CF7_DatePicker {
 		$out .= self::_regionalize();
 
 		// Remove watermark class onSelect
-		$out .= ".datepicker('option', 'onSelect', function(){ $(this).removeClass('watermark').trigger('change'); });\n";
+		if (! $inline)
+			$out .= ".datepicker('option', 'onSelect', function(){ $(this).removeClass('watermark').trigger('change'); })";
 
-		$out = "jQuery(function($){ $out });";
+		$out .= ".datepicker('refresh');";
 
-		return "\n<script type=\"text/javascript\">{$out}</script>\n";
+		return $out;
 	}
 
 	private function options_encode() {
