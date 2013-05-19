@@ -1,26 +1,16 @@
 <?php
 
-class ContactForm7Datepicker_Date {
+class ContactForm7Datepicker_DateTime {
 
 	static $inline_js = array();
 
 	public static function register() {
-		require_once dirname(__FILE__) . '/datepicker.php';
-
-		// Remove Contact Form 7's date module
-		remove_action('init', 'wpcf7_add_shortcode_date', 5);
-		remove_filter('wpcf7_validate_date', 'wpcf7_date_validation_filter', 10);
-		remove_filter('wpcf7_validate_date*', 'wpcf7_date_validation_filter', 10);
-		remove_filter('wpcf7_messages', 'wpcf7_date_messages');
-		remove_action('admin_init', 'wpcf7_add_tag_generator_date', 19);
-
 		// Register shortcodes
 		self::add_shortcodes();
 
 		// Validations
-		add_filter('wpcf7_validate_date', array(__CLASS__, 'validation_filter'), 10, 2);
-		add_filter('wpcf7_validate_date*', array(__CLASS__, 'validation_filter'), 10, 2);
-
+		add_filter('wpcf7_validate_datetime', array(__CLASS__, 'validation_filter'), 10, 2);
+		add_filter('wpcf7_validate_datetime*', array(__CLASS__, 'validation_filter'), 10, 2);
 
 		// Tag generator
 		add_action('load-toplevel_page_wpcf7', array(__CLASS__, 'tag_generator'));
@@ -51,7 +41,7 @@ class ContactForm7Datepicker_Date {
 
 		$class_att = wpcf7_form_controls_class( $type, 'wpcf7-date');
 
-		if ('date*' == $type)
+		if ('datetime*' == $type)
 			$class_att .= ' wpcf7-validates-as-required';
 
 		if ($validation_error)
@@ -70,8 +60,8 @@ class ContactForm7Datepicker_Date {
 				$maxlen_att = (int) $matches[2];
 			} elseif (preg_match('%^tabindex:(\d+)$%i', $option, $matches)) {
 				$tabindex_att = (int) $matches[1];
-			} elseif (preg_match('%^date-format:([-_/\.\w\d]+)$%i', $option, $matches)) {
-				$dpOptions['dateFormat'] = str_replace('_', ' ', $matches[1]);
+			} elseif (preg_match('%^(date|time)-format:([-_/\.\w\d]+)$%i', $option, $matches)) {
+				$dpOptions[$matches[1] . 'Format'] = str_replace('_', ' ', $matches[2]);
 			} elseif (preg_match('%^(min|max)-date:([-_/\.\w\d]+)$%i', $option, $matches)) {
 				$dpOptions[$matches[1] . 'Date'] = $matches[2];
 			} elseif (preg_match('%^first-day:(\d)$%', $option, $matches)) {
@@ -91,9 +81,13 @@ class ContactForm7Datepicker_Date {
 			} elseif (preg_match('%inline$%', $option, $matches)) {
 				$inline = true;
 				$dpOptions['altField'] = "#{$name}_alt";
+			} elseif (preg_match('%^(min|max)-(minute|hour|second):([\d]+)$%i', $option, $matches)) {
+				$dpOptions[$matches[2] . ucfirst($matches[1])] = $matches[3];
+			} elseif (preg_match('%^control-type:(slider|select)$%i', $option, $matches)) {
+				$dpOptions['controlType'] = $matches[1];
 			}
 
-			do_action_ref_array('cf7_datepicker_attr_match', array($dpOptions), $option);
+			do_action_ref_array('cf7dp_datetime_attr_match', array($dpOptions), $option);
 		}
 
 		$value = reset($values);
@@ -137,14 +131,14 @@ class ContactForm7Datepicker_Date {
 			$input_atts
 		);
 
-		$input = apply_filters('cf7dp_date_input', $input);
+		$input = apply_filters('cf7dp_datetime_input', $input);
 
 		if ($inline)
-			$input .= sprintf('<div id="%s_datepicker" %s></div>', $name, $atts);
+			$input .= sprintf('<div id="%s_datetimepicker" %s></div>', $name, $atts);
 
-		$dp_selector = $inline ? '#' . $name . '_datepicker' : $name;
+		$dp_selector = $inline ? '#' . $name . '_datetimepicker' : $name;
 
-		$dp = new CF7_DatePicker($dp_selector, $dpOptions);
+		$dp = new CF7_DateTimePicker('datetime', $dp_selector, $dpOptions);
 
 		self::$inline_js[] = $dp->generate_code($inline);
 
@@ -161,49 +155,49 @@ class ContactForm7Datepicker_Date {
 
 		$value = trim($_POST[$name]);
 
-		if ('date*' == $type && empty($value)) {
+		if ('datetime*' == $type && empty($value)) {
 			$result['valid'] = false;
 			$result['reason'][$name] = wpcf7_get_message('invalid_required');
 		}
 
 		if (! empty($value) && ! self::is_valid_date($value)) {
 			$result['valid'] = false;
-			$result['reason'][$name] = wpcf7_get_message('invalid_date');
+			$result['reason'][$name] = wpcf7_get_message('invalid_datetime');
 		}
 
 		return $result;
 	}
 
 	public static function tag_generator() {
-		wpcf7_add_tag_generator('date',
-			__('Date field', 'wpcf7'),
-			'wpcf7-tg-pane-date',
-			array(__CLASS__, 'tg_pane_date')
+		wpcf7_add_tag_generator('datetime',
+			__('Date Time field', 'wpcf7'),
+			'wpcf7-tg-pane-datetime',
+			array(__CLASS__, 'tg_pane')
 		);
 	}
 
-	public static function tg_pane_date() {
-		require_once 'date-tag-generator.php';
+	public static function tg_pane() {
+		require_once dirname(__FILE__) . '/generators/datetime.php';
 	}
 
 	private static function add_shortcodes() {
 		if (function_exists('wpcf7_add_shortcode')) {
-			wpcf7_add_shortcode('date', array(__CLASS__, 'shortcode_handler'), true);
-			wpcf7_add_shortcode('date*', array(__CLASS__, 'shortcode_handler'), true);
+			wpcf7_add_shortcode('datetime', array(__CLASS__, 'shortcode_handler'), true);
+			wpcf7_add_shortcode('datetime*', array(__CLASS__, 'shortcode_handler'), true);
 		}
 	}
 
 	public static function messages($messages) {
-		$messages['invalid_date'] = array(
-			'description' => __('The date that the sender entered is invalid'),
-			'default' => __('Invalid date supplied.'),
+		$messages['invalid_datetime'] = array(
+			'description' => __('The date and time that the sender entered is invalid'),
+			'default' => __('Invalid date and time supplied.'),
 		);
 
 		return $messages;
 	}
 
 	public static function print_inline_js() {
-		if (! wp_script_is('jquery-ui-datepicker', 'done') || empty(self::$inline_js))
+		if (! wp_script_is('jquery-ui-timepicker', 'done') || empty(self::$inline_js))
 			return;
 
 		$out = implode("\n\t", self::$inline_js);
@@ -215,7 +209,7 @@ class ContactForm7Datepicker_Date {
 	private static function animate_dropdown() {
 		$html = "<select id=\"animate\">\n";
 
-		foreach (CF7_DatePicker::$effects as $val) {
+		foreach (CF7_DateTimePicker::$effects as $val) {
 			$html .= '<option value="' . esc_attr($val) . '">' . ucfirst($val) . '</option>';
 		}
 
@@ -235,4 +229,7 @@ class ContactForm7Datepicker_Date {
 
 		return $valid;
 	}
+
 }
+
+ContactForm7Datepicker_DateTime::register();

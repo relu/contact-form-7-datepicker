@@ -44,8 +44,10 @@ class ContactForm7Datepicker {
 	}
 
 	function load_date_module() {
-		require_once dirname(__FILE__) . '/date-module.php';
-		ContactForm7Datepicker_Date::register();
+		require_once dirname(__FILE__) . '/datetimepicker.php';
+		require_once dirname(__FILE__) . '/modules/datetime.php';
+		require_once dirname(__FILE__) . '/modules/date.php';
+		require_once dirname(__FILE__) . '/modules/time.php';
 	}
 
 	function activate() {
@@ -54,7 +56,7 @@ class ContactForm7Datepicker {
 	}
 
 	function enqueue_js() {
-		$regional = CF7_DatePicker::get_regional_match();
+		$regional = CF7_DateTimePicker::get_regional_match();
 		$proto = is_ssl() ? 'https' : 'http';
 
 		if (! empty($regional)) {
@@ -65,9 +67,27 @@ class ContactForm7Datepicker {
 				self::JQUERYUI_VERSION,
 				true
 			);
+
+			wp_enqueue_script(
+				'jquery-ui-timepicker-' . $regional,
+				plugins_url('js/jquery-timepicker/i18n/jquery-ui-timepicker-' . $regional . '.js', __FILE__),
+				array('jquery-ui-timepicker'),
+				'',
+				true
+			);
 		}
 
 		wp_enqueue_script('jquery-ui-datepicker');
+
+		wp_enqueue_script(
+			'jquery-ui-timepicker',
+			plugins_url('js/jquery-timepicker/jquery-ui-timepicker-addon.js', __FILE__),
+			array('jquery-ui-datepicker'),
+			'',
+			true
+		);
+
+		wp_enqueue_script('jquery-ui-slider');
 
 		wp_register_script(
 			'jquery-ui-effect-core',
@@ -77,7 +97,7 @@ class ContactForm7Datepicker {
 			true
 		);
 
-		foreach (CF7_DatePicker::$effects as $effect) {
+		foreach (CF7_DateTimePicker::$effects as $effect) {
 			wp_register_script(
 				'jquery-ui-effect-' . $effect,
 				plugins_url('js/jquery.ui.effect-' . $effect . '.min.js', __FILE__),
@@ -102,6 +122,11 @@ class ContactForm7Datepicker {
 			'',
 			self::JQUERYUI_VERSION,
 			'all'
+		);
+
+		wp_enqueue_style(
+			'jquery-ui-timepicker',
+			plugins_url('js/jquery-timepicker/jquery-ui-timepicker-addon.css', __FILE__)
 		);
 	}
 }

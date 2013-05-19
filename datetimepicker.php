@@ -1,11 +1,12 @@
 <?php
 
-class CF7_DatePicker {
+class CF7_DateTimePicker {
 
-	private $input_name;
+	private $type, $input_name;
 
 	private $options = array(
 		'dateFormat' => '',
+		'timeFormat' => '',
 		'minDate' => '',
 		'maxDate' => '',
 		'firstDay' => '',
@@ -16,6 +17,15 @@ class CF7_DatePicker {
 		'yearRange' => '',
 		'numberOfMonths' => '',
 		'showButtonPanel' => '',
+		'showSecond' => '',
+		'showTimezone' => '',
+		'controlType' => 'slider',
+		'hourMin' => '',
+		'hourMax' => '',
+		'minuteMin' => '',
+		'minuteMax' => '',
+		'secondMin' => '',
+		'secondMax' => '',
 	);
 
 	private static $regionals = array(
@@ -103,8 +113,9 @@ class CF7_DatePicker {
 		'transfer',
 	);
 
-	function __construct($name, $options = array()) {
+	function __construct($type, $name, $options = array()) {
 		$this->input_name = $name;
+		$this->type = in_array($type, array('date', 'time', 'datetime')) ? $type . 'picker' : 'datepicker';
 
 		$this->options['firstDay'] = get_option('start_of_week');
 
@@ -112,7 +123,7 @@ class CF7_DatePicker {
 		$this->options = apply_filters('cf7_datepicker_options', $this->options);
 
 		if ('' !== $this->showAnim) {
-			add_action('wp_footer', array($this, 'enqueue_effect'));
+			add_action('wp_enqueue_scripts', array($this, 'enqueue_effect'));
 		}
 	}
 
@@ -133,14 +144,14 @@ class CF7_DatePicker {
 	public function generate_code($inline = false) {
 		$selector = ($inline) ? "$('$this->input_name')" : "$('input[name=\"{$this->input_name}\"]')";
 
-		$out  = "{$selector}.datepicker({$this->options_encode()})";
-		$out .= self::_regionalize();
+		$out  = "{$selector}.{$this->type}({$this->options_encode()})";
+		$out .= $this->regionalize();
 
 		// Remove watermark class onSelect
 		if (! $inline)
-			$out .= ".datepicker('option', 'onSelect', function(){ $(this).removeClass('watermark').trigger('change'); })";
+			$out .= ".{$this->type}('option', 'onSelect', function(){ $(this).removeClass('watermark').trigger('change'); })";
 
-		$out .= ".datepicker('refresh');";
+		$out .= ".{$this->type}('refresh');";
 		$out = apply_filters('cf7dp_datepicker_javascript', $out, $this);
 
 		return $out;
@@ -155,13 +166,13 @@ class CF7_DatePicker {
 		return stripslashes($options);
 	}
 
-	private static function _regionalize() {
+	private function regionalize() {
 		$regional = self::get_regional_match();
 
 		$regional = apply_filters('cf7dp_datepicker_regional', $regional);
 
 		if ($regional)
-			return ".datepicker('option', $.datepicker.regional['{$regional}'])";
+			return ".{$this->type}('option', $.datepicker.regional['{$regional}'])";
 
 		return '';
 	}
@@ -187,6 +198,11 @@ class CF7_DatePicker {
 
 	public function enqueue_effect() {
 		wp_enqueue_script('jquery-ui-effect-' . $this->showAnim);
+	}
+
+	public function enqueue_timepicker() {
+		wp_enqueue_script('jquery-ui-timepicker');
+		wp_enqueue_style('jquery-ui-timepicker');
 	}
 
 }
