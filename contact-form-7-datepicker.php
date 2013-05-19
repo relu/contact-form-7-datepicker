@@ -70,7 +70,7 @@ class ContactForm7Datepicker {
 
 			wp_enqueue_script(
 				'jquery-ui-timepicker-' . $regional,
-				plugins_url('js/jquery-timepicker/i18n/jquery-ui-timepicker-' . $regional . '.js', __FILE__),
+				plugins_url('js/jquery-ui-timepicker/i18n/jquery-ui-timepicker-' . $regional . '.js', __FILE__),
 				array('jquery-ui-timepicker'),
 				'',
 				true
@@ -81,7 +81,7 @@ class ContactForm7Datepicker {
 
 		wp_enqueue_script(
 			'jquery-ui-timepicker',
-			plugins_url('js/jquery-timepicker/jquery-ui-timepicker-addon.js', __FILE__),
+			plugins_url('js/jquery-ui-timepicker/jquery-ui-timepicker-addon.js', __FILE__),
 			array('jquery-ui-datepicker'),
 			'',
 			true
@@ -126,7 +126,7 @@ class ContactForm7Datepicker {
 
 		wp_enqueue_style(
 			'jquery-ui-timepicker',
-			plugins_url('js/jquery-timepicker/jquery-ui-timepicker-addon.css', __FILE__)
+			plugins_url('js/jquery-ui-timepicker/jquery-ui-timepicker-addon.css', __FILE__)
 		);
 	}
 }
