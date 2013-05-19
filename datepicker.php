@@ -141,6 +141,7 @@ class CF7_DatePicker {
 			$out .= ".datepicker('option', 'onSelect', function(){ $(this).removeClass('watermark').trigger('change'); })";
 
 		$out .= ".datepicker('refresh');";
+		$out = apply_filters('cf7dp_datepicker_javascript', $out, $this);
 
 		return $out;
 	}
