@@ -137,6 +137,8 @@ class ContactForm7Datepicker_Date {
 			$input_atts
 		);
 
+		$input = apply_filters('cf7dp_date_input', $input);
+
 		if ($inline)
 			$input .= sprintf('<div id="%s_datepicker" %s></div>', $name, $atts);
 
