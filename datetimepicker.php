@@ -185,15 +185,17 @@ class CF7_DateTimePicker {
 			str_replace('_', '-', $locale),
 		);
 
+		$lang = '';
+
 		if ($key_match[1] != 'en') {
 			foreach ($key_match as $key) {
 				if (array_key_exists($key, self::$regionals)) {
-					return $key;
+					$lang = $key;
 				}
 			}
 		}
 
-		return null;
+		return apply_filters('cf7dp_language', $lang);
 	}
 
 	public function enqueue_effect() {
