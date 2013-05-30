@@ -10,6 +10,7 @@ class CF7_DateTimePicker {
 		'minDate' => '',
 		'maxDate' => '',
 		'firstDay' => '',
+		'noWeekends' => '',
 		'defaultDate' => '',
 		'showAnim' => '',
 		'changeMonth' => '',
@@ -118,7 +119,8 @@ class CF7_DateTimePicker {
 		$this->type = in_array($type, array('date', 'time', 'datetime')) ? $type . 'picker' : 'datepicker';
 
 		$this->options['firstDay'] = get_option('start_of_week');
-
+		$this->options['noWeekends'] = get_option('no_weekends');
+		
 		$this->options = wp_parse_args((array)$options, $this->options);
 		$this->options = apply_filters('cf7_datepicker_options', $this->options);
 
@@ -141,7 +143,7 @@ class CF7_DateTimePicker {
 		return $this->options;
 	}
 
-	public function generate_code($inline = false) {
+	public function generate_code($inline = false, $noWeekends = false) {		
 		$selector = ($inline) ? "$('$this->input_name')" : "$('input[name=\"{$this->input_name}\"]')";
 
 		$out  = "{$selector}.{$this->type}({$this->options_encode()})";
@@ -150,7 +152,12 @@ class CF7_DateTimePicker {
 		// Remove watermark class onSelect
 		if (! $inline)
 			$out .= ".{$this->type}('option', 'onSelect', function(){ $(this).removeClass('watermark').trigger('change'); })";
-
+		
+		if ($noWeekends)
+			//.datepicker({beforeShowDay: $.datepicker.noWeekends}) //per: http://api.jqueryui.com/datepicker/
+			//$out .= ".{$this->type}({beforeShowDay: $.datepicker.noWeekends})"; // does NOT work
+			$out .= ".{$this->type}('option', 'beforeShowDay', $.datepicker.noWeekends)";
+			
 		$out .= ".{$this->type}('refresh');";
 		$out = apply_filters('cf7dp_datepicker_javascript', $out, $this);
 
@@ -162,7 +169,6 @@ class CF7_DateTimePicker {
 			$this->options,
 			create_function('$var', 'return ! empty($var);')
 		));
-
 		return stripslashes($options);
 	}
 
@@ -179,7 +185,6 @@ class CF7_DateTimePicker {
 
 	public static function get_regional_match() {
 		$locale = get_locale();
-
 		$key_match = array(
 			substr($locale, 0, 2),
 			str_replace('_', '-', $locale),

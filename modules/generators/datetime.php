@@ -109,6 +109,8 @@
 
 					<input type="checkbox" value="1" id="first-day-monday" name="first-day:1" class="option exclusive" />
 					<label for="first-day-monday"><?php _e('Monday'); ?></label>
+					<br/>
+					<label><input type="checkbox" name="no-weekends" class="option" /> <code>no-weekends</code></label>
 				</td>
 				<td>
 					<code>animate</code><br />
