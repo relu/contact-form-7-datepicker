@@ -1,9 +1,9 @@
 === Plugin Name ===
-Contributors: shockware
+Contributors: shockware, twinpictures, baden03
 Tags: wordpress, datepicker, calendar, contact form 7, forms, jqueryui
 Requires at least: 2.9
 Tested up to: 3.5.1
-Stable tag: 2.3.2
+Stable tag: 2.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,10 @@ You can [open an issue on github](https://github.com/relu/contact-form-7-datepic
 3. Date field generator
 
 == Changelog ==
+
+= 2.3.3 =
+* Fixed minDate and maxDate
+* Added noWeekend, stepHour, stepMinutes, stepSeconds
 
 = 2.3.2 =
 * Fix year-range issues
