@@ -23,10 +23,13 @@ class CF7_DateTimePicker {
 		'controlType' => 'slider',
 		'hourMin' => '',
 		'hourMax' => '',
+		'stepHour' => '',
 		'minuteMin' => '',
 		'minuteMax' => '',
+		'stepMinute' => '',
 		'secondMin' => '',
 		'secondMax' => '',
+		'stepSecond' => ''
 	);
 
 	private static $regionals = array(
@@ -143,7 +146,7 @@ class CF7_DateTimePicker {
 		return $this->options;
 	}
 
-	public function generate_code($inline = false, $noWeekends = false) {		
+	public function generate_code($inline = false, $noWeekends = false, $minDate = false, $maxDate = false) {		
 		$selector = ($inline) ? "$('$this->input_name')" : "$('input[name=\"{$this->input_name}\"]')";
 
 		$out  = "{$selector}.{$this->type}({$this->options_encode()})";
@@ -152,11 +155,21 @@ class CF7_DateTimePicker {
 		// Remove watermark class onSelect
 		if (! $inline)
 			$out .= ".{$this->type}('option', 'onSelect', function(){ $(this).removeClass('watermark').trigger('change'); })";
-		
+		// set weekends as non-selectable, dude
 		if ($noWeekends)
-			//.datepicker({beforeShowDay: $.datepicker.noWeekends}) //per: http://api.jqueryui.com/datepicker/
-			//$out .= ".{$this->type}({beforeShowDay: $.datepicker.noWeekends})"; // does NOT work
 			$out .= ".{$this->type}('option', 'beforeShowDay', $.datepicker.noWeekends)";
+			
+		if ($minDate){
+			$minDate_arr = array_map('intval', explode('-', $minDate ));
+			$minDate_arr[1]--;
+			$out .= ".{$this->type}('option', 'minDate', new Date({$minDate_arr[0]},{$minDate_arr[1]},{$minDate_arr[2]}))";
+		}
+		
+		if ($maxDate){
+			$maxDate_arr = array_map('intval', explode('-', $maxDate ));
+			$maxDate_arr[1]--;
+			$out .= ".{$this->type}('option', 'maxDate', new Date({$maxDate_arr[0]},{$maxDate_arr[1]},{$maxDate_arr[2]}))";
+		}
 			
 		$out .= ".{$this->type}('refresh');";
 		$out = apply_filters('cf7dp_datepicker_javascript', $out, $this);
