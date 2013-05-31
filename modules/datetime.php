@@ -48,6 +48,9 @@ class ContactForm7Datepicker_DateTime {
 			$class_att .= ' wpcf7-not-valid';
 
 		$inline = false;
+		$noWeekends = false;
+		$minDate = false;
+		$maxDate = false;
 
 		$dpOptions = array();
 		foreach ($options as $option) {
@@ -62,8 +65,14 @@ class ContactForm7Datepicker_DateTime {
 				$tabindex_att = (int) $matches[1];
 			} elseif (preg_match('%^(date|time)-format:([-_/\.\w\d]+)$%i', $option, $matches)) {
 				$dpOptions[$matches[1] . 'Format'] = str_replace('_', ' ', $matches[2]);
-			} elseif (preg_match('%^(min|max)-date:([-_/\.\w\d]+)$%i', $option, $matches)) {
+			/*
+			 } elseif (preg_match('%^(min|max)-date:([-_/\.\w\d]+)$%i', $option, $matches)) {
 				$dpOptions[$matches[1] . 'Date'] = $matches[2];
+			*/
+			} elseif (preg_match('%^min-date:([-_/\.\w\d]+)$%i', $option, $matches)) {
+				$minDate = $matches[1];
+			} elseif (preg_match('%^max-date:([-_/\.\w\d]+)$%i', $option, $matches)) {
+				$maxDate = $matches[1];
 			} elseif (preg_match('%^first-day:(\d)$%', $option, $matches)) {
 				$dpOptions['firstDay'] = (int) $matches[1];
 			} elseif (preg_match('%^no-weekends$%', $option, $matches)) {
@@ -83,8 +92,10 @@ class ContactForm7Datepicker_DateTime {
 			} elseif (preg_match('%inline$%', $option, $matches)) {
 				$inline = true;
 				$dpOptions['altField'] = "#{$name}_alt";
-			} elseif (preg_match('%^(min|max)-(minute|hour|second):([\d]+)$%i', $option, $matches)) {
-				$dpOptions[$matches[2] . ucfirst($matches[1])] = $matches[3];
+			} elseif (preg_match('%^(min|max)-(hour|minute|second):([\d]+)$%i', $option, $matches)) {
+				$dpOptions[$matches[2] . ucfirst($matches[1])] = (int)$matches[3];
+			} elseif (preg_match('%^step-(hour|minute|second):([\d]+)$%i', $option, $matches)) {
+				$dpOptions['step' . ucfirst($matches[1])] = (int)$matches[2];
 			} elseif (preg_match('%^control-type:(slider|select)$%i', $option, $matches)) {
 				$dpOptions['controlType'] = $matches[1];
 			}
@@ -142,7 +153,7 @@ class ContactForm7Datepicker_DateTime {
 
 		$dp = new CF7_DateTimePicker('datetime', $dp_selector, $dpOptions);
 
-		self::$inline_js[] = $dp->generate_code($inline, $noWeekends);
+		self::$inline_js[] = $dp->generate_code($inline, $noWeekends, $minDate, $maxDate);
 
 		return sprintf('<span class="wpcf7-form-control-wrap %s">%s %s</span>',
 			esc_attr($name),

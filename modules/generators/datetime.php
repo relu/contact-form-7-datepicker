@@ -12,32 +12,32 @@
 		<table>
 			<tr>
 				<td>
-					<code>id</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
-					<input type="text" name="id" class="idvalue oneline option" />
+					<label><code>id</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
+					<input type="text" name="id" class="idvalue oneline option" /></label>
 				</td>
 
 				<td>
-					<code>class</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
-					<input type="text" name="class" class="classvalue oneline option" />
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					<code>size</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
-					<input type="text" name="size" class="numeric oneline option" />
-				</td>
-
-				<td>
-					<code>maxlength</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br />
-					<input type="text" name="maxlength" class="numeric oneline option" />
+					<label><code>class</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)
+					<input type="text" name="class" class="classvalue oneline option" /></label>
 				</td>
 			</tr>
 
 			<tr>
 				<td>
-					<code>date-format</code><br />
-					<input type="text" value="mm/dd/yy" name="date-format" class="oneline option" />
+					<label><code>size</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)
+					<input type="text" name="size" class="numeric oneline option" /></label>
+				</td>
+
+				<td>
+					<label><code>maxlength</code> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)
+					<input type="text" name="maxlength" class="numeric oneline option" /><label>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<label><code>date-format</code>
+					<input type="text" value="mm/dd/yy" name="date-format" class="oneline option" /><label>
 				</td>
 				<td>
 					<br />
@@ -47,8 +47,8 @@
 
 			<tr>
 				<td>
-					<code>time-format</code><br />
-					<input type="text" value="HH:mm" name="time-format" class="oneline option" />
+					<label><code>time-format</code>
+					<input type="text" value="HH:mm" name="time-format" class="oneline option" /><label>
 				</td>
 				<td>
 					<br />
@@ -58,62 +58,88 @@
 
 			<tr>
 				<td>
-					<code>min-date</code><br />
-					<input type="text" name="min-date" class="oneline option" />
+					<label><code>min-date</code>
+					<input type="text" name="min-date" class="oneline option" /><label>
 				</td>
 				<td>
-					<code>max-date</code><br />
-					<input type="text" name="max-date" class="oneline option" />
-				</td>
-			</tr>
-
-			<tr>
-				<td>
-					<label><code>min-hour</code><br />
-					<input type="text" name="min-hour" class="oneline option" />
-				</td>
-				<td>
-					<label><code>max-hour</code><br />
-					<input type="text" name="max-hour" class="oneline option" />
+					<label><code>max-date</code>
+					<input type="text" name="max-date" class="oneline option" /><label>
 				</td>
 			</tr>
 
 			<tr>
 				<td>
-					<label><code>min-minute</code><br />
-					<input type="text" name="min-minute" class="oneline option" />
+					<label><code>min-hour</code>
+					<input type="text" name="min-hour" class="oneline option" /></label>
 				</td>
 				<td>
-					<label><code>max-minute</code><br />
-					<input type="text" name="max-minute" class="oneline option" />
+					<label><code>max-hour</code>
+					<input type="text" name="max-hour" class="oneline option" /></label>
 				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<label><code>step-hour</code>
+					<input type="text" name="step-hour" class="oneline option" /></label>
+				</td>
+				<td> </td>
 			</tr>
 
 			<tr>
 				<td>
-					<label><code>min-second</code><br />
-					<input type="text" name="min-second" class="oneline option" />
+					<label><code>min-minute</code>
+					<input type="text" name="min-minute" class="oneline option" /></label>
 				</td>
 				<td>
-					<label><code>max-second</code><br />
-					<input type="text" name="max-second" class="oneline option" />
+					<label><code>max-minute</code>
+					<input type="text" name="max-minute" class="oneline option" /></label>
 				</td>
 			</tr>
-
+			
 			<tr>
 				<td>
-					<code>first-day</code><br />
+					<label><code>step-minute</code>
+					<input type="text" name="step-minute" class="oneline option" /></label>
+				</td>
+				<td> </td>
+			</tr>
+			
+			<tr>
+				<td>
+					<label><code>min-second</code>
+					<input type="text" name="min-second" class="oneline option" /></label>
+				</td>
+				<td>
+					<label><code>max-second</code>
+					<input type="text" name="max-second" class="oneline option" /></label>
+				</td>
+			</tr>
+			
+			<tr>
+				<td>
+					<label><code>step-second</code>
+					<input type="text" name="step-second" class="oneline option" /></label>
+				</td>
+				<td> </td>
+			</tr>
+			
+			<tr>
+				<td colspan="2">
+					<code>first-day</code>
 					<input type="checkbox" id="first-day-sunday" name="first-day:0" class="option exclusive" />
 					<label for="first-day-sunday"><?php _e('Sunday'); ?></label>
 					&nbsp;&nbsp;
-
 					<input type="checkbox" value="1" id="first-day-monday" name="first-day:1" class="option exclusive" />
 					<label for="first-day-monday"><?php _e('Monday'); ?></label>
-					<br/>
+				</td>
+			</tr>
+			<tr>
+				<td>
 					<label><input type="checkbox" name="no-weekends" class="option" /> <code>no-weekends</code></label>
 				</td>
 				<td>
-					<code>animate</code><br />
+					<code>animate</code>
 					<input type="text" name="animate" class="option" style="display: none" />
 					<?php self::animate_dropdown(); ?>
 				</td>
@@ -123,24 +149,24 @@
 				<td>
 					<label><code>change-month</code> <input type="checkbox" name="change-month" id="change-month" class="option" /></label>
 				</td>
-			</tr>
-
-			<tr>
 				<td>
 					<label><code>change-year</code> <input type="checkbox" name="change-year" id="change-year" class="option" /></label>
 				</td>
-				<td>
-					<code>year-range</code><br />
+			</tr>
+
+			<tr>
+				<td colspan="2">
+					<label><code>year-range</code>
 					<input type="text" id="year-range" name="year-range" class="option" style="display: none;" />
 					<input size="4" type="text" name="year-range-start" class="year-range numeric" /> -
-					<input size="4"type="text" name="year-range-end" class="year-range numeric" />
+					<input size="4"type="text" name="year-range-end" class="year-range numeric" /></label>
 				</td>
 			</tr>
 
 			<tr>
 				<td>
-					<code>months</code><br />
-					<input type="text" size="2" name="months" class="option numeric"/>
+					<label><code>months</code>
+					<input type="text" size="2" name="months" class="option numeric"/></label>
 				</td>
 				<td>
 					<label><code>buttons</code> <input type="checkbox" name="buttons" class="option" /></label>

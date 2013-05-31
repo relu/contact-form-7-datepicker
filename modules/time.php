@@ -47,9 +47,9 @@ class ContactForm7Datepicker_Time {
 
 		if ($validation_error)
 			$class_att .= ' wpcf7-not-valid';
-
+			
 		$inline = false;
-
+		
 		$dpOptions = array();
 		foreach ($options as $option) {
 			if (preg_match('%^id:([-_\w\d]+)$%i', $option, $matches)) {
@@ -70,8 +70,10 @@ class ContactForm7Datepicker_Time {
 			} elseif (preg_match('%inline$%', $option, $matches)) {
 				$inline = true;
 				$dpOptions['altField'] = "#{$name}_alt";
-			} elseif (preg_match('%^(min|max)-(minute|hour|second):([\d]+)$%i', $option, $matches)) {
-				$dpOptions[$matches[2] . ucfirst($matches[1])] = $matches[3];
+			} elseif (preg_match('%^(min|max)-(hour|minute|second):([\d]+)$%i', $option, $matches)) {
+				$dpOptions[$matches[2] . ucfirst($matches[1])] = (int)$matches[3];
+			} elseif (preg_match('%^step-(hour|minute|second):([\d]+)$%i', $option, $matches)) {
+				$dpOptions['step' . ucfirst($matches[1])] = (int)$matches[2];
 			} elseif (preg_match('%^control-type:(slider|select)$%i', $option, $matches)) {
 				$dpOptions['controlType'] = $matches[1];
 			}
