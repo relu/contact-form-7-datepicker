@@ -48,9 +48,6 @@ class ContactForm7Datepicker_DateTime {
 			$class_att .= ' wpcf7-not-valid';
 
 		$inline = false;
-		$noWeekends = false;
-		$minDate = false;
-		$maxDate = false;
 
 		$dpOptions = array();
 		foreach ($options as $option) {
@@ -65,18 +62,12 @@ class ContactForm7Datepicker_DateTime {
 				$tabindex_att = (int) $matches[1];
 			} elseif (preg_match('%^(date|time)-format:([-_/\.\w\d]+)$%i', $option, $matches)) {
 				$dpOptions[$matches[1] . 'Format'] = str_replace('_', ' ', $matches[2]);
-			/*
-			 } elseif (preg_match('%^(min|max)-date:([-_/\.\w\d]+)$%i', $option, $matches)) {
+			} elseif (preg_match('%^(min|max)-date:([-_/\.\w\d]+)$%i', $option, $matches)) {
 				$dpOptions[$matches[1] . 'Date'] = $matches[2];
-			*/
-			} elseif (preg_match('%^min-date:([-_/\.\w\d]+)$%i', $option, $matches)) {
-				$minDate = $matches[1];
-			} elseif (preg_match('%^max-date:([-_/\.\w\d]+)$%i', $option, $matches)) {
-				$maxDate = $matches[1];
 			} elseif (preg_match('%^first-day:(\d)$%', $option, $matches)) {
 				$dpOptions['firstDay'] = (int) $matches[1];
 			} elseif (preg_match('%^no-weekends$%', $option, $matches)) {
-				$noWeekends = true;
+				$dpOptions['noWeekends'] = true;
 			} elseif (preg_match('%^animate:(\w+)$%i', $option, $matches)) {
 				$dpOptions['showAnim'] = $matches[1];
 			} elseif (preg_match('%^change-month$%i', $option, $matches)) {
@@ -153,7 +144,7 @@ class ContactForm7Datepicker_DateTime {
 
 		$dp = new CF7_DateTimePicker('datetime', $dp_selector, $dpOptions);
 
-		self::$inline_js[] = $dp->generate_code($inline, $noWeekends, $minDate, $maxDate);
+		self::$inline_js[] = $dp->generate_code($inline);
 
 		return sprintf('<span class="wpcf7-form-control-wrap %s">%s %s</span>',
 			esc_attr($name),

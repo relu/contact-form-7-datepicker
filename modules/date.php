@@ -56,7 +56,6 @@ class ContactForm7Datepicker_Date {
 			$class_att .= ' wpcf7-not-valid';
 
 		$inline = false;
-		$noWeekends = false;
 		
 		$dpOptions = array();
 		foreach ($options as $option) {
@@ -76,7 +75,7 @@ class ContactForm7Datepicker_Date {
 			} elseif (preg_match('%^first-day:(\d)$%', $option, $matches)) {
 				$dpOptions['firstDay'] = (int) $matches[1];
 			} elseif (preg_match('%^no-weekends$%', $option, $matches)) {
-				$noWeekends = true;
+				$dpOptions['noWeekends'] = true;
 			} elseif (preg_match('%^animate:(\w+)$%i', $option, $matches)) {
 				$dpOptions['showAnim'] = $matches[1];
 			} elseif (preg_match('%^change-month$%i', $option, $matches)) {
@@ -146,7 +145,7 @@ class ContactForm7Datepicker_Date {
 		$dp_selector = $inline ? '#' . $name . '_datepicker' : $name;
 
 		$dp = new CF7_DateTimePicker('date', $dp_selector, $dpOptions);
-		self::$inline_js[] = $dp->generate_code($inline, $noWeekends);
+		self::$inline_js[] = $dp->generate_code($inline);
 
 		return sprintf('<span class="wpcf7-form-control-wrap %s">%s %s</span>',
 			esc_attr($name),

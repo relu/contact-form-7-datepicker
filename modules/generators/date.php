@@ -48,11 +48,11 @@
 			<tr>
 				<td>
 					<code>min-date</code><br />
-					<input type="text" name="min-date" class="oneline option" />
+					<input type="text" name="min-date" placeholder="yyyy-mm-dd" class="oneline option" />
 				</td>
 				<td>
 					<code>max-date</code><br />
-					<input type="text" name="max-date" class="oneline option" />
+					<input type="text" name="max-date" placeholder="yyyy-mm-dd" class="oneline option" />
 				</td>
 			</tr>
 

@@ -120,9 +120,22 @@ class CF7_DateTimePicker {
 	function __construct($type, $name, $options = array()) {
 		$this->input_name = $name;
 		$this->type = in_array($type, array('date', 'time', 'datetime')) ? $type . 'picker' : 'datepicker';
-
 		$this->options['firstDay'] = get_option('start_of_week');
-		$this->options['noWeekends'] = get_option('no_weekends');
+		
+		if(isset($this->options['noWeekends'])){
+			$this->noWeekends = $this->options['noWeekends'];
+			unset($this->options['noWeekends']);
+		}
+		
+		if(isset($this->options['minDate'])){
+			$this->minDate = $this->options['minDate'];
+			unset($this->options['minDate']);
+		}
+		
+		if(isset($this->options['maxDate'])){
+			$this->minDate = $this->options['maxDate'];
+			unset($this->options['maxDate']);
+		}
 		
 		$this->options = wp_parse_args((array)$options, $this->options);
 		$this->options = apply_filters('cf7_datepicker_options', $this->options);
@@ -146,7 +159,7 @@ class CF7_DateTimePicker {
 		return $this->options;
 	}
 
-	public function generate_code($inline = false, $noWeekends = false, $minDate = false, $maxDate = false) {		
+	public function generate_code($inline = false) {		
 		$selector = ($inline) ? "$('$this->input_name')" : "$('input[name=\"{$this->input_name}\"]')";
 
 		$out  = "{$selector}.{$this->type}({$this->options_encode()})";
@@ -155,18 +168,18 @@ class CF7_DateTimePicker {
 		// Remove watermark class onSelect
 		if (! $inline)
 			$out .= ".{$this->type}('option', 'onSelect', function(){ $(this).removeClass('watermark').trigger('change'); })";
-		// set weekends as non-selectable, dude
-		if ($noWeekends)
+
+		if ($this->noWeekends)
 			$out .= ".{$this->type}('option', 'beforeShowDay', $.datepicker.noWeekends)";
-			
-		if ($minDate){
-			$minDate_arr = array_map('intval', explode('-', $minDate ));
+
+		if ($this->minDate){
+			$minDate_arr = array_map('intval', explode('-', $this->minDate ));
 			$minDate_arr[1]--;
 			$out .= ".{$this->type}('option', 'minDate', new Date({$minDate_arr[0]},{$minDate_arr[1]},{$minDate_arr[2]}))";
 		}
-		
-		if ($maxDate){
-			$maxDate_arr = array_map('intval', explode('-', $maxDate ));
+
+		if ($this->maxDate){
+			$maxDate_arr = array_map('intval', explode('-', $this->maxDate ));
 			$maxDate_arr[1]--;
 			$out .= ".{$this->type}('option', 'maxDate', new Date({$maxDate_arr[0]},{$maxDate_arr[1]},{$maxDate_arr[2]}))";
 		}
