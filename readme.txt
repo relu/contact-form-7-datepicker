@@ -1,6 +1,6 @@
 === Plugin Name ===
 Contributors: shockware, baden03
-Tags: wordpress, datepicker, calendar, contact form 7, forms, jqueryui
+Tags: wordpress, datepicker, timepicker, date, time, calendar, contact form 7, forms, jqueryui
 Requires at least: 2.9
 Tested up to: 3.5.1
 Stable tag: 2.3.4
@@ -21,7 +21,6 @@ Please follow the [standard installation procedure for WordPress plugins](http:/
 
 == Frequently Asked Questions ==
 
-
 = Where do I submit a bug? =
 
 You can [open an issue on github](https://github.com/relu/contact-form-7-datepicker/issues) or just contact me via email.
@@ -34,9 +33,12 @@ You can [open an issue on github](https://github.com/relu/contact-form-7-datepic
 
 == Changelog ==
 
-= 2.3.3 =
+= 2.3.4 =
 * Fixed minDate and maxDate
 * Added noWeekend, stepHour, stepMinutes, stepSeconds
+
+= 2.3.3 =
+* needs to be filled out
 
 = 2.3.2 =
 * Fix year-range issues
@@ -151,6 +153,9 @@ add_action('init', 'cf7dp_enqueues');`
 First release
 
 == Upgrade Notice ==
+
+= 2.3.4 =
+The datepicker now supports the noWeekend attribute and the min/maxDate attributes now work properly (must be set in the YYY-MM-DD format.) The timepicker now supports the stepHour, stepMinutes and stepSeconds attributes.
 
 = 2.0 =
 
