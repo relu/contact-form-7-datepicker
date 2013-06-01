@@ -133,7 +133,7 @@ class CF7_DateTimePicker {
 		}
 		
 		if(isset($this->options['maxDate'])){
-			$this->minDate = $this->options['maxDate'];
+			$this->maxDate = $this->options['maxDate'];
 			unset($this->options['maxDate']);
 		}
 		
