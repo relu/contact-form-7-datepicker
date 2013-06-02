@@ -66,6 +66,8 @@ class ContactForm7Datepicker_DateTime {
 				$dpOptions[$matches[1] . 'Date'] = $matches[2];
 			} elseif (preg_match('%^first-day:(\d)$%', $option, $matches)) {
 				$dpOptions['firstDay'] = (int) $matches[1];
+			} elseif (preg_match('%^no-weekends$%', $option, $matches)) {
+				$dpOptions['noWeekends'] = true;
 			} elseif (preg_match('%^animate:(\w+)$%i', $option, $matches)) {
 				$dpOptions['showAnim'] = $matches[1];
 			} elseif (preg_match('%^change-month$%i', $option, $matches)) {
@@ -81,8 +83,10 @@ class ContactForm7Datepicker_DateTime {
 			} elseif (preg_match('%inline$%', $option, $matches)) {
 				$inline = true;
 				$dpOptions['altField'] = "#{$name}_alt";
-			} elseif (preg_match('%^(min|max)-(minute|hour|second):([\d]+)$%i', $option, $matches)) {
-				$dpOptions[$matches[2] . ucfirst($matches[1])] = $matches[3];
+			} elseif (preg_match('%^(min|max)-(hour|minute|second):([\d]+)$%i', $option, $matches)) {
+				$dpOptions[$matches[2] . ucfirst($matches[1])] = (int)$matches[3];
+			} elseif (preg_match('%^step-(hour|minute|second):([\d]+)$%i', $option, $matches)) {
+				$dpOptions['step' . ucfirst($matches[1])] = (int)$matches[2];
 			} elseif (preg_match('%^control-type:(slider|select)$%i', $option, $matches)) {
 				$dpOptions['controlType'] = $matches[1];
 			}

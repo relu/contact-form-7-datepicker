@@ -10,6 +10,7 @@ class CF7_DateTimePicker {
 		'minDate' => '',
 		'maxDate' => '',
 		'firstDay' => '',
+		'noWeekends' => '',
 		'defaultDate' => '',
 		'showAnim' => '',
 		'changeMonth' => '',
@@ -22,10 +23,13 @@ class CF7_DateTimePicker {
 		'controlType' => 'slider',
 		'hourMin' => '',
 		'hourMax' => '',
+		'stepHour' => '',
 		'minuteMin' => '',
 		'minuteMax' => '',
+		'stepMinute' => '',
 		'secondMin' => '',
 		'secondMax' => '',
+		'stepSecond' => ''
 	);
 
 	private static $regionals = array(
@@ -116,9 +120,23 @@ class CF7_DateTimePicker {
 	function __construct($type, $name, $options = array()) {
 		$this->input_name = $name;
 		$this->type = in_array($type, array('date', 'time', 'datetime')) ? $type . 'picker' : 'datepicker';
-
 		$this->options['firstDay'] = get_option('start_of_week');
-
+		
+		if(isset($this->options['noWeekends'])){
+			$this->noWeekends = $this->options['noWeekends'];
+			unset($this->options['noWeekends']);
+		}
+		
+		if(isset($this->options['minDate'])){
+			$this->minDate = $this->options['minDate'];
+			unset($this->options['minDate']);
+		}
+		
+		if(isset($this->options['maxDate'])){
+			$this->maxDate = $this->options['maxDate'];
+			unset($this->options['maxDate']);
+		}
+		
 		$this->options = wp_parse_args((array)$options, $this->options);
 		$this->options = apply_filters('cf7_datepicker_options', $this->options);
 
@@ -141,7 +159,7 @@ class CF7_DateTimePicker {
 		return $this->options;
 	}
 
-	public function generate_code($inline = false) {
+	public function generate_code($inline = false) {		
 		$selector = ($inline) ? "$('$this->input_name')" : "$('input[name=\"{$this->input_name}\"]')";
 
 		$out  = "{$selector}.{$this->type}({$this->options_encode()})";
@@ -151,6 +169,22 @@ class CF7_DateTimePicker {
 		if (! $inline)
 			$out .= ".{$this->type}('option', 'onSelect', function(){ $(this).removeClass('watermark').trigger('change'); })";
 
+		if ($this->noWeekends)
+			$out .= ".{$this->type}('option', 'beforeShowDay', $.datepicker.noWeekends)";
+		
+		foreach ( array("min", "max") as $item ){
+			if ( preg_match('/(\d{4})-(\d{2})-(\d{2})/i', $this->{$item . 'Date'}, $matches) ) {
+				$matches[2] .= ' - 1';
+				$this->{$item . 'Date'} = "new Date({$matches[1]}, {$matches[2]}, {$matches[3]})";
+			} else {
+				$this->{$item . 'Date'} = '"' . $this->{$item .'Date'} . '"';
+			}
+			
+			if($this->{$item . 'Date'}){
+				$out .= ".{$this->type}('option', '{$item}Date', " . $this->{$item . 'Date'} . ")";
+			}
+		}
+			
 		$out .= ".{$this->type}('refresh');";
 		$out = apply_filters('cf7dp_datepicker_javascript', $out, $this);
 
@@ -162,7 +196,6 @@ class CF7_DateTimePicker {
 			$this->options,
 			create_function('$var', 'return ! empty($var);')
 		));
-
 		return stripslashes($options);
 	}
 
@@ -179,7 +212,6 @@ class CF7_DateTimePicker {
 
 	public static function get_regional_match() {
 		$locale = get_locale();
-
 		$key_match = array(
 			substr($locale, 0, 2),
 			str_replace('_', '-', $locale),
