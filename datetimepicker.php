@@ -171,17 +171,18 @@ class CF7_DateTimePicker {
 
 		if ($this->noWeekends)
 			$out .= ".{$this->type}('option', 'beforeShowDay', $.datepicker.noWeekends)";
-
-		if ($this->minDate){
-			$minDate_arr = array_map('intval', explode('-', $this->minDate ));
-			$minDate_arr[1]--;
-			$out .= ".{$this->type}('option', 'minDate', new Date({$minDate_arr[0]},{$minDate_arr[1]},{$minDate_arr[2]}))";
-		}
-
-		if ($this->maxDate){
-			$maxDate_arr = array_map('intval', explode('-', $this->maxDate ));
-			$maxDate_arr[1]--;
-			$out .= ".{$this->type}('option', 'maxDate', new Date({$maxDate_arr[0]},{$maxDate_arr[1]},{$maxDate_arr[2]}))";
+		
+		foreach ( array("min", "max") as $item ){
+			if ( preg_match('/(\d{4})-(\d{2})-(\d{2})/i', $this->{$item . 'Date'}, $matches) ) {
+				$matches[2] .= ' - 1';
+				$this->{$item . 'Date'} = "new Date({$matches[1]}, {$matches[2]}, {$matches[3]})";
+			} else {
+				$this->{$item . 'Date'} = '"' . $this->{$item .'Date'} . '"';
+			}
+			
+			if($this->{$item . 'Date'}){
+				$out .= ".{$this->type}('option', '{$item}Date', " . $this->{$item . 'Date'} . ")";
+			}
 		}
 			
 		$out .= ".{$this->type}('refresh');";
