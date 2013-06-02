@@ -47,12 +47,12 @@
 
 			<tr>
 				<td>
-					<code>min-date</code><br />
-					<input type="text" name="min-date" placeholder="yyyy-mm-dd" class="oneline option" />
+					<label><code>min-date</code>
+					<input type="text" name="min-date" class="oneline option" /></label>
 				</td>
 				<td>
-					<code>max-date</code><br />
-					<input type="text" name="max-date" placeholder="yyyy-mm-dd" class="oneline option" />
+					<label><code>max-date</code>
+					<input type="text" name="max-date" class="oneline option" /></label>
 				</td>
 			</tr>
 
@@ -83,10 +83,11 @@
 
 			<tr>
 				<td>
-					<label><code>change-year</code> <input type="checkbox" name="change-year" id="change-year" class="option" /></label>
+					<label><code>change-year</code>
+					<input type="checkbox" name="change-year" id="change-year" class="option" /></label>
 				</td>
 				<td>
-					<code>year-range</code><br />
+					<code>year-range</code>
 					<input type="text" id="year-range" name="year-range" class="option" style="display: none;" />
 					<input size="4" type="text" name="year-range-start" class="year-range numeric" /> -
 					<input size="4"type="text" name="year-range-end" class="year-range numeric" />
@@ -95,8 +96,8 @@
 
 			<tr>
 				<td>
-					<code>months</code><br />
-					<input type="text" size="2" name="months" class="option numeric"/>
+					<label><code>months</code>
+					<input type="text" size="2" name="months" class="option numeric"/></label>
 				</td>
 				<td>
 					<label><code>buttons</code> <input type="checkbox" name="buttons" class="option" /></label>

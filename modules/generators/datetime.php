@@ -59,11 +59,11 @@
 			<tr>
 				<td>
 					<label><code>min-date</code>
-					<input type="text" name="min-date" placeholder="yyyy-mm-dd" class="oneline option" /><label>
+					<input type="text" name="min-date" class="oneline option" /><label>
 				</td>
 				<td>
 					<label><code>max-date</code>
-					<input type="text" name="max-date" placeholder="yyyy-mm-dd" class="oneline option" /><label>
+					<input type="text" name="max-date" class="oneline option" /><label>
 				</td>
 			</tr>
 
@@ -156,10 +156,10 @@
 
 			<tr>
 				<td colspan="2">
-					<label><code>year-range</code>
+					<code>year-range</code>
 					<input type="text" id="year-range" name="year-range" class="option" style="display: none;" />
 					<input size="4" type="text" name="year-range-start" class="year-range numeric" /> -
-					<input size="4"type="text" name="year-range-end" class="year-range numeric" /></label>
+					<input size="4"type="text" name="year-range-end" class="year-range numeric" />
 				</td>
 			</tr>
 
