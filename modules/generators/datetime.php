@@ -121,22 +121,15 @@
 					<label><code>step-second</code>
 					<input type="text" name="step-second" class="oneline option" /></label>
 				</td>
-				<td> </td>
 			</tr>
 
 			<tr>
-				<td colspan="2">
-					<code>first-day</code>
+				<td>
+					<code>first-day</code><br />
 					<input type="checkbox" id="first-day-sunday" name="first-day:0" class="option exclusive" />
 					<label for="first-day-sunday"><?php _e('Sunday'); ?></label>
-					&nbsp;&nbsp;
 					<input type="checkbox" value="1" id="first-day-monday" name="first-day:1" class="option exclusive" />
 					<label for="first-day-monday"><?php _e('Monday'); ?></label>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label><input type="checkbox" name="no-weekends" class="option" /> <code>no-weekends</code></label>
 				</td>
 				<td>
 					<code>animate</code>
@@ -176,6 +169,9 @@
 			<tr>
 				<td>
 					<label><code>inline</code> <input type="checkbox" name="inline" class="option" /></label>
+				</td>
+				<td>
+					<label><code>no-weekends</code> <input type="checkbox" name="no-weekends" class="option" /></label>
 				</td>
 			</tr>
 
