@@ -154,7 +154,9 @@ First release
 == Upgrade Notice ==
 
 = 2.4 =
-Date and Datetime fields now fully support the noWeekend, minDate and maxDate attributes. The Time and Datetime fields now support the stepHour, stepMinutes and stepSeconds attributes.
+Added time support via datetimepicker
+You can now use the [date], [time] and [datetime] shortcodes into your contact
+forms.
 
 = 2.0 =
 
