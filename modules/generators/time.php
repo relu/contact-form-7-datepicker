@@ -55,7 +55,7 @@
 					<input type="text" name="max-hour" class="oneline option" /></label>
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td>
 					<label><code>step-hour</code>
@@ -63,7 +63,7 @@
 				</td>
 				<td> </td>
 			</tr>
-			
+
 			<tr>
 				<td>
 					<label><code>min-minute</code>
@@ -74,7 +74,7 @@
 					<input type="text" name="max-minute" class="oneline option" /></label>
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td>
 					<label><code>step-minute</code>
@@ -82,7 +82,7 @@
 				</td>
 				<td> </td>
 			</tr>
-			
+
 			<tr>
 				<td>
 					<label><code>min-second</code>
@@ -100,7 +100,7 @@
 				</td>
 				<td> </td>
 			</tr>
-			
+
 			<tr>
 				<td colspan="2">
 					<code>animate</code><br />
@@ -108,20 +108,20 @@
 					<?php self::animate_dropdown(); ?>
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td colspan="2">
 					<label><code>inline</code> <input type="checkbox" name="inline" class="option" /></label>
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td>
 					<?php echo esc_html( __( 'Default value', 'wpcf7' ) ); ?> (<?php echo esc_html( __( 'optional', 'wpcf7' ) ); ?>)<br /><input type="text" name="values" class="oneline" />
 				</td>
-				
+
 				<td>
-					<br /><input type="checkbox" name="watermark" class="option" />&nbsp;<?php echo esc_html( __( 'Use this text as watermark?', 'wpcf7' ) ); ?>
+					<br /><input type="checkbox" name="placeholder" class="option" />&nbsp;<?php echo esc_html( __( 'Use this text as placeholder?', 'wpcf7' ) ); ?>
 				</td>
 			</tr>
 		</table>

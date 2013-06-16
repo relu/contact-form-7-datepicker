@@ -77,7 +77,7 @@
 					<input type="text" name="max-hour" class="oneline option" /></label>
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td>
 					<label><code>step-hour</code>
@@ -96,7 +96,7 @@
 					<input type="text" name="max-minute" class="oneline option" /></label>
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td>
 					<label><code>step-minute</code>
@@ -104,7 +104,7 @@
 				</td>
 				<td> </td>
 			</tr>
-			
+
 			<tr>
 				<td>
 					<label><code>min-second</code>
@@ -115,7 +115,7 @@
 					<input type="text" name="max-second" class="oneline option" /></label>
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td>
 					<label><code>step-second</code>
@@ -123,7 +123,7 @@
 				</td>
 				<td> </td>
 			</tr>
-			
+
 			<tr>
 				<td colspan="2">
 					<code>first-day</code>
@@ -185,7 +185,7 @@
 				</td>
 
 				<td>
-					<br /><input type="checkbox" name="watermark" class="option" />&nbsp;<?php echo esc_html( __( 'Use this text as watermark?', 'wpcf7' ) ); ?>
+					<br /><input type="checkbox" name="placeholder" class="option" />&nbsp;<?php echo esc_html( __( 'Use this text as placeholder?', 'wpcf7' ) ); ?>
 				</td>
 			</tr>
 		</table>
