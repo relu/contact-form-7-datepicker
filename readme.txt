@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: shockware, baden03
 Tags: wordpress, datepicker, timepicker, date, time, calendar, contact form 7, forms, jqueryui
-Requires at least: 2.9
+Requires at least: 3.5
 Tested up to: 3.5.1
 Stable tag: 2.4
 License: GPLv2 or later
@@ -37,6 +37,7 @@ You can [open an issue on github](https://github.com/relu/contact-form-7-datepic
 * Fixed minDate and maxDate attributes for date and datetime fields
 * Added noWeekend to date and datetime fields
 * Added stepHour, stepMinutes and stepSeconds attributes to time and datetime fields
+* Make use of CF7's new Shortcode Tag API
 
 = 2.3.2 =
 * Fix year-range issues
@@ -82,7 +83,7 @@ You can [open an issue on github](https://github.com/relu/contact-form-7-datepic
 	- fixed calendar not popping out when no id attribute specified in CF7 shortcode
 
 = 0.7 =
-* New: 
+* New:
 	- Added new [datepicker] tag to use outside of CF7
 	- Added CF7 specific attributes for the shortcodes
 	- Now you can have input fields prefilled with a desired date either from the configuration menu, or by specifying it in the shortcode as an attribute
@@ -125,7 +126,7 @@ add_action('init', 'cf7dp_enqueues');`
 	- added Dutch translations (regards [Petrus](http://wordpress.org/support/profile/petrus006))
 
 = 0.4 =
-* Added new configuration options: 
+* Added new configuration options:
 	- limit selectable dates according to current date (before or or after)
 	- available years range option
 	- the posibility to show/hide the month and year controls (forward/backward)
