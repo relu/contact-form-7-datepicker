@@ -23,130 +23,90 @@ class ContactForm7Datepicker_DateTime {
 	}
 
 	public static function shortcode_handler($tag) {
-		if (! is_array($tag))
-			return;
+		$tag = new WPCF7_Shortcode($tag);
 
-		$type = $tag['type'];
-		$name = $tag['name'];
-		$options = (array) $tag['options'];
-		$values = (array) $tag['values'];
+		if (empty($tag->name))
+			return '';
 
-		if (empty($name))
-			return;
+		$validation_error = wpcf7_get_validation_error($tag->name);
 
-		$validation_error = wpcf7_get_validation_error($name);
-
-		$atts = $id_att = $size_att = $maxlen_att = '';
-		$tabindex_att = $title_att = '';
-
-		$class_att = wpcf7_form_controls_class( $type, 'wpcf7-date');
-
-		if ('datetime*' == $type)
-			$class_att .= ' wpcf7-validates-as-required';
+		$class = wpcf7_form_controls_class($tag->type, 'wpcf7-date');
 
 		if ($validation_error)
-			$class_att .= ' wpcf7-not-valid';
+			$class .= ' wpcf7-not-valid';
 
-		$inline = false;
+		$atts = array();
 
-		$dpOptions = array();
-		foreach ($options as $option) {
-			if (preg_match('%^id:([-_\w\d]+)$%i', $option, $matches)) {
-				$id_att = $matches[1];
-			} elseif (preg_match('%^class:([-_\w\d]+)$%i', $option, $matches)) {
-				$class_att .= " $matches[1]";
-			} elseif (preg_match('%^(\d*)[/x](\d*)$%i', $option, $matches)) {
-				$size_att = (int) $matches[1];
-				$maxlen_att = (int) $matches[2];
-			} elseif (preg_match('%^tabindex:(\d+)$%i', $option, $matches)) {
-				$tabindex_att = (int) $matches[1];
-			} elseif (preg_match('%^(date|time)-format:([-_/\.\w\d]+)$%i', $option, $matches)) {
-				$dpOptions[$matches[1] . 'Format'] = str_replace('_', ' ', $matches[2]);
-			} elseif (preg_match('%^(min|max)-date:([-_/\.\w\d]+)$%i', $option, $matches)) {
-				$dpOptions[$matches[1] . 'Date'] = $matches[2];
-			} elseif (preg_match('%^first-day:(\d)$%', $option, $matches)) {
-				$dpOptions['firstDay'] = (int) $matches[1];
-			} elseif (preg_match('%^animate:(\w+)$%i', $option, $matches)) {
-				$dpOptions['showAnim'] = $matches[1];
-			} elseif (preg_match('%^change-month$%i', $option, $matches)) {
-				$dpOptions['changeMonth'] = true;
-			} elseif (preg_match('%^change-year$%i', $option, $matches)) {
-				$dpOptions['changeYear'] = true;
-			} elseif (preg_match('%^year-range:([-+]?\d+)[:-]?([-+]?\d+)?$%', $option, $matches)) {
-				$dpOptions['yearRange'] = isset($matches[2]) ? "$matches[1]:$matches[2]" : $matches[1];
-			} elseif (preg_match('%^months:(\d+)$%', $option, $matches)) {
-				$dpOptions['numberOfMonths'] = (int) $matches[1];
-			} elseif (preg_match('%^buttons$%', $option, $matches)) {
-				$dpOptions['showButtonPanel'] = true;
-			} elseif (preg_match('%inline$%', $option, $matches)) {
-				$inline = true;
-				$dpOptions['altField'] = "#{$name}_alt";
-			} elseif (preg_match('%^(min|max)-(minute|hour|second):([\d]+)$%i', $option, $matches)) {
-				$dpOptions[$matches[2] . ucfirst($matches[1])] = $matches[3];
-			} elseif (preg_match('%^control-type:(slider|select)$%i', $option, $matches)) {
-				$dpOptions['controlType'] = $matches[1];
-			}
+		$atts['size'] = $tag->get_size_option('40');
+		$atts['maxlength'] = $tag->get_maxlength_option();
+		$atts['class'] = $tag->get_class_option($class);
+		$atts['id'] = $tag->get_option('id', 'id', true);
+		$atts['tabindex'] = $tag->get_option('tabindex', 'int', true);
+		$atts['type'] = 'text';
 
-			do_action_ref_array('cf7dp_datetime_attr_match', array($dpOptions), $option);
-		}
+		if ($tag->has_option('readonly'))
+			$atts['readonly'] = 'readonly';
 
-		$value = reset($values);
+		if ($tag->is_required())
+			$atts['aria-required'] = 'true';
 
-		if (wpcf7_script_is() && preg_grep('%^watermark$%', $options)) {
-			$class_att .= ' wpcf7-use-title-as-watermark';
-			$title_att .= " $value";
+		$value = (string)reset($tag->values);
+
+		if ($tag->has_option('placeholder') || $tag->has_option('watermark')) {
+			$atts['placeholder'] = $value;
 			$value = '';
 		}
 
-		if (wpcf7_is_posted() && isset($_POST[$name]))
-			$value = stripslashes($_POST[$name]);
+		if (wpcf7_is_posted() && isset($_POST[$tag->name]))
+			$value = stripslashes_deep($_POST[$tag->name]);
 
-		if ($id_att)
-			$atts .= ' id="' . trim($id_att) . '"';
+		$atts['value'] = $value;
 
-		if ($class_att)
-			$atts .= ' class="' . trim($class_att) . '"';
+		$dpOptions = array();
+		$dpOptions['dateFormat'] = str_replace('_', ' ', $tag->get_option('date-format', '', true));
+		$dpOptions['timeFormat'] = str_replace('_', ' ', $tag->get_option('time-format', '', true));
+		$dpOptions['minDate'] = $tag->get_option('min-date', '', true);
+		$dpOptions['maxDate'] = $tag->get_option('max-date', '', true);
+		$dpOptions['firstDay'] = $tag->get_option('first-day', 'int', true);
+		$dpOptions['showAnim'] = $tag->get_option('animate', '', true);
+		$dpOptions['yearRange'] = str_replace('-', ':', $tag->get_option('year-range', '', true));
+		$dpOptions['numberOfMonths'] = $tag->get_option('months', 'int', true);
+		$dpOptions['controlType'] = $tag->get_option('control-type', '', true);
 
-		if ($size_att)
-			$atts .= ' size="' . $size_att . '"';
-		else
-			$atts .= ' size="40"';
+		$dpOptions['showButtonPanel'] = $tag->has_option('buttons');
+		$dpOptions['changeMonth'] = $tag->has_option('change-month');
+		$dpOptions['changeYear'] = $tag->has_option('change-year');
 
-		if ($maxlen_att)
-			$atts .= ' maxlength="' . $maxlen_att . '"';
+		foreach (array('min', 'max') as $m) {
+			foreach (array('minute', 'hour', 'second') as $s) {
+				$dpOptions[$m . ucfirst($m)] = $tag->get_option("$m-$s", '', true);
+			}
+		}
 
-		if ('' !== $tabindex_att)
-			$atts .= ' tabindex="' . $tabindex_att .'"';
-
-		if ($title_att)
-			$atts .= ' title="' . trim(esc_attr($title_att)) . '"';
-
-		$input_type = $inline ? 'hidden' : 'text';
-		$input_atts = $inline ? "id=\"{$name}_alt\"" : $atts;
-
-		$input = sprintf('<input type="%s" name="%s" value="%s" %s/>',
-			$input_type,
-			esc_attr($name),
-			esc_attr($value),
-			$input_atts
-		);
-
-		$input = apply_filters('cf7dp_datetime_input', $input);
+		$inline = $tag->has_option('inline');
 
 		if ($inline)
-			$input .= sprintf('<div id="%s_datetimepicker" %s></div>', $name, $atts);
+			$dpOptions['altField'] = "#{$tag->name}_alt";
 
-		$dp_selector = $inline ? '#' . $name . '_datetimepicker' : $name;
+		$atts['type'] = $inline ? 'hidden' : 'text';
+		$atts['name'] = $tag->name;
+
+		$atts = wpcf7_format_atts($atts);
+
+		$html = sprintf(
+			'<span class="wpcf7-form-control-wrap %1$s"><input %2$s />%3$s %4$s</span>',
+			$tag->name, $atts, $validation_error,
+			$inline ? "<div id=\"{$tag->name}_datetimepicker\"></div>" : '');
+
+		$html = apply_filters('cf7dp_datetime_input', $html);
+
+		$dp_selector = $inline ? '#' . $tag->name . '_datetimepicker' : $tag->name;
 
 		$dp = new CF7_DateTimePicker('datetime', $dp_selector, $dpOptions);
 
 		self::$inline_js[] = $dp->generate_code($inline);
 
-		return sprintf('<span class="wpcf7-form-control-wrap %s">%s %s</span>',
-			esc_attr($name),
-			$input,
-			$validation_error
-		);
+		return $html;
 	}
 
 	public static function validation_filter($result, $tag) {

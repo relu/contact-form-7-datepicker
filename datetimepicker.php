@@ -142,15 +142,10 @@ class CF7_DateTimePicker {
 	}
 
 	public function generate_code($inline = false) {
-		$selector = ($inline) ? "$('$this->input_name')" : "$('input[name=\"{$this->input_name}\"]')";
+		$selector = $inline ? "$('$this->input_name')" : "$('input[name=\"{$this->input_name}\"]')";
 
 		$out  = "{$selector}.{$this->type}({$this->options_encode()})";
 		$out .= $this->regionalize();
-
-		// Remove watermark class onSelect
-		if (! $inline)
-			$out .= ".{$this->type}('option', 'onSelect', function(){ $(this).removeClass('watermark').trigger('change'); })";
-
 		$out .= ".{$this->type}('refresh');";
 		$out = apply_filters('cf7dp_datepicker_javascript', $out, $this);
 
