@@ -2,6 +2,8 @@
 
 class ContactForm7Datepicker_Date {
 
+	static $inline_js = array();
+
 	public static function register() {
 		require_once dirname(__FILE__) . '/datepicker.php';
 
@@ -25,6 +27,9 @@ class ContactForm7Datepicker_Date {
 
 		// Messages
 		add_filter('wpcf7_messages', array(__CLASS__, 'messages'));
+
+		// Print inline javascript
+		add_action('wp_print_footer_scripts', array(__CLASS__, 'print_inline_js'), 99999);
 	}
 
 	public static function shortcode_handler($tag) {
@@ -139,11 +144,12 @@ class ContactForm7Datepicker_Date {
 
 		$dp = new CF7_DatePicker($dp_selector, $dpOptions);
 
-		return sprintf('<span class="wpcf7-form-control-wrap %s">%s %s</span>%s',
+		self::$inline_js[] = $dp->generate_code($inline);
+
+		return sprintf('<span class="wpcf7-form-control-wrap %s">%s %s</span>',
 			esc_attr($name),
 			$input,
-			$validation_error,
-			$dp->generate_code($inline)
+			$validation_error
 		);
 	}
 
@@ -192,6 +198,16 @@ class ContactForm7Datepicker_Date {
 		);
 
 		return $messages;
+	}
+
+	public static function print_inline_js() {
+		if (! wp_script_is('jquery-ui-datepicker', 'done') || empty(self::$inline_js))
+			return;
+
+		$out = implode("\n\t", self::$inline_js);
+		$out = "jQuery(function($){\n\t$out\n});";
+
+		echo "\n<script type=\"text/javascript\">\n{$out}\n</script>\n";
 	}
 
 	private static function animate_dropdown() {
