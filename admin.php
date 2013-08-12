@@ -47,7 +47,7 @@ class ContactForm7Datepicker_Admin {
 		<div class="clear"></div>
 
 		<?php
-		$dp = new CF7_DatePicker('#preview');
+		$dp = new CF7_DateTimePicker('datetime', '#preview');
 		echo '<script>jQuery(function($){ ' . $dp->generate_code(true) . ' });</script>';
 	}
 
