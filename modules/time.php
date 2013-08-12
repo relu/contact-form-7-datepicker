@@ -78,7 +78,7 @@ class ContactForm7Datepicker_Time {
 				$dpOptions[$m . ucfirst($m)] = $tag->get_option("$m-$s", '', true);
 			}
 
-			$dpOptions['step' . ucfirst($matches[1])] = $tag->get_option("step-$s", '', true);
+			$dpOptions['step' . ucfirst($s)] = $tag->get_option("step-$s", '', true);
 		}
 
 		$inline = $tag->has_option('inline');
