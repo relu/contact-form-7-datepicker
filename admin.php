@@ -48,14 +48,14 @@ class ContactForm7Datepicker_Admin {
 
 		<?php
 		$dp = new CF7_DatePicker('#preview');
-		echo $dp->generate_code(true);
+		echo '<script>jQuery(function($){ ' . $dp->generate_code(true) . ' });</script>';
 	}
 
 	function theme_js() {
 		if (! self::is_wpcf7_page())
 			return;
 	?>
-		<script type="text/javascript">
+		<script>
 		jQuery(function($){
 			var $spinner = $(new Image()).attr('src', '<?php echo admin_url('images/wpspin_light.gif'); ?>');
 			var old_href = '';
