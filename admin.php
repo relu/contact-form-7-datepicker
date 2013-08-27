@@ -35,7 +35,7 @@ class ContactForm7Datepicker_Admin {
 		do_meta_boxes('cfseven', 'datepicker-theme', array());
 	}
 
-	function theme_metabox() {
+	public static function theme_metabox() {
 		?>
 
 		<div id="preview" style="float: left; margin: 0 10px 0 0"></div>
