@@ -33,8 +33,8 @@ class ContactForm7Datepicker {
 	function __construct() {
 		add_action('plugins_loaded', array($this, 'load_date_module'), 10);
 
-		add_action('wpcf7_enqueue_scripts', array($this, 'enqueue_js'));
-		add_action('wpcf7_enqueue_styles', array($this, 'enqueue_css'));
+		add_action('wpcf7_enqueue_scripts', array(__CLASS__, 'enqueue_js'));
+		add_action('wpcf7_enqueue_styles', array(__CLASS__, 'enqueue_css'));
 
 		register_activation_hook(__FILE__, array($this, 'activate'));
 
@@ -55,7 +55,7 @@ class ContactForm7Datepicker {
 			add_option('cf7dp_ui_theme', 'base');
 	}
 
-	function enqueue_js() {
+	public static function enqueue_js() {
 		$regional = CF7_DateTimePicker::get_regional_match();
 		$proto = is_ssl() ? 'https' : 'http';
 
@@ -108,7 +108,7 @@ class ContactForm7Datepicker {
 		}
 	}
 
-	function enqueue_css() {
+	public static function enqueue_css() {
 		$theme = get_option('cf7dp_ui_theme');
 
 		if (! is_admin() && $theme == 'disabled')
