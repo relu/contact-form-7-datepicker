@@ -83,8 +83,10 @@ class ContactForm7Datepicker_Time {
 
 		$inline = $tag->has_option('inline');
 
-		if ($inline)
+		if ($inline) {
 			$dpOptions['altField'] = "#{$tag->name}_alt";
+			$atts['id'] = "{$tag->name}_alt";
+		}
 
 		$atts['type'] = $inline ? 'hidden' : 'text';
 		$atts['name'] = $tag->name;
