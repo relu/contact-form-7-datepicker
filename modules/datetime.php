@@ -80,7 +80,7 @@ class ContactForm7Datepicker_DateTime {
 
 		foreach (array('minute', 'hour', 'second') as $s) {
 			foreach (array('min', 'max') as $m) {
-				$dpOptions[$m . ucfirst($m)] = $tag->get_option("$m-$s", '', true);
+				$dpOptions[$s . ucfirst($m)] = $tag->get_option("$m-$s", '', true);
 			}
 
 			$dpOptions['step' . ucfirst($s)] = $tag->get_option("step-$s", '', true);
