@@ -28,7 +28,7 @@ Author URI: https://github.com/relu/
 
 class ContactForm7Datepicker {
 
-	const JQUERYUI_VERSION = '1.9.2';
+	const JQUERYUI_VERSION = '1.10.3';
 
 	function __construct() {
 		add_action('plugins_loaded', array($this, 'load_date_module'), 10);
@@ -52,7 +52,7 @@ class ContactForm7Datepicker {
 
 	function activate() {
 		if (! get_option('cf7dp_ui_theme'))
-			add_option('cf7dp_ui_theme', 'base');
+			add_option('cf7dp_ui_theme', 'smoothness');
 	}
 
 	public static function enqueue_js() {
