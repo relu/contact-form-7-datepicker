@@ -134,7 +134,7 @@ class ContactForm7Datepicker_Admin {
 	private static function themes_dropdown() {
 		$themes = array(
 			'disabled' => __('Disabled'),
-			'base' => 'Base',
+			'smoothness' => 'Smoothness',
 			'black-tie' => 'Black Tie',
 			'blitzer' => 'Blitzer',
 			'cupertino' => 'Cupertino',
@@ -150,7 +150,6 @@ class ContactForm7Datepicker_Admin {
 			'overcast' => 'Overcast',
 			'pepper-grinder' => 'Pepper Grinder',
 			'redmond' => 'Redmond',
-			'smoothness' => 'Smoothness',
 			'south-street' => 'South Street',
 			'start' => 'Start',
 			'sunny' => 'Sunny',
