@@ -126,7 +126,7 @@ class ContactForm7Datepicker {
 
 		wp_enqueue_style(
 			'jquery-ui-theme',
-			$proto . '://ajax.googleapis.com/ajax/libs/jqueryui/' . self::JQUERYUI_VERSION . '/themes/' . $theme . '/jquery-ui.css',
+			$proto . '://ajax.googleapis.com/ajax/libs/jqueryui/' . self::JQUERYUI_VERSION . '/themes/' . $theme . '/jquery-ui.min.css',
 			'',
 			self::JQUERYUI_VERSION,
 			'all'
