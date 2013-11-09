@@ -74,10 +74,10 @@ class ContactForm7Datepicker_Date {
 		$dpOptions['dateFormat'] = str_replace('_', ' ', $tag->get_option('date-format', '', true));
 		$dpOptions['minDate'] = $tag->get_option('min-date', '', true);
 		$dpOptions['maxDate'] = $tag->get_option('max-date', '', true);
-		$dpOptions['firstDay'] = $tag->get_option('first-day', 'int', true);
+		$dpOptions['firstDay'] = (int)$tag->get_option('first-day', 'int', true);
 		$dpOptions['showAnim'] = $tag->get_option('animate', '', true);
 		$dpOptions['yearRange'] = str_replace('-', ':', $tag->get_option('year-range', '', true));
-		$dpOptions['numberOfMonths'] = $tag->get_option('months', 'int', true);
+		$dpOptions['numberOfMonths'] = (int)$tag->get_option('months', 'int', true);
 
 		$dpOptions['showButtonPanel'] = $tag->has_option('buttons');
 		$dpOptions['changeMonth'] = $tag->has_option('change-month');

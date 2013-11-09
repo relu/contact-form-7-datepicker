@@ -65,7 +65,7 @@ class ContactForm7Datepicker_Time {
 
 		$dpOptions = array();
 		$dpOptions['timeFormat'] = str_replace('_', ' ', $tag->get_option('time-format', '', true));
-		$dpOptions['firstDay'] = $tag->get_option('first-day', 'int', true);
+		$dpOptions['firstDay'] = (int)$tag->get_option('first-day', 'int', true);
 		$dpOptions['showAnim'] = $tag->get_option('animate', '', true);
 		$dpOptions['controlType'] = $tag->get_option('control-type', '', true);
 
@@ -75,10 +75,10 @@ class ContactForm7Datepicker_Time {
 
 		foreach (array('minute', 'hour', 'second') as $s) {
 			foreach (array('min', 'max') as $m) {
-				$dpOptions[$s . ucfirst($m)] = $tag->get_option("$m-$s", '', true);
+				$dpOptions[$s . ucfirst($m)] = (int)$tag->get_option("$m-$s", 'int', true);
 			}
 
-			$dpOptions['step' . ucfirst($s)] = $tag->get_option("step-$s", '', true);
+			$dpOptions['step' . ucfirst($s)] = (int)$tag->get_option("step-$s", 'int', true);
 		}
 
 		$inline = $tag->has_option('inline');
