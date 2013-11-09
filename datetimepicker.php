@@ -21,6 +21,10 @@ class CF7_DateTimePicker {
 		'showSecond' => '',
 		'showTimezone' => '',
 		'controlType' => 'slider',
+		'addSliderAccess' => true,
+		'sliderAccessArgs' => array(
+			'touchonly' => true
+		),
 		'hourMin' => '',
 		'hourMax' => '',
 		'stepHour' => '',
@@ -122,17 +126,17 @@ class CF7_DateTimePicker {
 		$this->type = in_array($type, array('date', 'time', 'datetime')) ? $type . 'picker' : 'datepicker';
 		$this->options['firstDay'] = get_option('start_of_week');
 
-		if(isset($this->options['noWeekends'])){
+		if (isset($this->options['noWeekends'])) {
 			$this->noWeekends = $this->options['noWeekends'];
 			unset($this->options['noWeekends']);
 		}
 
-		if(isset($this->options['minDate'])){
+		if (isset($this->options['minDate'])) {
 			$this->minDate = $this->options['minDate'];
 			unset($this->options['minDate']);
 		}
 
-		if(isset($this->options['maxDate'])){
+		if (isset($this->options['maxDate'])) {
 			$this->maxDate = $this->options['maxDate'];
 			unset($this->options['maxDate']);
 		}

@@ -89,6 +89,14 @@ class ContactForm7Datepicker {
 
 		wp_enqueue_script('jquery-ui-slider');
 
+		wp_enqueue_script(
+			'jquery-ui-slider-access',
+			plugins_url('js/jquery-ui-sliderAccess.js', __FILE__),
+			array('jquery-ui-slider', 'jquery-ui-button'),
+			'',
+			true
+		);
+
 		wp_register_script(
 			'jquery-ui-effect-core',
 			plugins_url('js/jquery.ui.effect.min.js', __FILE__),
