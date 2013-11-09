@@ -25,15 +25,15 @@ class CF7_DateTimePicker {
 		'sliderAccessArgs' => array(
 			'touchonly' => true
 		),
-		'hourMin' => '',
-		'hourMax' => '',
-		'stepHour' => '',
-		'minuteMin' => '',
-		'minuteMax' => '',
-		'stepMinute' => '',
-		'secondMin' => '',
-		'secondMax' => '',
-		'stepSecond' => ''
+		'hourMin' => 0,
+		'hourMax' => 0,
+		'stepHour' => 1,
+		'minuteMin' => 0,
+		'minuteMax' => 0,
+		'stepMinute' => 1,
+		'secondMin' => 0,
+		'secondMax' => 0,
+		'stepSecond' => 1
 	);
 
 	private static $regionals = array(
