@@ -1,9 +1,9 @@
 === Plugin Name ===
 Contributors: shockware, baden03
 Tags: wordpress, datepicker, timepicker, date, time, calendar, contact form 7, forms, jqueryui
-Requires at least: 3.5
-Tested up to: 3.6
-Stable tag: 2.4.1
+Requires at least: 3.6.1
+Tested up to: 3.7.1
+Stable tag: 2.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,11 @@ You can [open an issue on github](https://github.com/relu/contact-form-7-datepic
 3. Date field generator
 
 == Changelog ==
+
+= 2.4.2 =
+* Fix min/max hour/minute/second
+* Update timepicker addon
+* Update jqueryui version number
 
 = 2.4.1 =
 * Fixed inline date/time pickers
