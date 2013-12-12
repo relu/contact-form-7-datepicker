@@ -6,7 +6,7 @@ class ContactForm7Datepicker_DateTime {
 
 	public static function register() {
 		// Register shortcodes
-		self::add_shortcodes();
+        add_action('wpcf7_init', array(__CLASS__, 'add_shortcodes'));
 
 		// Validations
 		add_filter('wpcf7_validate_datetime', array(__CLASS__, 'validation_filter'), 10, 2);
@@ -145,10 +145,9 @@ class ContactForm7Datepicker_DateTime {
 		require_once dirname(__FILE__) . '/generators/datetime.php';
 	}
 
-	private static function add_shortcodes() {
+	public static function add_shortcodes() {
 		if (function_exists('wpcf7_add_shortcode')) {
-			wpcf7_add_shortcode('datetime', array(__CLASS__, 'shortcode_handler'), true);
-			wpcf7_add_shortcode('datetime*', array(__CLASS__, 'shortcode_handler'), true);
+			wpcf7_add_shortcode(array('datetime', 'datetime*'), array(__CLASS__, 'shortcode_handler'), true);
 		}
 	}
 

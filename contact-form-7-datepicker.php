@@ -31,7 +31,7 @@ class ContactForm7Datepicker {
 	const JQUERYUI_VERSION = '1.10.3';
 
 	function __construct() {
-		add_action('plugins_loaded', array($this, 'load_date_module'), 10);
+		add_action('init', array($this, 'load_modules'), 10);
 
 		add_action('wpcf7_enqueue_scripts', array(__CLASS__, 'enqueue_js'));
 		add_action('wpcf7_enqueue_styles', array(__CLASS__, 'enqueue_css'));
@@ -43,7 +43,7 @@ class ContactForm7Datepicker {
 		}
 	}
 
-	function load_date_module() {
+	function load_modules() {
 		require_once dirname(__FILE__) . '/datetimepicker.php';
 		require_once dirname(__FILE__) . '/modules/datetime.php';
 		require_once dirname(__FILE__) . '/modules/date.php';

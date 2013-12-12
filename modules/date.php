@@ -5,15 +5,13 @@ class ContactForm7Datepicker_Date {
 	static $inline_js = array();
 
 	public static function register() {
-		// Remove Contact Form 7's date module
-		remove_action('init', 'wpcf7_add_shortcode_date', 5);
+		// Register shortcodes
+        add_action('wpcf7_init', array(__CLASS__, 'add_shortcodes'));
+
 		remove_filter('wpcf7_validate_date', 'wpcf7_date_validation_filter', 10);
 		remove_filter('wpcf7_validate_date*', 'wpcf7_date_validation_filter', 10);
 		remove_filter('wpcf7_messages', 'wpcf7_date_messages');
 		remove_action('admin_init', 'wpcf7_add_tag_generator_date', 19);
-
-		// Register shortcodes
-		self::add_shortcodes();
 
 		// Validations
 		add_filter('wpcf7_validate_date', array(__CLASS__, 'validation_filter'), 10, 2);
@@ -142,10 +140,13 @@ class ContactForm7Datepicker_Date {
 		require_once dirname(__FILE__) . '/generators/date.php';
 	}
 
-	private static function add_shortcodes() {
+	public static function add_shortcodes() {
 		if (function_exists('wpcf7_add_shortcode')) {
-			wpcf7_add_shortcode('date', array(__CLASS__, 'shortcode_handler'), true);
-			wpcf7_add_shortcode('date*', array(__CLASS__, 'shortcode_handler'), true);
+            // Remove Contact Form 7's date module
+            wpcf7_remove_shortcode('date');
+            wpcf7_remove_shortcode('date*');
+
+			wpcf7_add_shortcode(array('date', 'date*'), array(__CLASS__, 'shortcode_handler'), true);
 		}
 	}
 
