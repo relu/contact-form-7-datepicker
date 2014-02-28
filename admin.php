@@ -174,9 +174,9 @@ class ContactForm7Datepicker_Admin {
 	}
 
 	private static function is_wpcf7_page() {
-		global $current_screen;
+		global $current_screen, $pagenow;
 
-		if (is_object($current_screen) && 'toplevel_page_wpcf7' == $current_screen->id)
+		if (is_object($current_screen) && strpos($current_screen->id, 'page_wpcf7'))
 			return true;
 
 		return false;

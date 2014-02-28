@@ -13,6 +13,7 @@ class ContactForm7Datepicker_DateTime {
 		add_filter('wpcf7_validate_datetime*', array(__CLASS__, 'validation_filter'), 10, 2);
 
 		// Tag generator
+		add_action('load-contact_page_wpcf7-new', array(__CLASS__, 'tag_generator'));
 		add_action('load-toplevel_page_wpcf7', array(__CLASS__, 'tag_generator'));
 
 		// Messages
@@ -134,6 +135,9 @@ class ContactForm7Datepicker_DateTime {
 	}
 
 	public static function tag_generator() {
+        if (! function_exists( 'wpcf7_add_tag_generator'))
+            return;
+
 		wpcf7_add_tag_generator('datetime',
 			__('Date Time field', 'wpcf7'),
 			'wpcf7-tg-pane-datetime',
