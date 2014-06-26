@@ -191,11 +191,11 @@ class ContactForm7Datepicker_DateTime {
 
 		if (! $valid) {
 			// Validate dd/mm/yy
-			$value = str_replace('/', '-', $value);
-			$valid = strtotime($value) ? true : false;
+			$new_value = str_replace('/', '-', $value);
+			$valid = strtotime($new_value) ? true : false;
 		}
 
-		return $valid;
+		return apply_filters( 'cf7dp_is_valid_date', $valid, $value );
 	}
 
 }
