@@ -1,9 +1,9 @@
 === Plugin Name ===
-Contributors: shockware, baden03
+Contributors: shockware, baden03, szepeviktor
 Tags: wordpress, datepicker, timepicker, date, time, calendar, contact form 7, forms, jqueryui
 Requires at least: 3.6.1
-Tested up to: 3.8.1
-Stable tag: 2.4.4
+Tested up to: 3.9.2
+Stable tag: 2.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,9 @@ You can [open an issue on github](https://github.com/relu/contact-form-7-datepic
 3. Date field generator
 
 == Changelog ==
+
+= 2.4.5 =
+* Apply cf7dp_is_valid_date filter for date validation (Kudos to Viktor Szepe)
 
 = 2.4.4 =
 * Compatible with CF7 3.7.2
