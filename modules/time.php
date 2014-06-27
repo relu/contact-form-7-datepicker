@@ -182,7 +182,8 @@ class ContactForm7Datepicker_Time {
 	}
 
 	private static function is_valid_date($value) {
-		return strtotime($value) ? true : false;
+		$valid = strtotime($value) ? true : false;
+		return apply_filters( 'cf7dp_is_valid_time', $valid, $value );
 	}
 }
 
