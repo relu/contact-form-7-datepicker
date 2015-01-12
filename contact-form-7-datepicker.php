@@ -28,7 +28,7 @@ Author URI: https://github.com/relu/
 
 class ContactForm7Datepicker {
 
-	const JQUERYUI_VERSION = '1.10.3';
+	const JQUERYUI_VERSION = '1.11.2';
 
 	function __construct() {
 		add_action('init', array($this, 'load_modules'), 10);
