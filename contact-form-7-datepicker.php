@@ -117,20 +117,34 @@ class ContactForm7Datepicker {
 	}
 
 	public static function enqueue_css() {
-		$theme = get_option('cf7dp_ui_theme');
+		$theme = apply_filters('cf7dp_ui_theme', get_option('cf7dp_ui_theme'));
 
 		if (! is_admin() && $theme == 'disabled')
 			return;
 
 		$proto = is_ssl() ? 'https' : 'http';
 
-		wp_enqueue_style(
-			'jquery-ui-theme',
-			$proto . '://ajax.googleapis.com/ajax/libs/jqueryui/' . self::JQUERYUI_VERSION . '/themes/' . $theme . '/jquery-ui.min.css',
-			'',
-			self::JQUERYUI_VERSION,
-			'all'
-		);
+        $custom_themes = (array)apply_filters('cf7dp_custom_ui_themes', array());
+
+        if (! is_admin() && ! empty($custom_themes) && array_key_exists($theme, $custom_themes)) {
+            $theme_css_uri = $custom_themes[$theme];
+
+            wp_enqueue_style(
+                'jquery-ui-theme',
+                get_stylesheet_directory_uri() . '/' . ltrim($theme_css_uri, '/'),
+                '',
+                self::JQUERYUI_VERSION,
+                'all'
+            );
+        } else {
+            wp_enqueue_style(
+                'jquery-ui-theme',
+                $proto . '://ajax.googleapis.com/ajax/libs/jqueryui/' . self::JQUERYUI_VERSION . '/themes/' . $theme . '/jquery-ui.min.css',
+                '',
+                self::JQUERYUI_VERSION,
+                'all'
+            );
+        }
 
 		wp_enqueue_style(
 			'jquery-ui-timepicker',
