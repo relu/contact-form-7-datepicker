@@ -1,5 +1,5 @@
 === Plugin Name ===
-Contributors: shockware, baden03, szepeviktor
+Contributors: shockware, baden03, szepe.viktor
 Tags: wordpress, datepicker, timepicker, date, time, calendar, contact form 7, forms, jqueryui
 Requires at least: 3.6.1
 Tested up to: 3.9.2
