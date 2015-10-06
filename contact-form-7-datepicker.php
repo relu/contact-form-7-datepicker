@@ -28,10 +28,10 @@ Author URI: https://github.com/relu/
 
 class ContactForm7Datepicker {
 
-	const JQUERYUI_VERSION = '1.11.2';
+	const JQUERYUI_VERSION = '1.11.4';
 
 	function __construct() {
-		add_action('init', array($this, 'load_modules'), 10);
+		add_action('plugins_loaded', array($this, 'load_modules'), 50);
 
 		add_action('wpcf7_enqueue_scripts', array(__CLASS__, 'enqueue_js'));
 		add_action('wpcf7_enqueue_styles', array(__CLASS__, 'enqueue_css'));
@@ -117,6 +117,21 @@ class ContactForm7Datepicker {
 	}
 
 	public static function enqueue_css() {
+        wp_enqueue_style(
+            'jquery-ui-theme',
+            self::get_theme_uri(),
+            '',
+            self::JQUERYUI_VERSION,
+            'all'
+        );
+
+		wp_enqueue_style(
+			'jquery-ui-timepicker',
+			plugins_url('js/jquery-ui-timepicker/jquery-ui-timepicker-addon.min.css', __FILE__)
+		);
+	}
+
+    public static function get_theme_uri() {
 		$theme = apply_filters('cf7dp_ui_theme', get_option('cf7dp_ui_theme'));
 
 		if (! is_admin() && $theme == 'disabled')
@@ -129,28 +144,13 @@ class ContactForm7Datepicker {
         if (! is_admin() && ! empty($custom_themes) && array_key_exists($theme, $custom_themes)) {
             $theme_css_uri = $custom_themes[$theme];
 
-            wp_enqueue_style(
-                'jquery-ui-theme',
-                get_stylesheet_directory_uri() . '/' . ltrim($theme_css_uri, '/'),
-                '',
-                self::JQUERYUI_VERSION,
-                'all'
-            );
+            $uri = get_stylesheet_directory_uri() . '/' . ltrim($theme_css_uri, '/');
         } else {
-            wp_enqueue_style(
-                'jquery-ui-theme',
-                $proto . '://ajax.googleapis.com/ajax/libs/jqueryui/' . self::JQUERYUI_VERSION . '/themes/' . $theme . '/jquery-ui.min.css',
-                '',
-                self::JQUERYUI_VERSION,
-                'all'
-            );
+            $uri = $proto . '://ajax.googleapis.com/ajax/libs/jqueryui/' . self::JQUERYUI_VERSION . '/themes/' . $theme . '/jquery-ui.min.css';
         }
 
-		wp_enqueue_style(
-			'jquery-ui-timepicker',
-			plugins_url('js/jquery-ui-timepicker/jquery-ui-timepicker-addon.min.css', __FILE__)
-		);
-	}
+        return $uri;
+    }
 }
 
 new ContactForm7Datepicker;

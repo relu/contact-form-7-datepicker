@@ -4,7 +4,7 @@ class ContactForm7Datepicker_Admin {
 
 	function __construct() {
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
-		add_action('wpcf7_admin_after_general_settings', array($this, 'add_meta_box'));
+		add_filter('wpcf7_editor_panels', array($this, 'add_panel'));
 		add_action('admin_footer', array($this, 'theme_js'));
 		add_action('wp_ajax_cf7dp_save_settings', array($this, 'ajax_save_settings'));
 	}
@@ -16,29 +16,32 @@ class ContactForm7Datepicker_Admin {
 		wp_enqueue_script('jquery-ui-datepicker');
 
 		ContactForm7Datepicker::enqueue_js();
-		ContactForm7Datepicker::enqueue_css();
-	}
 
-	function add_meta_box() {
-		if (! current_user_can('publish_pages'))
-			return;
-
-		add_meta_box(
-			'datepickerthemediv',
-			__('Datepicker Theme'),
-			array(__CLASS__, 'theme_metabox'),
-			'cfseven',
-			'datepicker-theme',
-			'core'
+		wp_enqueue_style(
+			'jquery-ui-timepicker',
+			plugins_url('js/jquery-ui-timepicker/jquery-ui-timepicker-addon.min.css', __FILE__)
 		);
-
-		do_meta_boxes('cfseven', 'datepicker-theme', array());
 	}
 
-	public static function theme_metabox() {
-		?>
+	function add_panel($panels) {
+		if (! current_user_can('publish_pages'))
+			return $panels;
 
-		<div id="preview" style="float: left; margin: 0 10px 0 0"></div>
+        $panels['datepicker-theme'] = array(
+            'title' => 'Datepicker Theme',
+            'callback' => array($this, 'theme_panel'),
+        );
+
+        return $panels;
+	}
+
+	public static function theme_panel() {
+		?>
+        <h3><?php _e('Datepicker Theme'); ?></h3>
+
+        <div id="preview" style="float: left; margin: 0 10px 0 0">
+            <?php echo "<style id=\"cf7dp-jquery-ui-theme\" scoped>@import url('" . ContactForm7Datepicker::get_theme_uri() .  "')</style>"; ?>
+        </div>
 			<form action="">
 				<label for="jquery-ui-theme"><?php _e('Theme'); ?></label><br />
 				<?php self::themes_dropdown(); ?>
@@ -58,25 +61,25 @@ class ContactForm7Datepicker_Admin {
 		<script>
 		jQuery(function($){
 			var $spinner = $(new Image()).attr('src', '<?php echo admin_url('images/wpspin_light.gif'); ?>');
-			var old_href = '';
+			var old_style = false;
 
 			$('#jquery-ui-theme').change(function(){
-				var style = $(this).val();
+				var theme = $(this).val();
 
-				var $link = $('#jquery-ui-theme-css');
-				var href = $link.attr('href');
+				var style = $('#cf7dp-jquery-ui-theme');
 
-				if (style == 'disabled') {
-					old_href = href;
-					$link.attr('href', '');
+				if (theme == 'disabled') {
+					old_style = style;
+                    style.html('');
 
 					return;
-				} else if (href === '') {
-					href = old_href;
+				} else if (style.html() === '') {
+					var style = old_style;
 				}
 
-				href = href.replace(/\/themes\/[-a-z]+\//g, '/themes/' + style + '/');
-				$link.attr('href', href);
+                var html = style.html();
+				html = html.replace(/\/themes\/[-a-z]+\//g, '/themes/' + theme + '/');
+                style.html(html);
 			});
 
 			$('#save-ui-theme').click(function(){

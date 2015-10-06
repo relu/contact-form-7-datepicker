@@ -13,8 +13,7 @@ class ContactForm7Datepicker_DateTime {
 		add_filter('wpcf7_validate_datetime*', array(__CLASS__, 'validation_filter'), 10, 2);
 
 		// Tag generator
-		add_action('load-contact_page_wpcf7-new', array(__CLASS__, 'tag_generator'));
-		add_action('load-toplevel_page_wpcf7', array(__CLASS__, 'tag_generator'));
+		add_action('wpcf7_admin_init', array(__CLASS__, 'tag_generator'), 70);
 
 		// Messages
 		add_filter('wpcf7_messages', array(__CLASS__, 'messages'));
@@ -135,17 +134,18 @@ class ContactForm7Datepicker_DateTime {
 	}
 
 	public static function tag_generator() {
-        if (! function_exists( 'wpcf7_add_tag_generator'))
+        if (! class_exists( 'WPCF7_TagGenerator' ))
             return;
 
-		wpcf7_add_tag_generator('datetime',
-			__('Date Time field', 'wpcf7'),
-			'wpcf7-tg-pane-datetime',
-			array(__CLASS__, 'tg_pane')
-		);
+        $tag_generator = WPCF7_TagGenerator::get_instance();
+        $tag_generator->add( 'datetime', __( 'datetime', 'contact-form-7' ),
+            array(__CLASS__, 'tg_pane') );
 	}
 
-	public static function tg_pane() {
+	public static function tg_pane($contact_form, $args = '') {
+        $args = wp_parse_args( $args, array() );
+        $type = 'datetime';
+
 		require_once dirname(__FILE__) . '/generators/datetime.php';
 	}
 
