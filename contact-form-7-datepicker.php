@@ -62,7 +62,7 @@ class ContactForm7Datepicker {
 		if (! empty($regional)) {
 			wp_enqueue_script(
 				'jquery-ui-' . $regional,
-				$proto . '://ajax.googleapis.com/ajax/libs/jqueryui/' . self::JQUERYUI_VERSION . '/i18n/jquery.ui.datepicker-' . $regional . '.min.js',
+				$proto . '://ajax.googleapis.com/ajax/libs/jqueryui/' . self::JQUERYUI_VERSION . '/i18n/datepicker-' . $regional . '.min.js',
 				array('jquery-ui-datepicker'),
 				self::JQUERYUI_VERSION,
 				true
