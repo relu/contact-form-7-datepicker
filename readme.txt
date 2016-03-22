@@ -1,9 +1,9 @@
 === Plugin Name ===
-Contributors: shockware, baden03, szepe.viktor
+Contributors: shockware, baden03, szepe.viktor, xsonic
 Tags: wordpress, datepicker, timepicker, date, time, calendar, contact form 7, forms, jqueryui
 Requires at least: 3.6.1
-Tested up to: 4.3.1
-Stable tag: 2.5.1
+Tested up to: 4.4.2
+Stable tag: 2.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,9 @@ You can [open an issue on github](https://github.com/relu/contact-form-7-datepic
 3. Date field generator
 
 == Changelog ==
+
+= 2.5.2 =
+* Fix validation error (props to xsonic)
 
 = 2.5.1 =
 * Fix i18n
