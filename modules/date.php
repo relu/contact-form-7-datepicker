@@ -116,13 +116,11 @@ class ContactForm7Datepicker_Date {
 		$value = trim($_POST[$name]);
 
 		if ('date*' == $type && empty($value)) {
-			$result['valid'] = false;
-			$result['reason'][$name] = wpcf7_get_message('invalid_required');
+            		$result->invalidate($tag, wpcf7_get_message('invalid_required'));
 		}
 
 		if (! empty($value) && ! self::is_valid_date($value)) {
-			$result['valid'] = false;
-			$result['reason'][$name] = wpcf7_get_message('invalid_date');
+            		$result->invalidate($tag, wpcf7_get_message('invalid_date'));
 		}
 
 		return $result;
