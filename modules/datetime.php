@@ -148,8 +148,8 @@ class ContactForm7Datepicker_DateTime {
 	}
 
 	public static function add_shortcodes() {
-		if (function_exists('wpcf7_add_shortcode')) {
-			wpcf7_add_shortcode(array('datetime', 'datetime*'), array(__CLASS__, 'shortcode_handler'), true);
+		if (function_exists('wpcf7_add_form_tag')) {
+			wpcf7_add_form_tag(array('datetime', 'datetime*'), array(__CLASS__, 'shortcode_handler'), true);
 		}
 	}
 
