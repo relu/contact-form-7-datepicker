@@ -144,10 +144,9 @@ class ContactForm7Datepicker_Date {
 
 	public static function add_shortcodes() {
 		if (function_exists('wpcf7_add_form_tag')) {
-            // Remove Contact Form 7's date module
-            wpcf7_remove_form_tag('date');
-            wpcf7_remove_form_tag('date*');
-
+            		// Remove Contact Form 7's date module
+			wpcf7_remove_form_tag('date');
+			pcf7_remove_form_tag('date*');
 			wpcf7_add_form_tag(array('date', 'date*'), array(__CLASS__, 'shortcode_handler'), true);
 		}
 	}
