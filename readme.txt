@@ -33,6 +33,9 @@ You can [open an issue on github](https://github.com/relu/contact-form-7-datepic
 
 == Changelog ==
 
+= 2.6.1 =
+* Modified code to look at local JS libraries for datepicker on line 65 and line 149 instead of ajax.googleapis.com
+
 = 2.6.0 =
 * Compatibility with CF7 4.6, replace deprecated calls (imelgrat)
 * Add bosnian translation for timepicker (sanidm)
