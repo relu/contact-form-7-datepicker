@@ -7,6 +7,8 @@ Stable tag: 2.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
+== This plugin is no longer maintained, use the[ "Date Time Picker Field"](https://wordpress.org/plugins/contact-form-7-datepicker/) plugin instead.==
+
 Easily add a date field using jQuery UI's datepicker to your CF7 forms.
 This plugin depends on Contact Form 7.
 
