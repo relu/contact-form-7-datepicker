@@ -115,8 +115,9 @@ class ContactForm7Datepicker_Admin {
 	function ajax_save_settings() {
 		$successmsg = '<div id="message" class="updated fade"><p><strong>' . __('Options saved.') . '</strong></p></div>';
 		$errormsg = '<div id="message" class="error fade"><p><strong>' . __('Options could not be saved.') . '</strong></p></div>';
-		if(!is_admin())
-			die($errormsg);
+		
+		if ( ! user_can( get_current_user_id(), 'manage_options' )
+		    die($errormsg);
 		
 		if (! isset($_POST['ui_theme']))
 			die($errormsg);
