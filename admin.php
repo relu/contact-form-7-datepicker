@@ -116,7 +116,7 @@ class ContactForm7Datepicker_Admin {
 		$successmsg = '<div id="message" class="updated fade"><p><strong>' . __('Options saved.') . '</strong></p></div>';
 		$errormsg = '<div id="message" class="error fade"><p><strong>' . __('Options could not be saved.') . '</strong></p></div>';
 		
-		if ( ! user_can( get_current_user_id(), 'manage_options' )
+		if ( ! user_can( get_current_user_id(), 'manage_options' ))
 		    die($errormsg);
 		
 		if (! isset($_POST['ui_theme']))
