@@ -29,7 +29,7 @@ class ContactForm7Datepicker_Date {
 	}
 
 	public static function shortcode_handler($tag) {
-		$tag = new WPCF7_Shortcode($tag);
+		$tag = new WPCF7_FormTag($tag);
 
 		if (empty($tag->name))
 			return '';
