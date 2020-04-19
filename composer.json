@@ -1,5 +1,5 @@
 {
-    "name": "relu/contact-form-7-datepicker",
+    "name": "frugan-it/contact-form-7-datepicker",
     "type": "wordpress-plugin",
     "config" : {
         "sort-packages": true
