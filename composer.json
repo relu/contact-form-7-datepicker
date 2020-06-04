@@ -1,0 +1,10 @@
+{
+    "name": "frugan-it/contact-form-7-datepicker",
+    "type": "wordpress-plugin",
+    "config" : {
+        "sort-packages": true
+    },
+    "require": {
+        "composer/installers": "~1.0"
+    }
+}
